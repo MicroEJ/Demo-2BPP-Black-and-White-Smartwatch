@@ -137,6 +137,9 @@ public class SmartWatch extends Composite implements Animation {
 
 	@Override
 	public boolean tick(long currentTimeMillis) {
+		if (!this.isAnimated) {
+			return false;
+		}
 		repaint();
 		return true;
 	}

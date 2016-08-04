@@ -127,7 +127,7 @@ public class WatchController implements Animation {
 	private DatePosition currentDatePosition = DatePosition.OUTSIDE;
 	private DatePosition nextDatePosition = DatePosition.OUTSIDE;
 
-	private SmartWatch watch = null;
+	// private SmartWatch watch = null;
 
 	/**
 	 * Current transition stage, initialized at "finished".
@@ -144,7 +144,7 @@ public class WatchController implements Animation {
 	 */
 	public WatchController(SmartWatch watch) {
 		this.bubbles = new BubbleWidget[ScreenArea.values().length];
-		this.watch = watch;
+		// this.watch = watch;
 
 		this.motion = new BubbleMotion(Constants.TRANSITION_LOW, Constants.TRANSITION_HIGH, Constants.DURATION);
 	}
@@ -288,7 +288,6 @@ public class WatchController implements Animation {
 				this.activeBubble = this.motion.bubble;
 				this.activeBubble.startAnimation();
 			}
-			this.watch.startAnimation();
 		}
 	}
 
@@ -440,7 +439,6 @@ public class WatchController implements Animation {
 	 */
 	private void startAnimation() {
 		if (!this.isAnimated) {
-			this.watch.stopAnimation();
 			if (this.activeBubble != null) {
 				this.activeBubble.stopAnimation();
 			}
@@ -465,8 +463,6 @@ public class WatchController implements Animation {
 			}
 			this.isAnimated = false;
 			this.resetOnNext = true;
-			// System.out.println("BubbleController.stopAnimation() stage" +
-			// stage);
 
 			this.transistionStage = stage;
 

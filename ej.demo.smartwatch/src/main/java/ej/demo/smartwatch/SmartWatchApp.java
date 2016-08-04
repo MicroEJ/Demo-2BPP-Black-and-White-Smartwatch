@@ -35,9 +35,10 @@ public class SmartWatchApp {
 	 *            not used.
 	 */
 	public static void main(String[] args) {
-		// Start MicroUI.
-		MicroUI.start();
-
+		try {
+			MicroUI.start();
+		} catch (Exception e) {
+		}
 		// Initialise system.
 		Util.setCurrentTimeMillis(Constants.START_TIME * Constants.MS_IN_SEC);
 		BundleRegistry registry = ServiceLoaderFactory.getServiceLoader().getService(BundleRegistry.class);
@@ -54,7 +55,7 @@ public class SmartWatchApp {
 		SmartWatchRobot robot = new SmartWatchRobot(smartWatch);
 		robot.start();
 
-		// Start ARGB4444.
+		// Start Display.
 		mainPage.show(desktop, true);
 		desktop.show();
 	}

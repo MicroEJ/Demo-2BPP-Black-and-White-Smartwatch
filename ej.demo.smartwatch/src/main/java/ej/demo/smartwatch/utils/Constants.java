@@ -7,6 +7,7 @@
  */
 package ej.demo.smartwatch.utils;
 
+import ej.microui.MicroUI;
 import ej.microui.display.Colors;
 import ej.microui.display.Display;
 import ej.microui.display.Font;
@@ -168,6 +169,9 @@ public class Constants {
 	public static final int DEFAULT_THICKNES = 1;
 
 	static {
+
+		MicroUI.start();
+
 		FONT_24 = Font.getFont(Font.LATIN, 30, Font.STYLE_PLAIN);
 		FONT_36 = Font.getFont(Font.LATIN, 44, Font.STYLE_PLAIN);
 		FONT_60 = Font.getFont(Font.LATIN, 81, Font.STYLE_PLAIN);

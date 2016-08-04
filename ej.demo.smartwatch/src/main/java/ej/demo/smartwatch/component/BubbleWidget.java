@@ -143,7 +143,7 @@ public class BubbleWidget extends Widget implements Bubble {
 
 		/**
 		 * Gets the x.
-		 * 
+		 *
 		 * @return the x.
 		 */
 		public int getX() {
@@ -152,7 +152,7 @@ public class BubbleWidget extends Widget implements Bubble {
 
 		/**
 		 * Sets the x.
-		 * 
+		 *
 		 * @param x
 		 *            the x to set.
 		 */
@@ -162,7 +162,7 @@ public class BubbleWidget extends Widget implements Bubble {
 
 		/**
 		 * Gets the y.
-		 * 
+		 *
 		 * @return the y.
 		 */
 		public int getY() {
@@ -171,7 +171,7 @@ public class BubbleWidget extends Widget implements Bubble {
 
 		/**
 		 * Sets the y.
-		 * 
+		 *
 		 * @param y
 		 *            the y to set.
 		 */
@@ -429,31 +429,6 @@ public class BubbleWidget extends Widget implements Bubble {
 			return new Point(xCircle, yCircle);
 		}
 
-		// if (this.originalPosition == ScreenArea.BottomLeft) {
-		//
-		// if (direction == Direction.ToCenter) {
-		// xCircle = x - this.smallDiameter / 2 - this.smallDiameter * stage * 2
-		// / TRANSITION_HIGH;
-		// yCircle = y - this.smallDiameter / 2 + this.smallDiameter * stage * 2
-		// / TRANSITION_HIGH;
-		// } else if (direction == Direction.ToEdge) {
-		// xCircle = x - this.smallDiameter / 2
-		// - this.smallDiameter * (TRANSITION_HIGH - stage) * 2 /
-		// TRANSITION_HIGH;
-		// yCircle = y - this.smallDiameter / 2 + this.smallDiameter *
-		// (TRANSITION_HIGH - stage) * 2 / TRANSITION_HIGH;
-		// } else if (direction == Direction.CenterStill) {
-		// xCircle = -this.smallDiameter * 2;
-		// yCircle = +this.smallDiameter * 2;
-		// } else {
-		// xCircle = x - this.smallDiameter / 2;
-		// yCircle = y - this.smallDiameter / 2;
-		// }
-		//
-		// Utils.drawCircle(g, xCircle, yCircle, this.smallDiameter,
-		// Constants.DEFAULT_THICKNES,
-		// Constants.DEFAULT_FADE);
-		// }
 		return new Point(x, y);
 
 	}
