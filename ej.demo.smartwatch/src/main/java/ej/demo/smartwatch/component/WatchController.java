@@ -288,7 +288,6 @@ public class WatchController implements Animation {
 				this.activeBubble = this.motion.bubble;
 				this.activeBubble.startAnimation();
 			}
-			this.watch.repaint();
 			this.watch.startAnimation();
 		}
 	}
@@ -447,8 +446,6 @@ public class WatchController implements Animation {
 			}
 			this.isAnimated = true;
 			this.transistionStage = this.motion.getStartValue();
-			this.watch.repaint();
-			this.watch.stopAnimation();
 			Animator animator = ServiceLoaderFactory.getServiceLoader().getService(Animator.class);
 			animator.startAnimation(this);
 			this.motion.start();
