@@ -53,26 +53,25 @@ public class NotificationsWidget extends MultipleViewWidget {
 	private static final String TAG = "NotificationsWidget"; //$NON-NLS-1$
 
 	/**
-	 * The ratio for width and height in only computed at runtime, after the
-	 * static variable had been init. This boolean is used to know if the had
-	 * been init.
-	 */
-	private static boolean STATIC_VARIABLE_INITIALIZED = false;
-
-	/**
 	 * Font for the message.
 	 */
-	private static Font FONT_MESSAGE;
+	private static final Font FONT_MESSAGE;
 
 	/**
 	 * Font for the count on the edge.
 	 */
-	private static Font FONT_NOTIFICATION_COUNT;
+	private static final Font FONT_NOTIFICATION_COUNT;
 
 	/**
 	 * Number of lines to display.
 	 */
-	private static int MESSAGE_SCREEN_Y_LINES;
+	private static final int MESSAGE_SCREEN_Y_LINES;
+
+	static {
+		FONT_MESSAGE = Constants.FONT_36;
+		FONT_NOTIFICATION_COUNT = Constants.FONT_24;
+		MESSAGE_SCREEN_Y_LINES = (int) ((Constants.WIDTH * MESSAGE_SCREEN_Y_PORTION) / FONT_MESSAGE.getHeight());
+	}
 
 	/**
 	 * Bell image.
@@ -116,12 +115,7 @@ public class NotificationsWidget extends MultipleViewWidget {
 	 */
 	public NotificationsWidget(int width, int height, ScreenArea position) {
 		super(width, height, position);
-		if (!STATIC_VARIABLE_INITIALIZED) {
-			FONT_MESSAGE = Constants.FONT_36;
-			FONT_NOTIFICATION_COUNT = Constants.FONT_24;
-			MESSAGE_SCREEN_Y_LINES = (int) ((Constants.WIDTH * MESSAGE_SCREEN_Y_PORTION) / FONT_MESSAGE.getHeight());
-			STATIC_VARIABLE_INITIALIZED = true;
-		}
+
 		try {
 			this.imgIcon = Image.createImage(Images.BELL);
 		} catch (IOException e) {
@@ -238,13 +232,14 @@ public class NotificationsWidget extends MultipleViewWidget {
 		Point center = drawEncapsulatingCircle(g, direction, stage, x, y);
 		// draw icon
 		if (direction != Direction.CenterStill) {
-			g.drawImage(this.imgIcon, center.x, center.y, 0);
+			g.drawImage(this.imgIcon, center.getX(), center.getY(), 0);
 
 			// draw notification number
 			if (direction != Direction.ToCenter && direction != Direction.ToEdge) {
 				String notifs = getNotificationCount();
-				int xString = center.x + this.imgIcon.getWidth() / 2 - FONT_NOTIFICATION_COUNT.stringWidth(notifs) / 2;
-				int y11 = center.y + Y_PADDING;
+				int xString = center.getX() + this.imgIcon.getWidth() / 2
+						- FONT_NOTIFICATION_COUNT.stringWidth(notifs) / 2;
+				int y11 = center.getY() + Y_PADDING;
 				g.setFont(FONT_NOTIFICATION_COUNT);
 				g.drawString(notifs, xString, y11, 0);
 			}

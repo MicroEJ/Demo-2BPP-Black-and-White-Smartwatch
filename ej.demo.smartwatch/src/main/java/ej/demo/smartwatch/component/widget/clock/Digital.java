@@ -21,26 +21,19 @@ import ej.microui.display.GraphicsContext;
 public class Digital implements IClock {
 
 	/**
-	 * The ratio for width and height in only computed at runtime, after the
-	 * static variable had been init. This boolean is used to know if the had
-	 * been init.
-	 */
-	private static boolean STATIC_VARIABLE_INITIALIZED = false;
-
-	/**
 	 * Font for the hours.
 	 */
-	private static Font FONT_HOUR;
+	private static final Font FONT_HOUR;
 
 	/**
 	 * Font for the time.
 	 */
-	private static Font FONT_TIME;
+	private static final Font FONT_TIME;
 
 	/**
 	 * Padding.
 	 */
-	private static int PADDING;
+	private static final int PADDING;
 
 	/**
 	 * x coordinate of center.
@@ -52,6 +45,12 @@ public class Digital implements IClock {
 	 */
 	private final int yCenter;
 
+	static {
+		FONT_HOUR = Constants.FONT_36;
+		FONT_TIME = Constants.FONT_24;
+		PADDING = FONT_TIME.getHeight();
+	}
+
 	/**
 	 * Instantiate digital clock.
 	 *
@@ -62,12 +61,6 @@ public class Digital implements IClock {
 	 *
 	 */
 	public Digital(int height, int width) {
-		if (!STATIC_VARIABLE_INITIALIZED) {
-			FONT_HOUR = Constants.FONT_36;
-			FONT_TIME = Constants.FONT_24;
-			PADDING = FONT_TIME.getHeight();
-			STATIC_VARIABLE_INITIALIZED = true;
-		}
 		this.xCenter = width / 2;
 		this.yCenter = height / 2;
 	}

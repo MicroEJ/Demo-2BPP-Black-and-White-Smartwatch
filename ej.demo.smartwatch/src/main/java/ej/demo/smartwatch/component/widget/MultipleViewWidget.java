@@ -18,39 +18,47 @@ import ej.microui.display.Image;
  */
 public abstract class MultipleViewWidget extends BubbleWidget {
 
-	private static final String TAG = "MultipleViewWidget"; //$NON-NLS-1$
+	/**
+	 * Padding.
+	 */
+	protected static final int X_PADDING;
 
 	/**
-	 * The ratio for width and height in only computed at runtime, after the
-	 * static variable had been init. This boolean is used to know if the had
-	 * been init.
+	 * Padding.
 	 */
-	private static boolean STATIC_VARIABLE_INITIALIZED = false;
+	protected static final int Y_PADDING;
+
+	private static final String TAG = "MultipleViewWidget"; //$NON-NLS-1$
 
 	/**
 	 * Next arrow.
 	 */
-	private static Image NEXT;
+	private static final Image NEXT;
 
 	/**
 	 * Previous arrow.
 	 */
-	private static Image PREVIOUS;
+	private static final Image PREVIOUS;
+
+	static {
+		X_PADDING = (int) (5 * Constants.WIDTH_RATIO);
+		Y_PADDING = (int) (5 * Constants.HEIGHT_RATIO);
+		Image nextImage = null;
+		Image previousImage = null;
+		try {
+			nextImage = Image.createImage(Images.NEXT);
+			previousImage = Image.createImage(Images.PREVIOUS);
+		} catch (IOException e) {
+			Log.e(TAG, e);
+		}
+		NEXT = nextImage;
+		PREVIOUS = previousImage;
+	}
 
 	/**
 	 * Message index.
 	 */
 	protected int viewIndex = -1;
-
-	/**
-	 * Padding.
-	 */
-	protected static int X_PADDING = 5;
-
-	/**
-	 * Padding.
-	 */
-	protected static int Y_PADDING = X_PADDING;
 
 	/**
 	 * A widget with view switch.
@@ -64,21 +72,12 @@ public abstract class MultipleViewWidget extends BubbleWidget {
 	 */
 	public MultipleViewWidget(int width, int height, ScreenArea position) {
 		super(width, height, position);
-		if (!STATIC_VARIABLE_INITIALIZED) {
-			X_PADDING *= Constants.WIDTH_RATIO;
-			Y_PADDING *= Constants.HEIGHT_RATIO;
-			STATIC_VARIABLE_INITIALIZED = true;
-		}
-		try {
-			NEXT = Image.createImage(Images.NEXT);
-			PREVIOUS = Image.createImage(Images.PREVIOUS);
-		} catch (IOException e) {
-			Log.e(TAG, e);
-		}
 	}
 
 	/**
-	 * Draw the next and previous arrows.
+	 *
+	 *
+	 * /** Draw the next and previous arrows.
 	 *
 	 * @param g
 	 *            The graphic context.

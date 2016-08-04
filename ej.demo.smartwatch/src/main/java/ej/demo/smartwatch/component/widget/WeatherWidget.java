@@ -40,26 +40,23 @@ public class WeatherWidget extends MultipleViewWidget implements Animation {
 	private static final String TAG = "WeatherWidget"; //$NON-NLS-1$
 
 	/**
-	 * The ratio for width and height in only computed at runtime, after the
-	 * static variable had been init. This boolean is used to know if the had
-	 * been init.
-	 */
-	private static boolean STATIC_VARIABLE_INITIALIZED = false;
-
-	/**
 	 * Font used for the temperature.
 	 */
-	private static Font FONT_36 = Constants.FONT_36;
+	private static final Font FONT_36 = Constants.FONT_36;
 
 	/**
 	 * Font used for the text.
 	 */
-	private static Font FONT_24 = Constants.FONT_24;
+	private static final Font FONT_24 = Constants.FONT_24;
 
 	/**
 	 * Line spacing.
 	 */
-	private static int LINE_HEIGHT;
+	private static final int LINE_HEIGHT;
+
+	static {
+		LINE_HEIGHT = FONT_24.getHeight();
+	}
 
 	/**
 	 * Current displayed forecast.
@@ -103,12 +100,6 @@ public class WeatherWidget extends MultipleViewWidget implements Animation {
 	 */
 	public WeatherWidget(int width, int height, ScreenArea position) {
 		super(width, height, position);
-		if (!STATIC_VARIABLE_INITIALIZED) {
-			FONT_36 = Constants.FONT_36;
-			FONT_24 = Constants.FONT_24;
-			LINE_HEIGHT = FONT_24.getHeight();
-			STATIC_VARIABLE_INITIALIZED = true;
-		}
 		// get the max animation area
 		this.maxImageHeight = this.maxImageWidth = 0;
 		for (

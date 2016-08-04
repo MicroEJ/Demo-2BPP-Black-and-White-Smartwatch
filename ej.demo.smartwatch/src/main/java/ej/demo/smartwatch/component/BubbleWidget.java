@@ -31,21 +31,19 @@ public class BubbleWidget extends Widget implements Bubble {
 	private static final float LARGE_DIAMETER_RATIO = 153f / 120;
 
 	/**
-	 * The ratio for width and height in only computed at runtime, after the
-	 * static variable had been init. This boolean is used to know if the had
-	 * been init.
-	 */
-	private static boolean STATIC_VARIABLE_INITIALIZED = false;
-
-	/**
 	 * Default horizontal padding.
 	 */
-	private static int X_PADDING = 10;
+	private static final int X_PADDING;
 
 	/**
 	 * Default vertical padding.
 	 */
-	private static int Y_PADDING = X_PADDING;
+	private static final int Y_PADDING;
+
+	static {
+		X_PADDING = (int) (10 * Constants.WIDTH_RATIO);
+		Y_PADDING = (int) (10 * Constants.HEIGHT_RATIO);
+	}
 
 	/**
 	 * Current position of the widget.
@@ -93,17 +91,6 @@ public class BubbleWidget extends Widget implements Bubble {
 	protected Font font;
 
 	/**
-	 * Initialize the static variables.
-	 */
-	public BubbleWidget() {
-		if (!STATIC_VARIABLE_INITIALIZED) {
-			X_PADDING *= Constants.WIDTH_RATIO;
-			Y_PADDING *= Constants.HEIGHT_RATIO;
-			STATIC_VARIABLE_INITIALIZED = true;
-		}
-	}
-
-	/**
 	 * Creates a new Bubble widget.
 	 *
 	 * @param width
@@ -114,7 +101,6 @@ public class BubbleWidget extends Widget implements Bubble {
 	 *            position
 	 */
 	protected BubbleWidget(int width, int height, ScreenArea position) {
-		this();
 		this.originalPosition = position;
 		this.targetPosition = position;
 		this.currentPosition = position;
@@ -134,12 +120,12 @@ public class BubbleWidget extends Widget implements Bubble {
 		/**
 		 * X coordinate.
 		 */
-		public int x;
+		private int x;
 
 		/**
 		 * Y coordinate.
 		 */
-		public int y;
+		private int y;
 
 		/**
 		 * Point constructor.
@@ -152,6 +138,44 @@ public class BubbleWidget extends Widget implements Bubble {
 		public Point(int x, int y) {
 			super();
 			this.x = x;
+			this.y = y;
+		}
+
+		/**
+		 * Gets the x.
+		 * 
+		 * @return the x.
+		 */
+		public int getX() {
+			return this.x;
+		}
+
+		/**
+		 * Sets the x.
+		 * 
+		 * @param x
+		 *            the x to set.
+		 */
+		public void setX(int x) {
+			this.x = x;
+		}
+
+		/**
+		 * Gets the y.
+		 * 
+		 * @return the y.
+		 */
+		public int getY() {
+			return this.y;
+		}
+
+		/**
+		 * Sets the y.
+		 * 
+		 * @param y
+		 *            the y to set.
+		 */
+		public void setY(int y) {
 			this.y = y;
 		}
 

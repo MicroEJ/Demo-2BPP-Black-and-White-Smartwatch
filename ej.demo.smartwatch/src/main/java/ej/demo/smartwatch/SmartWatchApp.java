@@ -42,7 +42,6 @@ public class SmartWatchApp {
 		Util.setCurrentTimeMillis(Constants.START_TIME * Constants.MS_IN_SEC);
 		BundleRegistry registry = ServiceLoaderFactory.getServiceLoader().getService(BundleRegistry.class);
 		BundleRegistryHelper.startup(registry);
-		Constants.init();
 
 		// Initialise UI
 		Display display = Display.getDefaultDisplay();

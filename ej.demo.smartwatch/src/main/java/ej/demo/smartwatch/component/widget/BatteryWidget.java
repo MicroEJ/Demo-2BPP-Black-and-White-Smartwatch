@@ -42,26 +42,26 @@ public class BatteryWidget extends BubbleWidget {
 	private static final ISmDataProvider PROVIDER = SmDataPrivider.get();
 
 	/**
-	 * The ratio for width and height in only computed at runtime, after the
-	 * static variable had been init. This boolean is used to know if the had
-	 * been init.
+	 * Y Offset for the battery when in the edge.
 	 */
-	private static boolean STATIC_VARIABLE_INITIALIZED = false;
+	private static final int EDGE_Y_OFFSET;
 
 	/**
 	 * Y Offset for the battery when in the edge.
 	 */
-	private static int EDGE_Y_OFFSET = -22;
-
-	/**
-	 * Y Offset for the battery when in the edge.
-	 */
-	private static int EDGE_X_OFFSET = -6;
+	private static final int EDGE_X_OFFSET;
 
 	/**
 	 * Offset between two lines.
 	 */
-	private static int TEXT_OFFSET = 5;
+	private static final int TEXT_OFFSET;
+
+	// Initialized with the screen ratio.
+	static {
+		EDGE_Y_OFFSET = (int) (-22 * Constants.WIDTH_RATIO);
+		EDGE_X_OFFSET = (int) (-6 * Constants.HEIGHT_RATIO);
+		TEXT_OFFSET = (int) (5 * Constants.HEIGHT_RATIO);
+	}
 
 	/**
 	 * Font to draw the available time line.
@@ -84,12 +84,7 @@ public class BatteryWidget extends BubbleWidget {
 	 */
 	public BatteryWidget(int width, int height, ScreenArea position) {
 		super(width, height, position);
-		if (!STATIC_VARIABLE_INITIALIZED) {
-			EDGE_Y_OFFSET *= Constants.WIDTH_RATIO;
-			EDGE_X_OFFSET *= Constants.HEIGHT_RATIO;
-			TEXT_OFFSET *= Constants.HEIGHT_RATIO;
-			STATIC_VARIABLE_INITIALIZED = true;
-		}
+
 		this.fontBatteryLevel = Constants.FONT_36;
 		this.fontAvailableTime = Constants.FONT_24;
 	}
@@ -208,8 +203,10 @@ public class BatteryWidget extends BubbleWidget {
 				offset = Constants.TRANSITION_HIGH - stage;
 			}
 
-			xCircle = xCircle - this.smallDiameter / 2 + this.smallDiameter * offset * 2 / Constants.TRANSITION_HIGH;
-			yCircle = yCircle - this.smallDiameter / 2 - this.smallDiameter * offset * 2 / Constants.TRANSITION_HIGH;
+			xCircle = xCircle - this.smallDiameter / 2
+					+ this.smallDiameter * offset * 2 / Constants.TRANSITION_HIGH;
+			yCircle = yCircle - this.smallDiameter / 2
+					- this.smallDiameter * offset * 2 / Constants.TRANSITION_HIGH;
 
 			Utils.drawCircle(g, xCircle, yCircle, this.smallDiameter, Constants.DEFAULT_THICKNES,
 					Constants.DEFAULT_FADE);
