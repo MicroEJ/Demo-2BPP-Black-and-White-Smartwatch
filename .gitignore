@@ -1,0 +1,11 @@
+*/launches/*
+*/bin/
+*/src/.generated~
+*/src/*.ejf_raw
+*/ej.demo.smartwatch.SmartWatchApp/
+*/filesystem/
+*/target~/
+*/.sonar/
+*/.checkstyle
+*/.pmd
+*/.settings/
