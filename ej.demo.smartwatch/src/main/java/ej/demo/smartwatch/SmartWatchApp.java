@@ -38,15 +38,15 @@ public class SmartWatchApp {
 		// Start MicroUI.
 		MicroUI.start();
 
-		// Initialise system.
+		// Initialize system.
 		Util.setCurrentTimeMillis(Constants.START_TIME * Constants.MS_IN_SEC);
 		BundleRegistry registry = ServiceLoaderFactory.getServiceLoader().getService(BundleRegistry.class);
 		BundleRegistryHelper.startup(registry);
 
-		// Initialise UI
+		// Initialize UI
 		Display display = Display.getDefaultDisplay();
 		Desktop desktop = new Desktop(display);
-		SmartWatch smartWatch = new SmartWatch(Constants.WIDTH, Constants.HEIGHT);
+		SmartWatch smartWatch = new SmartWatch(Constants.DISPLAY_WIDTH, Constants.DISPLAY_HEIGHT);
 		Panel mainPage = new Panel();
 		mainPage.setWidget(smartWatch);
 

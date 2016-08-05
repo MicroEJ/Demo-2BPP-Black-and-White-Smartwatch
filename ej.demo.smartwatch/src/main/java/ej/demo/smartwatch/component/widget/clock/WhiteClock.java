@@ -8,14 +8,14 @@
 package ej.demo.smartwatch.component.widget.clock;
 
 import ej.demo.smartwatch.component.Bubble.DatePosition;
+import ej.demo.smartwatch.model.IDataProvider;
 import ej.demo.smartwatch.component.Direction;
-import ej.demo.smartwatch.dal.ISmDataProvider;
 import ej.demo.smartwatch.utils.Constants;
 import ej.microui.display.GraphicsContext;
 import ej.microui.display.shape.AntiAliasedShapes;
 
 /**
- *
+ * The Class WhiteClock.
  */
 public class WhiteClock extends AbstractAnalogClock {
 
@@ -32,9 +32,9 @@ public class WhiteClock extends AbstractAnalogClock {
 	}
 
 	@Override
-	public void draw(GraphicsContext g, Direction direction, ISmDataProvider provider, int x, int y, int stage) {
+	public void draw(GraphicsContext g, Direction direction, IDataProvider provider, int x, int y, int completion) {
 
-		float ratio = ((float) stage) / Constants.TRANSITION_HIGH;
+		float ratio = ((float) completion) / Constants.COMPLETION_MAX;
 		int diameter = getDiameter(direction, ratio);
 
 		int width = diameter;
@@ -44,7 +44,7 @@ public class WhiteClock extends AbstractAnalogClock {
 		g.setBackgroundColor(Constants.COLOR_BACKGROUND);
 		g.setColor(Constants.COLOR_FOREGROUND);
 		// Draw white clock background
-		if (stage == Constants.TRANSITION_HIGH) {
+		if (completion == Constants.COMPLETION_MAX) {
 			AntiAliasedShapes.Singleton.setFade(1);
 			AntiAliasedShapes.Singleton.setThickness(2);
 			AntiAliasedShapes.Singleton.drawCircle(g, centerX, centerY, width);
@@ -62,7 +62,7 @@ public class WhiteClock extends AbstractAnalogClock {
 		g.drawHorizontalLine(centerX + width - (padding + length), centerY + halfWidth, length);
 
 		// Draw hands.
-		drawClock(g, direction, provider, x, y, stage, diameter);
+		drawClock(g, direction, provider, x, y, completion, diameter);
 		g.setBackgroundColor(Constants.COLOR_FOREGROUND);
 		g.setColor(Constants.COLOR_BACKGROUND);
 

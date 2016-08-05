@@ -7,8 +7,8 @@
  */
 package ej.demo.smartwatch.component;
 
-import ej.demo.smartwatch.dal.ISmDataProvider;
-import ej.demo.smartwatch.dal.SmDataPrivider;
+import ej.demo.smartwatch.model.DataProvider;
+import ej.demo.smartwatch.model.IDataProvider;
 import ej.demo.smartwatch.utils.Constants;
 import ej.demo.smartwatch.utils.Utils;
 import ej.microui.display.Font;
@@ -23,7 +23,7 @@ public class BubbleWidget extends Widget implements Bubble {
 	/**
 	 * Data provider.
 	 */
-	private static final ISmDataProvider PROVIDER = SmDataPrivider.get();
+	protected static final IDataProvider PROVIDER = DataProvider.getInstance();
 
 	/**
 	 * Ratio to compute large diameter.
@@ -41,14 +41,9 @@ public class BubbleWidget extends Widget implements Bubble {
 	private static final int Y_PADDING;
 
 	static {
-		X_PADDING = (int) (10 * Constants.WIDTH_RATIO);
-		Y_PADDING = (int) (10 * Constants.HEIGHT_RATIO);
+		X_PADDING = (int) (10 * Constants.DISPLAY_DEFAULT_WIDTH_RATIO);
+		Y_PADDING = (int) (10 * Constants.DISPLAY_DEFAULT_HEIGHT_RATIO);
 	}
-
-	/**
-	 * Current position of the widget.
-	 */
-	protected ScreenArea currentPosition;
 
 	/**
 	 * Diameter of the widget.
@@ -61,14 +56,9 @@ public class BubbleWidget extends Widget implements Bubble {
 	protected int largeDiameter;
 
 	/**
-	 * Direction of the animation.
+	 * Current position of the widget.
 	 */
-	protected Direction direction;
-
-	/**
-	 * Whether the widget is in a face switch animation.
-	 */
-	protected boolean faceSwitchAnimation = false;
+	protected ScreenArea currentPosition;
 
 	/**
 	 * Initial position.
@@ -76,14 +66,24 @@ public class BubbleWidget extends Widget implements Bubble {
 	protected ScreenArea originalPosition;
 
 	/**
-	 * Transition state.
-	 */
-	protected int transitionState;
-
-	/**
 	 * Target position at the end of the animation.
 	 */
 	protected ScreenArea targetPosition;
+
+	/**
+	 * Direction of the animation.
+	 */
+	protected Direction direction;
+
+	/**
+	 * Whether the widget is in a face switch animation.
+	 */
+	protected boolean inFaceSwitchAnimation = false;
+
+	/**
+	 * Transition completion.
+	 */
+	protected int transitionCompletion;
 
 	/**
 	 * The main font of the bubble.
@@ -106,8 +106,8 @@ public class BubbleWidget extends Widget implements Bubble {
 		this.currentPosition = position;
 		setSize(width, height);
 		setLocation(0, 0);
-		this.faceSwitchAnimation = false;
-		setState(Constants.TRANSITION_HIGH);
+		this.inFaceSwitchAnimation = false;
+		setCompletion(Constants.COMPLETION_MAX);
 		this.font = Constants.FONT_24;
 		repaint();
 	}
@@ -182,23 +182,17 @@ public class BubbleWidget extends Widget implements Bubble {
 	}
 
 	@Override
-	public ScreenArea getCurrentPosition() {
+	public ScreenArea getWidgetCurrentPosition() {
 		return this.currentPosition;
 	}
 
 	@Override
-	public ScreenArea getOriginalPosition() {
+	public ScreenArea getWidgetOriginalPosition() {
 		return this.originalPosition;
 	}
 
 	@Override
-	public String getTag() {
-		return "left: " + this.originalPosition.isLeft() + " top: " + this.originalPosition.isTop() + " center: " //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				+ this.originalPosition.isCenter();
-	}
-
-	@Override
-	public ScreenArea getTargetPosition() {
+	public ScreenArea getWidgetTargetPosition() {
 		return this.targetPosition;
 	}
 
@@ -208,17 +202,18 @@ public class BubbleWidget extends Widget implements Bubble {
 	}
 
 	@Override
-	public boolean inRange(int x, int y) {
-		int left = getX() - this.smallDiameter / 2;
-		int top = getY() - this.smallDiameter / 2;
-		int right = getX() + this.smallDiameter / 2;
-		int bottom = getY() + this.smallDiameter / 2;
+	public boolean boundingBoxContains(int x, int y) {
+		final int radius = this.smallDiameter / 2;
+		int left = getX() - radius;
+		int top = getY() - radius;
+		int right = getX() + radius;
+		int bottom = getY() + radius;
 		if (left < x && top < y && right > x && bottom > y) {
 			return true;
 		}
 
 		return false;
-	}
+	}	
 
 	@Override
 	public boolean isSwitchAnimated() {
@@ -234,7 +229,7 @@ public class BubbleWidget extends Widget implements Bubble {
 	protected void realignXY(int state) {
 		int x1, y1, x2, y2;
 
-		if (state == Constants.TRANSITION_HIGH) {
+		if (state == Constants.COMPLETION_MAX) {
 			this.currentPosition = this.targetPosition;
 		}
 
@@ -257,21 +252,21 @@ public class BubbleWidget extends Widget implements Bubble {
 			y1 = (this.currentPosition.isTop()) ? Y_PADDING : getHeight() - Y_PADDING;
 		}
 
-		if (state != Constants.TRANSITION_HIGH) {
-			x2 = x1 + (x2 - x1) * state / Constants.TRANSITION_HIGH;
-			y2 = y1 + (y2 - y1) * state / Constants.TRANSITION_HIGH;
+		if (state != Constants.COMPLETION_MAX) {
+			x2 = x1 + (x2 - x1) * state / Constants.COMPLETION_MAX;
+			y2 = y1 + (y2 - y1) * state / Constants.COMPLETION_MAX;
 		}
 		setLocation(x2, y2);
 	}
 
 	@Override
-	public void redraw(GraphicsContext g, int stage) {
-		this.faceSwitchAnimation = false;
-		setState(stage);
-		realignXY(stage);
+	public void redraw(GraphicsContext g, int completion) {
+		this.inFaceSwitchAnimation = false;
+		setCompletion(completion);
+		realignXY(completion);
 
-		if (!this.faceSwitchAnimation) {
-			redraw(g, this.direction, this.transitionState, getX(), getY());
+		if (!this.inFaceSwitchAnimation) {
+			redraw(g, this.direction, this.transitionCompletion, getX(), getY());
 		}
 	}
 
@@ -288,14 +283,15 @@ public class BubbleWidget extends Widget implements Bubble {
 	}
 
 	@Override
-	public void retreat(GraphicsContext g, int stage) {
-		this.faceSwitchAnimation = true;
+	public void moveOutThenIn(GraphicsContext g, int completion) {
+		this.inFaceSwitchAnimation = true;
 
-		if (stage > Constants.TRANSITION_HIGH / 2) {
-			stage = Constants.TRANSITION_HIGH - stage + Constants.TRANSITION_LOW;
+		if (completion > Constants.COMPLETION_MAX / 2) {
+			completion = Constants.COMPLETION_MAX - completion + Constants.COMPLETION_MIN;
 		}
+
 		int x, y;
-		int offset = this.smallDiameter * stage / Constants.TRANSITION_HIGH;
+		int offset = this.smallDiameter * completion / Constants.COMPLETION_MAX;
 		if (this.currentPosition.isLeft()) {
 			x = X_PADDING - offset;
 		} else {
@@ -307,11 +303,11 @@ public class BubbleWidget extends Widget implements Bubble {
 		} else {
 			y = getHeight() + offset - Y_PADDING;
 		}
-		redraw(g, Direction.EdgeStill, stage, x, y);
+		redraw(g, Direction.CornerStill, completion, x, y);
 	}
 
 	@Override
-	public void setCurrentPosition(ScreenArea current) {
+	public void setWidgetCurrentPosition(ScreenArea current) {
 		this.currentPosition = current;
 	}
 
@@ -323,17 +319,17 @@ public class BubbleWidget extends Widget implements Bubble {
 	}
 
 	/**
-	 * Set the current transition state.
+	 * Set the current transition completion.
 	 *
-	 * @param state
-	 *            state
+	 * @param completion
+	 *            completion (in percent)
 	 */
-	public void setState(int state) {
-		this.transitionState = state;
+	public void setCompletion(int completion) {
+		this.transitionCompletion = completion;
 	}
 
 	@Override
-	public void setTargetPosition(ScreenArea originalPosition) {
+	public void setWidgetTargetPosition(ScreenArea originalPosition) {
 		this.targetPosition = originalPosition;
 	}
 
@@ -345,20 +341,20 @@ public class BubbleWidget extends Widget implements Bubble {
 			if (this.currentPosition == ScreenArea.Center) {
 				this.direction = Direction.CenterStill;
 			} else {
-				this.direction = Direction.EdgeStill;
+				this.direction = Direction.CornerStill;
 			}
 		} else if (this.targetPosition == ScreenArea.Center) {
 			this.direction = Direction.ToCenter;
 		} else if (this.currentPosition == ScreenArea.Center) {
-			this.direction = Direction.ToEdge;
+			this.direction = Direction.ToCorner;
 		} else {
-			this.direction = Direction.EdgeSwitch;
+			this.direction = Direction.CornerSwitch;
 		}
 	}
 
 	@Override
-	public void switchFace(GraphicsContext g, int stage) {
-		this.transitionState = stage;
+	public void switchFace(GraphicsContext g, int completion) {
+		this.transitionCompletion = completion;
 	}
 
 	@Override
@@ -374,12 +370,12 @@ public class BubbleWidget extends Widget implements Bubble {
 	}
 
 	@Override
-	public void drawDate(GraphicsContext g, DatePosition current, DatePosition next, int stage) {
+	public void drawDate(GraphicsContext g, DatePosition current, DatePosition next, int completion) {
 		int y1 = current.getOffset();
 		int y2 = next.getOffset();
 		int y = y1;
 		if (y1 != y2) {
-			float ratio = stage / (float) Constants.TRANSITION_HIGH;
+			float ratio = completion / (float) Constants.COMPLETION_MAX;
 			y = (int) ((1.0f - ratio) * y1 + ratio * y2);
 		}
 
@@ -393,69 +389,44 @@ public class BubbleWidget extends Widget implements Bubble {
 	}
 
 	/**
-	 * Draw the circle on the edge.
+	 * Draw the circle in the corner.
 	 *
 	 * @param g
 	 *            the graphic context.
 	 * @param direction
 	 *            The direction.
-	 * @param stage
-	 *            The current stage.
+	 * @param completion
+	 *            The current completion.
 	 * @param x
 	 *            The X center.
 	 * @param y
 	 *            The Y center.
 	 * @return Return the circle's center.
 	 */
-	protected Point drawEncapsulatingCircle(GraphicsContext g, Direction direction, int stage, int x, int y) {
-		// surrounding circle when placed on the edge
+	protected Point drawBoundingCircle(GraphicsContext g, Direction direction, int completion, int x, int y) {
+		// surrounding circle when placed in the corner
 		if (direction != Direction.CenterStill) {
 			int offset = 0;
 			if (direction == Direction.ToCenter) {
-				offset = stage;
-			} else if (direction == Direction.ToEdge) {
-				offset = Constants.TRANSITION_HIGH - stage;
+				offset = completion;
+			} else if (direction == Direction.ToCorner) {
+				offset = Constants.COMPLETION_MAX - completion;
 			}
 
-			offset = this.smallDiameter * offset * 2 / Constants.TRANSITION_HIGH;
+			offset = this.smallDiameter * offset * 2 / Constants.COMPLETION_MAX;
 			ScreenArea position = (direction == Direction.ToCenter) ? this.currentPosition : this.targetPosition;
-			int xCircle = x - this.smallDiameter / 2 + ((!position.isLeft()) ? offset : -offset);
-			int yCircle = y - this.smallDiameter / 2 + ((!position.isTop()) ? offset : -offset);
+			final int radius = this.smallDiameter / 2;
+			int xCircle = x - radius + ((!position.isLeft()) ? offset : -offset);
+			int yCircle = y - radius + ((!position.isTop()) ? offset : -offset);
 
-			Utils.drawCircle(g, xCircle, yCircle, this.smallDiameter, Constants.DEFAULT_THICKNES,
+			Utils.drawCircle(g, xCircle, yCircle, this.smallDiameter, Constants.DEFAULT_THICKNESS,
 					Constants.DEFAULT_FADE);
-			xCircle += this.smallDiameter / 2 - X_PADDING;
-			yCircle += this.smallDiameter / 2 - Y_PADDING;
+			xCircle += radius - X_PADDING;
+			yCircle += radius - Y_PADDING;
 			return new Point(xCircle, yCircle);
 		}
 
-		// if (this.originalPosition == ScreenArea.BottomLeft) {
-		//
-		// if (direction == Direction.ToCenter) {
-		// xCircle = x - this.smallDiameter / 2 - this.smallDiameter * stage * 2
-		// / TRANSITION_HIGH;
-		// yCircle = y - this.smallDiameter / 2 + this.smallDiameter * stage * 2
-		// / TRANSITION_HIGH;
-		// } else if (direction == Direction.ToEdge) {
-		// xCircle = x - this.smallDiameter / 2
-		// - this.smallDiameter * (TRANSITION_HIGH - stage) * 2 /
-		// TRANSITION_HIGH;
-		// yCircle = y - this.smallDiameter / 2 + this.smallDiameter *
-		// (TRANSITION_HIGH - stage) * 2 / TRANSITION_HIGH;
-		// } else if (direction == Direction.CenterStill) {
-		// xCircle = -this.smallDiameter * 2;
-		// yCircle = +this.smallDiameter * 2;
-		// } else {
-		// xCircle = x - this.smallDiameter / 2;
-		// yCircle = y - this.smallDiameter / 2;
-		// }
-		//
-		// Utils.drawCircle(g, xCircle, yCircle, this.smallDiameter,
-		// Constants.DEFAULT_THICKNES,
-		// Constants.DEFAULT_FADE);
-		// }
 		return new Point(x, y);
-
 	}
 
 	/**
@@ -466,14 +437,14 @@ public class BubbleWidget extends Widget implements Bubble {
 	 *            The graphic context to use.
 	 * @param direction
 	 *            direction
-	 * @param stage
-	 *            current stage
+	 * @param completion
+	 *            current completion
 	 * @param x
 	 *            x position of the center of the bubble.
 	 * @param y
 	 *            y position of the center of the bubble.
 	 */
-	public void redraw(GraphicsContext g, Direction direction, int stage, int x, int y) {
+	public void redraw(GraphicsContext g, Direction direction, int completion, int x, int y) {
 		// do nothing by default
 	}
 

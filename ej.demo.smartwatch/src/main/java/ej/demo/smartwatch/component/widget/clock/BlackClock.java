@@ -1,7 +1,7 @@
 package ej.demo.smartwatch.component.widget.clock;
 
 import ej.demo.smartwatch.component.Direction;
-import ej.demo.smartwatch.dal.ISmDataProvider;
+import ej.demo.smartwatch.model.IDataProvider;
 import ej.demo.smartwatch.utils.Constants;
 import ej.demo.smartwatch.utils.Utils;
 import ej.microui.display.GraphicsContext;
@@ -11,8 +11,8 @@ import ej.microui.display.GraphicsContext;
  */
 public class BlackClock extends AbstractAnalogClock {
 
-	/** The Constant EDGE_START_ANGLE. */
-	private static final int EDGE_START_ANGLE = 90;
+	/** The Constant CORNER_START_ANGLE. */
+	private static final int CORNER_START_ANGLE = 90;
 
 	private static final int SEC_ANGLE_MULT = -Constants.ANGLE_FULL_CIRCLE / 60;
 	private static final int SECONDS_FADE = 1;
@@ -31,8 +31,8 @@ public class BlackClock extends AbstractAnalogClock {
 	}
 
 	@Override
-	public void draw(GraphicsContext g, Direction direction, ISmDataProvider provider, int x, int y, int stage) {
-		float ratio = ((float) stage) / Constants.TRANSITION_HIGH;
+	public void draw(GraphicsContext g, Direction direction, IDataProvider provider, int x, int y, int completion) {
+		float ratio = ((float) completion) / Constants.COMPLETION_MAX;
 		int diameter = getDiameter(direction, ratio);
 
 		int second = provider.getSecond();
@@ -41,32 +41,32 @@ public class BlackClock extends AbstractAnalogClock {
 		int centerY = y - diameter / 2;
 		g.setColor(Constants.COLOR_FOREGROUND);
 
-		if (direction == Direction.EdgeStill || direction == Direction.EdgeSwitch) {
+		if (direction == Direction.CornerStill || direction == Direction.CornerSwitch) {
 			// Draw a full circle.
-			Utils.drawCircle(g, centerX, centerY, diameter, Constants.DEFAULT_THICKNES, Constants.DEFAULT_FADE);
+			Utils.drawCircle(g, centerX, centerY, diameter, Constants.DEFAULT_THICKNESS, Constants.DEFAULT_FADE);
 		} else if (direction == Direction.CenterStill) {
 			// Draw the seconds circle.
-			Utils.drawEllipseArc(g, centerX, centerY, diameter, EDGE_START_ANGLE, second * SEC_ANGLE_MULT,
+			Utils.drawEllipseArc(g, centerX, centerY, diameter, CORNER_START_ANGLE, second * SEC_ANGLE_MULT,
 					SECONDS_THICKNESS, SECONDS_FADE);
-		} else if (direction == Direction.ToEdge) {
+		} else if (direction == Direction.ToCorner) {
 			int currentAngle = second * SEC_ANGLE_MULT;
-			int startAngle = EDGE_START_ANGLE + currentAngle;
+			int startAngle = CORNER_START_ANGLE + currentAngle;
 			int angle = (int) ((Constants.ANGLE_FULL_CIRCLE + currentAngle) * ratio) - currentAngle;
 
 			// Draw animation from second to full.
-			Utils.drawEllipseArc(g, centerX, centerY, diameter, startAngle, angle, Constants.DEFAULT_THICKNES,
+			Utils.drawEllipseArc(g, centerX, centerY, diameter, startAngle, angle, Constants.DEFAULT_THICKNESS,
 					Constants.DEFAULT_FADE);
 		} else if (direction == Direction.ToCenter) {
 			int currentAngle = second * SEC_ANGLE_MULT;
 			int angle = (int) ((Constants.ANGLE_FULL_CIRCLE + currentAngle) * (1 - ratio)) - currentAngle;
-			int startAngle = EDGE_START_ANGLE + currentAngle;
+			int startAngle = CORNER_START_ANGLE + currentAngle;
 
 			// Draw animation from full to second.
-			Utils.drawEllipseArc(g, centerX, centerY, diameter, startAngle, angle, Constants.DEFAULT_THICKNES,
+			Utils.drawEllipseArc(g, centerX, centerY, diameter, startAngle, angle, Constants.DEFAULT_THICKNESS,
 					Constants.DEFAULT_FADE);
 		}
 
 		// Draw the hands.
-		drawClock(g, direction, provider, x, y, stage, diameter);
+		drawClock(g, direction, provider, x, y, completion, diameter);
 	}
 }

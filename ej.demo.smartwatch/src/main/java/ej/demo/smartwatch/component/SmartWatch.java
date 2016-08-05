@@ -51,8 +51,8 @@ public class SmartWatch extends Composite implements Animation {
 	 */
 	public SmartWatch(int width, int height) {
 		super();
-		Log.e(TAG, "New  widget: " + width + " " + height); //$NON-NLS-1$ //$NON-NLS-2$
-		// Add all the bubble.
+		Log.d(TAG, "New  widget: " + width + " " + height); //$NON-NLS-1$ //$NON-NLS-2$
+		// Add all the bubbles.
 		DateTimeWidget dateTimeWidget = new DateTimeWidget(width, height, ScreenArea.Center);
 		this.controler.add(dateTimeWidget);
 

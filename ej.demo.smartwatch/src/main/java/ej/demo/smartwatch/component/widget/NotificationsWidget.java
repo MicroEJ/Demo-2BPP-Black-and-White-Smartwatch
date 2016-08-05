@@ -11,9 +11,9 @@ import java.io.IOException;
 
 import ej.demo.smartwatch.component.Direction;
 import ej.demo.smartwatch.component.ScreenArea;
-import ej.demo.smartwatch.dal.ISmDataProvider;
-import ej.demo.smartwatch.dal.ISmDataProvider.Event;
-import ej.demo.smartwatch.dal.SmDataPrivider;
+import ej.demo.smartwatch.model.DataProvider;
+import ej.demo.smartwatch.model.IDataProvider;
+import ej.demo.smartwatch.model.IDataProvider.Event;
 import ej.demo.smartwatch.style.Images;
 import ej.demo.smartwatch.utils.Constants;
 import ej.demo.smartwatch.utils.Log;
@@ -24,33 +24,26 @@ import ej.microui.display.Image;
 import ej.style.text.TextHelper;
 
 /**
- * Widget displaying notifications.
+ * Widget for notifications.
  */
 public class NotificationsWidget extends MultipleViewWidget {
 
 	private static final String EMPTY_STRING = ""; //$NON-NLS-1$
 
 	/**
-	 * Message display when no notification available.
+	 * Message displayed when no notification available.
 	 */
 	private static final String NONE = "None."; //$NON-NLS-1$
 
 	/**
-	 * Proportion available to display the message.
+	 * Horizontal proportion available to display the message.
 	 */
 	private static final float MESSAGE_SCREEN_X_PORTION = 0.75f;
 
 	/**
-	 * Proportion available to display the message.
+	 * Vertical proportion available to display the message.
 	 */
 	private static final float MESSAGE_SCREEN_Y_PORTION = 0.4f;
-
-	/**
-	 * Data provider.
-	 */
-	private static final ISmDataProvider PROVIDER = SmDataPrivider.get();
-
-	private static final String TAG = "NotificationsWidget"; //$NON-NLS-1$
 
 	/**
 	 * Font for the message.
@@ -58,7 +51,7 @@ public class NotificationsWidget extends MultipleViewWidget {
 	private static final Font FONT_MESSAGE;
 
 	/**
-	 * Font for the count on the edge.
+	 * Font for the notification count.
 	 */
 	private static final Font FONT_NOTIFICATION_COUNT;
 
@@ -70,7 +63,7 @@ public class NotificationsWidget extends MultipleViewWidget {
 	static {
 		FONT_MESSAGE = Constants.FONT_36;
 		FONT_NOTIFICATION_COUNT = Constants.FONT_24;
-		MESSAGE_SCREEN_Y_LINES = (int) ((Constants.WIDTH * MESSAGE_SCREEN_Y_PORTION) / FONT_MESSAGE.getHeight());
+		MESSAGE_SCREEN_Y_LINES = (int) ((Constants.DISPLAY_WIDTH * MESSAGE_SCREEN_Y_PORTION) / FONT_MESSAGE.getHeight());
 	}
 
 	/**
@@ -104,7 +97,7 @@ public class NotificationsWidget extends MultipleViewWidget {
 	private Event event;
 
 	/**
-	 * Widget displaying notification.
+	 * Widget for notifications.
 	 *
 	 * @param width
 	 *            the width.
@@ -119,7 +112,7 @@ public class NotificationsWidget extends MultipleViewWidget {
 		try {
 			this.imgIcon = Image.createImage(Images.BELL);
 		} catch (IOException e) {
-			Log.e(TAG, e);
+			Log.e(this.getClass().getName(), e);
 		}
 
 		setupMessage(true);
@@ -143,7 +136,7 @@ public class NotificationsWidget extends MultipleViewWidget {
 				String str = NONE;
 				int stringWidth = FONT_MESSAGE.stringWidth(str);
 				int x = (getWidth() - stringWidth) / 2;
-				if (this.direction == Direction.ToEdge) {
+				if (this.direction == Direction.ToCorner) {
 					x = Utils.computeMean(-stringWidth, x, ratio);
 				} else if (this.direction != Direction.CenterStill) {
 					x = Utils.computeMean(x, getWidth(), ratio);
@@ -157,7 +150,7 @@ public class NotificationsWidget extends MultipleViewWidget {
 		g.setFont(FONT_NOTIFICATION_COUNT);
 		int yCount = y - FONT_NOTIFICATION_COUNT.getHeight();
 		int xCount = (getWidth() - FONT_NOTIFICATION_COUNT.stringWidth(this.time)) / 2;
-		if (this.direction == Direction.ToEdge) {
+		if (this.direction == Direction.ToCorner) {
 			int xEndNotification = -FONT_NOTIFICATION_COUNT.stringWidth(this.time);
 			xCount = Utils.computeMean(xEndNotification, xCount, ratio);
 		} else if (this.direction != Direction.CenterStill) {
@@ -176,7 +169,7 @@ public class NotificationsWidget extends MultipleViewWidget {
 			}
 			int x = (getWidth() - FONT_MESSAGE.stringWidth(line)) / 2;
 
-			if (this.direction == Direction.ToEdge) {
+			if (this.direction == Direction.ToCorner) {
 				int xEndMessage = -FONT_MESSAGE.stringWidth(line);
 				x = Utils.computeMean(xEndMessage, x, ratio);
 			} else if (this.direction != Direction.CenterStill) {
@@ -222,20 +215,15 @@ public class NotificationsWidget extends MultipleViewWidget {
 	}
 
 	@Override
-	public String getTag() {
-		return TAG;
-	}
-
-	@Override
-	public void redraw(GraphicsContext g, Direction direction, int stage, int x, int y) {
+	public void redraw(GraphicsContext g, Direction direction, int completion, int x, int y) {
 		g.setColor(Constants.COLOR_FOREGROUND);
-		Point center = drawEncapsulatingCircle(g, direction, stage, x, y);
+		Point center = drawBoundingCircle(g, direction, completion, x, y);
 		// draw icon
 		if (direction != Direction.CenterStill) {
 			g.drawImage(this.imgIcon, center.getX(), center.getY(), 0);
 
 			// draw notification number
-			if (direction != Direction.ToCenter && direction != Direction.ToEdge) {
+			if (direction != Direction.ToCenter && direction != Direction.ToCorner) {
 				String notifs = getNotificationCount();
 				int xString = center.getX() + this.imgIcon.getWidth() / 2
 						- FONT_NOTIFICATION_COUNT.stringWidth(notifs) / 2;
@@ -245,10 +233,10 @@ public class NotificationsWidget extends MultipleViewWidget {
 			}
 		}
 
-		float ratio = (float) stage / Constants.TRANSITION_HIGH;
+		float ratio = (float) completion / Constants.COMPLETION_MAX;
 		Image icon = this.imgIcon;
 
-		if (direction != Direction.ToCenter && direction != Direction.ToEdge && direction != Direction.CenterStill) {
+		if (direction != Direction.ToCenter && direction != Direction.ToCorner && direction != Direction.CenterStill) {
 			return;
 		}
 
@@ -261,7 +249,7 @@ public class NotificationsWidget extends MultipleViewWidget {
 		int xEndNotification = X_PADDING + icon.getWidth() / 2 - FONT_NOTIFICATION_COUNT.stringWidth(notifs) / 2;
 
 		int xString, yString;
-		if (direction == Direction.ToEdge) {
+		if (direction == Direction.ToCorner) {
 			xString = Utils.computeMean(xEndNotification, xNotification, ratio) - 2;
 			yString = Utils.computeMean(yNotification, yEndNotification, ratio);
 		} else if (direction == Direction.CenterStill) {
@@ -272,7 +260,7 @@ public class NotificationsWidget extends MultipleViewWidget {
 			yString = Utils.computeMean(yEndNotification, yNotification, ratio);
 		}
 
-		drawNextPrevious(g, direction, stage);
+		drawNextPrevious(g, direction, completion);
 		drawText(g, ratio);
 
 		g.setFont(FONT_NOTIFICATION_COUNT);
@@ -282,7 +270,7 @@ public class NotificationsWidget extends MultipleViewWidget {
 	@Override
 	public void render(GraphicsContext g) {
 		if (this.direction == Direction.CenterStill) {
-			redraw(g, this.direction, this.transitionState, getX(), getY());
+			redraw(g, this.direction, this.transitionCompletion, getX(), getY());
 		}
 	}
 

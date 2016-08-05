@@ -7,14 +7,14 @@
 package ej.demo.smartwatch.component.widget.clock;
 
 import ej.demo.smartwatch.component.Bubble.DatePosition;
+import ej.demo.smartwatch.model.IDataProvider;
 import ej.demo.smartwatch.component.Direction;
-import ej.demo.smartwatch.dal.ISmDataProvider;
 import ej.demo.smartwatch.utils.Constants;
 import ej.demo.smartwatch.utils.Utils;
 import ej.microui.display.GraphicsContext;
 
 /**
- *
+ * Base class for analog clocks
  */
 public abstract class AbstractAnalogClock implements IClock {
 
@@ -48,9 +48,9 @@ public abstract class AbstractAnalogClock implements IClock {
 	protected static final int HAND_FADE_M = 1;
 
 	/**
-	 * Stage to start to grow the hands.
+	 * Threshold to start to grow the hands.
 	 */
-	protected static final float STAGE_SWITCH = 20;
+	protected static final float SWITCH_THRESHOLD = 20;
 
 	/**
 	 * Diameter at the maximum size.
@@ -90,12 +90,12 @@ public abstract class AbstractAnalogClock implements IClock {
 	 *            X coordinate of the center.
 	 * @param y
 	 *            Y coordinate of the center.
-	 * @param stage
-	 *            Animation stage.
+	 * @param completion
+	 *            Animation completion.
 	 * @param diameter
 	 *            Current diameter.
 	 */
-	protected void drawClock(GraphicsContext g, Direction direction, ISmDataProvider provider, int x, int y, int stage,
+	protected void drawClock(GraphicsContext g, Direction direction, IDataProvider provider, int x, int y, int completion,
 			int diameter) {
 		int hour = provider.getHour() % Constants.HOURS_IN_DAY;
 		int minute = provider.getMinute();
@@ -109,13 +109,13 @@ public abstract class AbstractAnalogClock implements IClock {
 		int handLength;
 		float angle;
 		if (direction == Direction.CenterStill) {
-			if (stage > (Constants.TRANSITION_HIGH / 2)) {
-				stage = Constants.TRANSITION_HIGH - stage;
+			if (completion > (Constants.COMPLETION_MAX / 2)) {
+				completion = Constants.COMPLETION_MAX - completion;
 			}
 
 			float ratio = 0;
-			if (stage < STAGE_SWITCH) {
-				ratio = (STAGE_SWITCH - stage) / STAGE_SWITCH;
+			if (completion < SWITCH_THRESHOLD) {
+				ratio = (SWITCH_THRESHOLD - completion) / SWITCH_THRESHOLD;
 			}
 
 			handLength = (int) (ratio * diameter / 2);
@@ -153,7 +153,7 @@ public abstract class AbstractAnalogClock implements IClock {
 		centerY -= circleDiameter / 2;
 
 		// Draw the inside circle.
-		Utils.drawCircle(g, centerX, centerY, circleDiameter, Constants.DEFAULT_THICKNES, Constants.DEFAULT_FADE);
+		Utils.drawCircle(g, centerX, centerY, circleDiameter, Constants.DEFAULT_THICKNESS, Constants.DEFAULT_FADE);
 	}
 
 	@Override
@@ -167,7 +167,7 @@ public abstract class AbstractAnalogClock implements IClock {
 	}
 
 	@Override
-	public boolean hasEdgeFace() {
+	public boolean hasCornerFace() {
 		return true;
 	}
 
@@ -182,10 +182,10 @@ public abstract class AbstractAnalogClock implements IClock {
 	 */
 	protected int getDiameter(Direction direction, float ratio) {
 		int diameter = this.maxDiameter;
-		if (direction == Direction.ToEdge || direction == Direction.ToCenter) {
+		if (direction == Direction.ToCorner || direction == Direction.ToCenter) {
 			ratio = (direction == Direction.ToCenter) ? ratio : (1 - ratio);
 			diameter = (int) ((this.maxDiameter - this.minDiameter) * ratio + this.minDiameter);
-		} else if (direction == Direction.EdgeStill || direction == Direction.EdgeSwitch) {
+		} else if (direction == Direction.CornerStill || direction == Direction.CornerSwitch) {
 			diameter = this.minDiameter;
 		}
 		return diameter;

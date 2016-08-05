@@ -41,8 +41,8 @@ public abstract class MultipleViewWidget extends BubbleWidget {
 	private static final Image PREVIOUS;
 
 	static {
-		X_PADDING = (int) (5 * Constants.WIDTH_RATIO);
-		Y_PADDING = (int) (5 * Constants.HEIGHT_RATIO);
+		X_PADDING = (int) (5 * Constants.DISPLAY_DEFAULT_WIDTH_RATIO);
+		Y_PADDING = (int) (5 * Constants.DISPLAY_DEFAULT_HEIGHT_RATIO);
 		Image nextImage = null;
 		Image previousImage = null;
 		try {
@@ -83,12 +83,12 @@ public abstract class MultipleViewWidget extends BubbleWidget {
 	 *            The graphic context.
 	 * @param direction
 	 *            Transition direction.
-	 * @param stage
-	 *            Transition stage.
+	 * @param completion
+	 *            Transition completion.
 	 */
-	protected void drawNextPrevious(GraphicsContext g, Direction direction, int stage) {
+	protected void drawNextPrevious(GraphicsContext g, Direction direction, int completion) {
 		if (direction != Direction.CenterStill
-				|| (stage != Constants.TRANSITION_LOW && stage != Constants.TRANSITION_HIGH)) {
+				|| (completion != Constants.COMPLETION_MIN && completion != Constants.COMPLETION_MAX)) {
 			return;
 		}
 
@@ -107,7 +107,7 @@ public abstract class MultipleViewWidget extends BubbleWidget {
 	 * Update the view index.
 	 *
 	 * @param forward
-	 *            Whether goe to next or previous view.
+	 *            Whether to go to next or previous view.
 	 */
 	protected void nextView(boolean forward) {
 		if (viewCount() == 0) {
@@ -123,9 +123,9 @@ public abstract class MultipleViewWidget extends BubbleWidget {
 	}
 
 	/**
-	 * Get the amount of available views.
+	 * Get the available views count.
 	 *
-	 * @return Amount of available views.
+	 * @return available views count.
 	 */
 	protected abstract int viewCount();
 }
