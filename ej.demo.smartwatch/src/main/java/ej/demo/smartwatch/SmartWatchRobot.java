@@ -15,14 +15,14 @@ import ej.demo.smartwatch.component.widget.BatteryWidget;
 import ej.demo.smartwatch.component.widget.DateTimeWidget;
 import ej.demo.smartwatch.component.widget.DistanceWidget;
 import ej.demo.smartwatch.component.widget.NotificationsWidget;
-import ej.demo.smartwatch.dal.SmDataPrivider;
+import ej.demo.smartwatch.model.DataProvider;
 import ej.demo.smartwatch.utils.Constants;
 import ej.microui.event.EventGenerator;
 import ej.microui.event.generator.Pointer;
 import ej.microui.util.EventHandler;
 
 /**
- *
+ *  A robot to automatically browse through a watch
  */
 public class SmartWatchRobot implements EventHandler {
 
@@ -67,7 +67,7 @@ public class SmartWatchRobot implements EventHandler {
 	private final Timer timer;
 
 	/**
-	 * A robot to automatically brows throw a watch.
+	 * SmartWatchRobot constructor
 	 *
 	 * @param watch
 	 *            the watch.
@@ -92,7 +92,7 @@ public class SmartWatchRobot implements EventHandler {
 	 * Start the robot.
 	 */
 	public void start() {
-		// Stop the robot if it had already been started.
+		// Stop the robot if it has already been started.
 		if (this.pointerEventHandler != null) {
 			stop();
 		}
@@ -133,7 +133,7 @@ public class SmartWatchRobot implements EventHandler {
 	}
 
 	/**
-	 * Task to browse throw the watch.
+	 * Task to browse through the watch.
 	 */
 	private static class RobotTask extends TimerTask {
 		/**
@@ -149,7 +149,7 @@ public class SmartWatchRobot implements EventHandler {
 		/**
 		 * Y position of the BOTTOM.
 		 */
-		private static int BOTTOM = Constants.HEIGHT - OFFSET;
+		private static int BOTTOM = Constants.DISPLAY_HEIGHT - OFFSET;
 
 		/**
 		 * X position of the left.
@@ -159,17 +159,17 @@ public class SmartWatchRobot implements EventHandler {
 		/**
 		 * X position of the right.
 		 */
-		private static int RIGHT = Constants.WIDTH - OFFSET;
+		private static int RIGHT = Constants.DISPLAY_WIDTH - OFFSET;
 
 		/**
 		 * X position of the center.
 		 */
-		private static int HCENTER = Constants.WIDTH / 2;
+		private static int HCENTER = Constants.DISPLAY_WIDTH / 2;
 
 		/**
 		 * Y position of the center.
 		 */
-		private static int VCENTER = Constants.HEIGHT / 2;
+		private static int VCENTER = Constants.DISPLAY_HEIGHT / 2;
 
 		private long currentActionDelay = LONG_ACTION_DELAY;
 
@@ -177,11 +177,11 @@ public class SmartWatchRobot implements EventHandler {
 		 * List of the available bubbles.
 		 *
 		 */
-		private enum BUBBLE {
+		private enum BubbleKind {
 			DATE, BATTERY, DISTANCE, NOTIFICATION, WEATHER
 		}
 
-		private BUBBLE state = BUBBLE.DATE;
+		private BubbleKind state = BubbleKind.DATE;
 		private int currentFace = 0;
 		private int currentAction = 0;
 
@@ -247,18 +247,18 @@ public class SmartWatchRobot implements EventHandler {
 			Bubble activeBubble = this.controller.getActiveBubble();
 			if (activeBubble instanceof BatteryWidget) {
 				this.currentActionDelay = SHORT_ACTION_DELAY;
-				this.state = BUBBLE.BATTERY;
+				this.state = BubbleKind.BATTERY;
 			} else if (activeBubble instanceof DateTimeWidget) {
 				this.currentActionDelay = LONG_ACTION_DELAY;
-				this.state = BUBBLE.DATE;
+				this.state = BubbleKind.DATE;
 			} else if (activeBubble instanceof DistanceWidget) {
 				this.currentActionDelay = SHORT_ACTION_DELAY;
-				this.state = BUBBLE.DISTANCE;
+				this.state = BubbleKind.DISTANCE;
 			} else if (activeBubble instanceof NotificationsWidget) {
-				this.state = BUBBLE.NOTIFICATION;
+				this.state = BubbleKind.NOTIFICATION;
 			} else { // if (activeBubble instanceof WeatherWidget) {
 				this.currentActionDelay = LONG_ACTION_DELAY;
-				this.state = BUBBLE.WEATHER;
+				this.state = BubbleKind.WEATHER;
 			}
 		}
 
@@ -283,8 +283,8 @@ public class SmartWatchRobot implements EventHandler {
 				this.currentFace++;
 				return true;
 			case WEATHER:
-				// If more weather forecast are available.
-				if (SmDataPrivider.get().getForecastCount() > this.currentAction) {
+				// If more weather forecasts are available.
+				if (DataProvider.getInstance().getForecastCount() > this.currentAction) {
 					this.currentAction++;
 					// Swipe left for next forecast.
 					this.controller.swipe(RIGHT, VCENTER, LEFT, VCENTER);
@@ -292,7 +292,7 @@ public class SmartWatchRobot implements EventHandler {
 				}
 				return false;
 			case NOTIFICATION:
-				int eventsCount = SmDataPrivider.get().getEventsCount();
+				int eventsCount = DataProvider.getInstance().getEventsCount();
 				// Doesn't remove all the notifications (only one out of two).
 				if (eventsCount > this.currentAction) {
 					this.currentAction++;

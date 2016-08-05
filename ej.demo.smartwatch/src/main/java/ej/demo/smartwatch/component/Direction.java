@@ -17,22 +17,22 @@ public enum Direction {
 	CenterStill,
 
 	/**
-	 * Stay at the edge.
+	 * Stay at the corner.
 	 */
-	EdgeStill,
+	CornerStill,
 
 	/**
-	 * Switch from one edge to the other.
+	 * Switch from one corner to the other.
 	 */
-	EdgeSwitch,
+	CornerSwitch,
 
 	/**
-	 * Go from the edge to the center.
+	 * Go from corner to center.
 	 */
 	ToCenter,
 
 	/**
-	 * Go from center to edge.
+	 * Go from center to corner.
 	 */
-	ToEdge;
+	ToCorner;
 }

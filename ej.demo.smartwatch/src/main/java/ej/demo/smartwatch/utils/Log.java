@@ -57,7 +57,7 @@ public class Log {
 	}
 
 	/**
-	 * Prints the.
+	 * Prints the s message.
 	 *
 	 * @param level
 	 *            the level
@@ -110,7 +110,7 @@ public class Log {
 	}
 
 	/**
-	 * E.
+	 * E. Print exception message
 	 *
 	 * @param tag
 	 *            the tag

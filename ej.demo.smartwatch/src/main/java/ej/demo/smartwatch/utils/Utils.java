@@ -60,7 +60,7 @@ public class Utils {
 	 * Draw a line.
 	 *
 	 * @param g
-	 *            The graphic context to use. g
+	 *            The graphic context to use
 	 * @param x1
 	 *            x1
 	 * @param y1
@@ -86,7 +86,7 @@ public class Utils {
 
 	/**
 	 * @param g
-	 *            The graphic context to use. g
+	 *            The graphic context to use
 	 * @param x
 	 *            x
 	 * @param y

@@ -8,8 +8,8 @@
 package ej.demo.smartwatch.component.widget.clock;
 
 import ej.demo.smartwatch.component.Bubble.DatePosition;
+import ej.demo.smartwatch.model.IDataProvider;
 import ej.demo.smartwatch.component.Direction;
-import ej.demo.smartwatch.dal.ISmDataProvider;
 import ej.demo.smartwatch.utils.Constants;
 import ej.demo.smartwatch.utils.Utils;
 import ej.microui.display.Font;
@@ -66,7 +66,7 @@ public class Digital implements IClock {
 	}
 
 	@Override
-	public void draw(GraphicsContext g, Direction direction, ISmDataProvider provider, int x, int y, int stage) {
+	public void draw(GraphicsContext g, Direction direction, IDataProvider provider, int x, int y, int completion) {
 		int foregroundColor = Constants.COLOR_FOREGROUND;
 		int backgroundColor = Constants.COLOR_BACKGROUND;
 		int originalY = y;
@@ -123,7 +123,7 @@ public class Digital implements IClock {
 	}
 
 	@Override
-	public boolean hasEdgeFace() {
+	public boolean hasCornerFace() {
 		return false;
 	}
 }

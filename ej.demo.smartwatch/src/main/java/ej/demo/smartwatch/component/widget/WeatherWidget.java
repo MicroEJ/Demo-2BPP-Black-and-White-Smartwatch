@@ -12,9 +12,9 @@ import ej.animation.Animator;
 import ej.components.dependencyinjection.ServiceLoaderFactory;
 import ej.demo.smartwatch.component.Direction;
 import ej.demo.smartwatch.component.ScreenArea;
-import ej.demo.smartwatch.dal.ISmDataProvider;
-import ej.demo.smartwatch.dal.ISmDataProvider.WeatherCondition;
-import ej.demo.smartwatch.dal.SmDataPrivider;
+import ej.demo.smartwatch.model.DataProvider;
+import ej.demo.smartwatch.model.IDataProvider;
+import ej.demo.smartwatch.model.IDataProvider.WeatherCondition;
 import ej.demo.smartwatch.style.Images;
 import ej.demo.smartwatch.utils.Constants;
 import ej.demo.smartwatch.utils.Utils;
@@ -31,13 +31,6 @@ public class WeatherWidget extends MultipleViewWidget implements Animation {
 	 * Rate to refresh the icons.
 	 */
 	private static final int REFRESH_RATE = 75;
-
-	/**
-	 * Data provider.
-	 */
-	private static final ISmDataProvider PROVIDER = SmDataPrivider.get();
-
-	private static final String TAG = "WeatherWidget"; //$NON-NLS-1$
 
 	/**
 	 * Font used for the temperature.
@@ -119,11 +112,6 @@ public class WeatherWidget extends MultipleViewWidget implements Animation {
 		this.currentImage = Images.WEATHER_COND_SEQ[this.currentForecast.getCondition()].getImg(0);
 	}
 
-	@Override
-	public String getTag() {
-		return TAG;
-	}
-
 	/**
 	 * Get the temperature string.
 	 *
@@ -137,18 +125,18 @@ public class WeatherWidget extends MultipleViewWidget implements Animation {
 	}
 
 	@Override
-	public void redraw(GraphicsContext g, Direction direction, int stage, int x, int y) {
+	public void redraw(GraphicsContext g, Direction direction, int completion, int x, int y) {
 		g.setColor(Constants.COLOR_FOREGROUND);
-		drawEncapsulatingCircle(g, direction, stage, x, y);
+		drawBoundingCircle(g, direction, completion, x, y);
 
-		float ratio = (float) stage / Constants.TRANSITION_HIGH;
+		float ratio = (float) completion / Constants.COMPLETION_MAX;
 		Image img = this.currentImage;
-		if (direction == Direction.ToEdge) {
+		if (direction == Direction.ToCorner) {
 			stopAnimation();
 		}
-		drawNextPrevious(g, direction, stage);
+		drawNextPrevious(g, direction, completion);
 
-		if (direction == Direction.ToCenter || direction == Direction.ToEdge || direction == Direction.CenterStill) {
+		if (direction == Direction.ToCenter || direction == Direction.ToCorner || direction == Direction.CenterStill) {
 			int yCenter = (getHeight() - img.getHeight()) / 2;
 			int xCenter = (getWidth() - img.getWidth()) / 2;
 			g.setFont(FONT_36);
@@ -161,7 +149,7 @@ public class WeatherWidget extends MultipleViewWidget implements Animation {
 			// Draw the image.
 			int xImg;
 			int xString;
-			if (direction == Direction.ToEdge) {
+			if (direction == Direction.ToCorner) {
 				xImg = (int) ((1.0f - ratio) * xCenter + ratio * imageWidth);
 				xString = (int) ((1.0f - ratio) * xText + ratio * X_PADDING);
 			} else if (direction == Direction.CenterStill) {
@@ -179,13 +167,13 @@ public class WeatherWidget extends MultipleViewWidget implements Animation {
 			// Draw the date.
 			String text = this.currentForecast.getRelDateStr();
 			g.setFont(FONT_24);
-			if (direction == Direction.ToEdge) {
-				ratio = (float) (Constants.TRANSITION_HIGH - stage) / Constants.TRANSITION_HIGH;
+			if (direction == Direction.ToCorner) {
+				ratio = (float) (Constants.COMPLETION_MAX - completion) / Constants.COMPLETION_MAX;
 				g.drawString(text, getWidth() / 2 - FONT_24.stringWidth(text) / 2,
 						Utils.computeMean(LINE_HEIGHT, -LINE_HEIGHT, ratio),
 						GraphicsContext.VCENTER | GraphicsContext.LEFT);
 			} else if (direction == Direction.ToCenter) {
-				ratio = (float) stage / Constants.TRANSITION_HIGH;
+				ratio = (float) completion / Constants.COMPLETION_MAX;
 				g.drawString(text, getWidth() / 2 - FONT_24.stringWidth(text) / 2,
 						Utils.computeMean(LINE_HEIGHT, -LINE_HEIGHT, ratio),
 						GraphicsContext.VCENTER | GraphicsContext.LEFT);

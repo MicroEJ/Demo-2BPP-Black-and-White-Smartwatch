@@ -22,12 +22,12 @@ public class Constants {
 	/**********************************************************/
 
 	/**
-	 * Hour in one day.
+	 * Hours in one day.
 	 */
 	public static final int HOURS_IN_DAY = 24;
 
 	/**
-	 * Hour in half a day.
+	 * Hours in half a day.
 	 */
 	public static final int HOURS_IN_HALF_DAY = 12;
 
@@ -42,13 +42,13 @@ public class Constants {
 	public static final long MS_IN_SEC = 1000;
 
 	/**
-	 * Short name for month.
+	 * Short names for months.
 	 */
 	public static final String[] MONTH_SHORT = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$ //$NON-NLS-9$ //$NON-NLS-10$
 			"Nov", "Dec" }; //$NON-NLS-1$ //$NON-NLS-2$
 
 	/**
-	 * Short name for day.
+	 * Short names for days.
 	 */
 	public static final String[] DAY_SHORT = { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
 
@@ -58,12 +58,12 @@ public class Constants {
 	public static final long START_TIME = 1467324061;
 
 	/**
-	 * Pm String.
+	 * P.M. String.
 	 */
 	public static final String PM = "pm"; //$NON-NLS-1$
 
 	/**
-	 * Am String.
+	 * P.M. String.
 	 */
 	public static final String AM = "am"; //$NON-NLS-1$
 
@@ -77,12 +77,12 @@ public class Constants {
 	/**********************************************************/
 	
 	/**
-	 * Angle for a full circle.
+	 * Angle (in degrees) for a full circle.
 	 */
 	public static final int ANGLE_FULL_CIRCLE = 360;
 
 	/**
-	 * Angle for half a circle.
+	 * Angle (in degrees) for half a circle.
 	 */
 	public static final int ANGLE_HALF_CIRCLE = 180;
 
@@ -124,14 +124,14 @@ public class Constants {
 	public static final int MINIMUM_SWIPE = 10;
 
 	/**
-	 * TRANSITION_HIGH.
+	 * COMPLETION_MAX.
 	 */
-	public static final int TRANSITION_HIGH = 100;
+	public static final int COMPLETION_MAX = 100;
 
 	/**
-	 * TRANSITION_LOW.
+	 * COMPLETION_MIN.
 	 */
-	public static final int TRANSITION_LOW = 0;
+	public static final int COMPLETION_MIN = 0;
 
 	/**
 	 * Duration for transition.
@@ -139,34 +139,34 @@ public class Constants {
 	public static final int DURATION = 350;
 
 	/**
-	 * WIDTH.
+	 * Display Width.
 	 */
-	public static final int WIDTH;
+	public static final int DISPLAY_WIDTH;
 
 	/**
-	 * Ratio with the default with (240).
+	 * Default display width ratio (based on a 240px width).
 	 */
-	public static final float WIDTH_RATIO;
+	public static final float DISPLAY_DEFAULT_WIDTH_RATIO;
 
 	/**
-	 * HEIGHT.
+	 * Display Height.
 	 */
-	public static final int HEIGHT;
+	public static final int DISPLAY_HEIGHT;
 
 	/**
-	 * Ratio with the default height (240).
+	 * Default display height ration (based on a 240px height).
 	 */
-	public static final float HEIGHT_RATIO;
+	public static final float DISPLAY_DEFAULT_HEIGHT_RATIO;
 
 	/**
-	 * default fade value.
+	 * Default fade value.
 	 */
 	public static final int DEFAULT_FADE = 1;
 
 	/**
-	 * default Thickness value.
+	 * Default Thickness value.
 	 */
-	public static final int DEFAULT_THICKNES = 1;
+	public static final int DEFAULT_THICKNESS = 1;
 
 	static {
 
@@ -177,12 +177,12 @@ public class Constants {
 		FONT_60 = Font.getFont(Font.LATIN, 81, Font.STYLE_PLAIN);
 
 		float oldWidth = 240;
-		WIDTH = Display.getDefaultDisplay().getWidth();
-		WIDTH_RATIO = WIDTH / oldWidth;
+		DISPLAY_WIDTH = Display.getDefaultDisplay().getWidth();
+		DISPLAY_DEFAULT_WIDTH_RATIO = DISPLAY_WIDTH / oldWidth;
 
 		float oldHeight = 240;
-		HEIGHT = Display.getDefaultDisplay().getHeight();
-		HEIGHT_RATIO = HEIGHT / oldHeight;
+		DISPLAY_HEIGHT = Display.getDefaultDisplay().getHeight();
+		DISPLAY_DEFAULT_HEIGHT_RATIO = DISPLAY_HEIGHT / oldHeight;
 	}
 
 	/**

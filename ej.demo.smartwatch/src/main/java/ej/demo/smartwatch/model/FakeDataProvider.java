@@ -5,7 +5,7 @@
  * For demonstration purpose only.
  * IS2T PROPRIETARY. Use is subject to license terms.
  */
-package ej.demo.smartwatch.dal;
+package ej.demo.smartwatch.model;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -18,7 +18,7 @@ import ej.demo.smartwatch.utils.Constants;
 /**
  * The Class SmFakeData.
  */
-public class SmFakeData implements ISmDataProvider {
+public class FakeDataProvider implements IDataProvider {
 
 	private static final int BATTERY_DIVISION = 23;
 	private static final int NOTIFICATION_LIKELINESS = 1;
@@ -35,16 +35,16 @@ public class SmFakeData implements ISmDataProvider {
 	private static final int MAX_NOTIF = 10;
 
 	/** The events. */
-	private final List<ISmDataProvider.Event> events;
+	private final List<IDataProvider.Event> events;
 
 	/** The forecast. */
-	private final List<ISmDataProvider.WeatherCondition> forecast;
+	private final List<IDataProvider.WeatherCondition> forecast;
 
 	/**
 	 * Instantiates a new Smartwatch fake data provider.
 	 */
-	public SmFakeData() {
-		this.events = new ArrayList<ISmDataProvider.Event>();
+	public FakeDataProvider() {
+		this.events = new ArrayList<IDataProvider.Event>();
 		this.events.add(new Event(getDate(), "It's John's birthday!", "22 May", "08:00")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		this.events.add(new Event(getDate(), "Some other longer message, check multiline", "24 June", "08:01")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		// $NON-NLS-3$
@@ -52,14 +52,14 @@ public class SmFakeData implements ISmDataProvider {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date(Constants.START_TIME * MS_IN_SEC));
 		long sec = Constants.START_TIME;
-		this.forecast = new ArrayList<ISmDataProvider.WeatherCondition>();
-		this.forecast.add(new WeatherCondition(TEMPERATURE1, ISmDataProvider.WeatherCondition.COND_SUNNY,
+		this.forecast = new ArrayList<IDataProvider.WeatherCondition>();
+		this.forecast.add(new WeatherCondition(TEMPERATURE1, IDataProvider.WeatherCondition.COND_SUNNY,
 				new Date(sec * MS_IN_SEC)));
 		sec += SEC_IN_DAY;
-		this.forecast.add(new WeatherCondition(TEMPERATURE2, ISmDataProvider.WeatherCondition.COND_RAIN,
+		this.forecast.add(new WeatherCondition(TEMPERATURE2, IDataProvider.WeatherCondition.COND_RAIN,
 				new Date(sec * MS_IN_SEC)));
 		sec += SEC_IN_DAY;
-		this.forecast.add(new WeatherCondition(TEMPERATURE1, ISmDataProvider.WeatherCondition.COND_CLOUDY,
+		this.forecast.add(new WeatherCondition(TEMPERATURE1, IDataProvider.WeatherCondition.COND_CLOUDY,
 				new Date(sec * MS_IN_SEC)));
 	}
 
@@ -129,7 +129,7 @@ public class SmFakeData implements ISmDataProvider {
 	public int getEventsCount() {
 		String[] text = { "Wild", "Nice", "Happy", "Fierce", "Red", "Random" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$//$NON-NLS-6$
 		// $NON-NLS-5$ //$NON-NLS-6$
-		String[] text2 = { "vase", "duck", "frame", "birthday", "flour", "table", "screen", "calibre" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$//$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
+		String[] text2 = { "vase", "duck", "frame", "birthday", "flour", "table", "screen", "colibri" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$//$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
 		// $NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
 		// $NON-NLS-8$
 		if (this.events.size() < MAX_NOTIF && Rand.nextInt(1000) <= NOTIFICATION_LIKELINESS) {
