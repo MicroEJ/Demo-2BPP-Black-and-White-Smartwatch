@@ -22,7 +22,7 @@ public interface Images {
 	/**
 	 * The Class ImageSequance.
 	 */
-	class ImageSequance {
+	class ImageSequence {
 
 		/** The images. */
 		private final List<Image> images;
@@ -36,7 +36,7 @@ public interface Images {
 		 * @param pathSeq
 		 *            the path to the sequence.
 		 */
-		public ImageSequance(String[] pathSeq) {
+		public ImageSequence(String[] pathSeq) {
 			super();
 			this.pathSeq = pathSeq;
 			images = new ArrayList<Image>();
@@ -52,7 +52,7 @@ public interface Images {
 		 * @param count
 		 *            Number of images.
 		 */
-		public ImageSequance(String path, String suffix, int count) {
+		public ImageSequence(String path, String suffix, int count) {
 			pathSeq = new String[count];
 			for (int i = 0; i < count; i++) {
 				pathSeq[i] = path + i + suffix;
@@ -108,7 +108,7 @@ public interface Images {
 	int BATTERY_COUNT = 10;
 
 	/** The battery seq. */
-	ImageSequance BATTERY_SEQ = new ImageSequance(BATTERY_PATH, BATTERY_SUFFIX, BATTERY_COUNT);
+	ImageSequence BATTERY_SEQ = new ImageSequence(BATTERY_PATH, BATTERY_SUFFIX, BATTERY_COUNT);
 
 	/** The bell. */
 	String BELL = "/images/bell.png"; //$NON-NLS-1$
@@ -125,7 +125,7 @@ public interface Images {
 			"/images/runner_4.png", "/images/runner_5.png", "/images/runner_6.png", "/images/runner_7.png", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 			"/images/runner_8.png" }; //$NON-NLS-1$
 	/** The runner seq. */
-	ImageSequance RUNNER_SEQ = new ImageSequance(RUNNER_PATHS);
+	ImageSequence RUNNER_SEQ = new ImageSequence(RUNNER_PATHS);
 
 	/** The sun. */
 	String[] SUN_PATHS = new String[] { "/images/sun_1.png", "/images/sun_2.png", "/images/sun_3.png", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
@@ -141,9 +141,8 @@ public interface Images {
 			"/images/cloud_4.png", "/images/cloud_5.png", "/images/cloud_6.png", "/images/cloud_7.png", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 			"/images/cloud_8.png", "/images/cloud_9.png", "/images/cloud_10.png" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	/**
-	 * The cond sequences. NOTE this array should be kept in sync with dal
-	 * COND_* values
+	 * The cond sequences. NOTE this array should be kept in sync with {@link ej.demo.smartwatch.model.FakeDataProvider#forecast} values
 	 */
-	ImageSequance[] WEATHER_COND_SEQ = new ImageSequance[] { new ImageSequance(SUN_PATHS),
-			new ImageSequance(RAIN_PATHS), new ImageSequance(CLOUD_PATHS) };
+	ImageSequence[] WEATHER_COND_SEQ = new ImageSequence[] { new ImageSequence(SUN_PATHS),
+			new ImageSequence(RAIN_PATHS), new ImageSequence(CLOUD_PATHS) };
 }

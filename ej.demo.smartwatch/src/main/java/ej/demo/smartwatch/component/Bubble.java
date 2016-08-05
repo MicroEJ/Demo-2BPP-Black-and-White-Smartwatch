@@ -11,9 +11,10 @@ import ej.demo.smartwatch.utils.Constants;
 import ej.microui.display.GraphicsContext;
 
 /**
- *
+ * Bubble interface
  */
 public interface Bubble {
+
 	/**
 	 * Position of the date.
 	 */
@@ -40,16 +41,16 @@ public interface Bubble {
 		}
 
 		/**
-		 * Get the y offset the position.
+		 * Get the position's y offset.
 		 *
 		 * @return the y offset.
 		 */
 		public int getOffset() {
-			return (int) (this.offset * Constants.HEIGHT_RATIO);
+			return (int) (this.offset * Constants.DISPLAY_DEFAULT_HEIGHT_RATIO);
 		}
 
 		/**
-		 * Set the y offset the position.
+		 * Set the position's y offset.
 		 *
 		 * @param offset
 		 *            the y offset to set.
@@ -60,54 +61,47 @@ public interface Bubble {
 	}
 
 	/**
-	 * Draw the date.
-	 *
-	 * @param g
-	 *            The graphic context to use. the context
-	 * @param current
-	 *            the current position
-	 * @param next
-	 *            the next position
-	 * @param stage
-	 *            the stage
-	 */
-	void drawDate(GraphicsContext g, DatePosition current, DatePosition next, int stage);
-
-	/**
-	 * Get the current position.
-	 *
-	 * @return Current position
-	 */
-	ScreenArea getCurrentPosition();
-
-	/**
 	 *
 	 * Get the targeted position of the date.
 	 *
 	 * @return the targeted position of the date.
 	 */
 	DatePosition getDatePosition();
+	
+	/**
+	 * Draw the date.
+	 *
+	 * @param g
+	 *            The graphic context to use.
+	 * @param current
+	 *            the current position
+	 * @param next
+	 *            the next position
+	 * @param completion
+	 *            the completion
+	 */
+	void drawDate(GraphicsContext g, DatePosition current, DatePosition next, int completion);
+
+	/**
+	 * Get the current position.
+	 *
+	 * @return Current position
+	 */
+	ScreenArea getWidgetCurrentPosition();
 
 	/**
 	 * Get the original position.
 	 *
 	 * @return original position
 	 */
-	ScreenArea getOriginalPosition();
+	ScreenArea getWidgetOriginalPosition();
 
 	/**
-	 * Get the tag.
+	 * Get the target widget's position.
 	 *
-	 * @return tag
+	 * @return widget's target position
 	 */
-	String getTag();
-
-	/**
-	 * Get the target position.
-	 *
-	 * @return target position
-	 */
-	ScreenArea getTargetPosition();
+	ScreenArea getWidgetTargetPosition();
 
 	/**
 	 * Count the number of faces.
@@ -117,7 +111,7 @@ public interface Bubble {
 	int countFaces();
 
 	/**
-	 * Get whether or not a point is in range.
+	 * Get whether or not a point is in this bubble's bounding box (when in a corner).
 	 *
 	 * @param x
 	 *            x
@@ -125,7 +119,7 @@ public interface Bubble {
 	 *            y
 	 * @return whether or not a point is in range.
 	 */
-	boolean inRange(int x, int y);
+	boolean boundingBoxContains(int x, int y);
 
 	/**
 	 * Get whether or not a transition should be performed on a switch.
@@ -139,10 +133,10 @@ public interface Bubble {
 	 *
 	 * @param g
 	 *            The graphic context to use. g
-	 * @param stage
-	 *            stage
+	 * @param completion
+	 *            completion
 	 */
-	void redraw(GraphicsContext g, int stage);
+	void redraw(GraphicsContext g, int completion);
 
 	/**
 	 *
@@ -150,10 +144,10 @@ public interface Bubble {
 	 *
 	 * @param g
 	 *            The graphic context to use. g
-	 * @param stage
-	 *            stage
+	 * @param completion
+	 *            completion
 	 */
-	void retreat(GraphicsContext g, int stage);
+	void moveOutThenIn(GraphicsContext g, int completion);
 
 	/**
 	 * Set the current position.
@@ -161,7 +155,7 @@ public interface Bubble {
 	 * @param current
 	 *            position
 	 */
-	void setCurrentPosition(ScreenArea current);
+	void setWidgetCurrentPosition(ScreenArea current);
 
 	/**
 	 * Set the target position.
@@ -169,17 +163,23 @@ public interface Bubble {
 	 * @param targetPosition
 	 *            original position
 	 */
-	void setTargetPosition(ScreenArea targetPosition);
+	void setWidgetTargetPosition(ScreenArea targetPosition);
+
+	/**
+	 * @param right
+	 *            Is a left to right transition
+	 */
+	void switchView(boolean right);
 
 	/**
 	 * Redraw the bubble during a face switch.
 	 *
 	 * @param g
 	 *            The graphic context to use. g
-	 * @param stage
-	 *            stage
+	 * @param completion
+	 *            completion
 	 */
-	void switchFace(GraphicsContext g, int stage);
+	void switchFace(GraphicsContext g, int completion);
 
 	/**
 	 * Prepare for face switch.
@@ -190,15 +190,9 @@ public interface Bubble {
 	void startSwitchFace(boolean up);
 
 	/**
-	 * Clean the bubble after a switch face.
+	 * Clean the bubble after a face switch.
 	 */
 	void stopSwitchFace();
-
-	/**
-	 * @param right
-	 *            Is a left to right transition
-	 */
-	void switchView(boolean right);
 
 	/**
 	 * Start the animation for the bubble.

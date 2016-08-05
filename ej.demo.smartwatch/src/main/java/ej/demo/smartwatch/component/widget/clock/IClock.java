@@ -8,8 +8,8 @@
 package ej.demo.smartwatch.component.widget.clock;
 
 import ej.demo.smartwatch.component.Bubble.DatePosition;
+import ej.demo.smartwatch.model.IDataProvider;
 import ej.demo.smartwatch.component.Direction;
-import ej.demo.smartwatch.dal.ISmDataProvider;
 import ej.microui.display.GraphicsContext;
 
 /**
@@ -43,16 +43,16 @@ public interface IClock {
 	 *            Center x.
 	 * @param y
 	 *            Center Y.
-	 * @param stage
-	 *            Animation stage.
+	 * @param completion
+	 *            Animation completion.
 	 *
 	 */
-	void draw(GraphicsContext g, Direction direction, ISmDataProvider provider, int x, int y, int stage);
+	void draw(GraphicsContext g, Direction direction, IDataProvider provider, int x, int y, int completion);
 
 	/**
-	 * Has edge representation.
+	 * Has corner representation.
 	 *
-	 * @return true if it has edge representation.
+	 * @return true if it has corner representation.
 	 */
-	boolean hasEdgeFace();
+	boolean hasCornerFace();
 }

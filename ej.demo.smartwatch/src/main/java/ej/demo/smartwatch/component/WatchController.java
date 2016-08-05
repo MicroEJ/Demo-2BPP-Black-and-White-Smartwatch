@@ -36,9 +36,9 @@ public class WatchController implements Animation {
 	 */
 	private class BubbleMotion extends LinearMotion {
 		/**
-		 * Current bubble.
+		 * Target bubble.
 		 */
-		private Bubble bubble;
+		private Bubble targetBubble;
 
 		/**
 		 * Whether it is counting from start to stop or the contrary.
@@ -58,7 +58,7 @@ public class WatchController implements Animation {
 		private BubbleMotion(int start, int stop, long duration) {
 			super(start, stop, duration);
 			this.countUp = true;
-			this.bubble = null;
+			this.targetBubble = null;
 		}
 
 		/**
@@ -83,11 +83,11 @@ public class WatchController implements Animation {
 		/**
 		 * Set the target bubble.
 		 *
-		 * @param bubble
+		 * @param targetBubble
 		 *            The target bubble.
 		 */
-		public void setTargetBubble(Bubble bubble) {
-			this.bubble = bubble;
+		public void setTargetBubble(Bubble targetBubble) {
+			this.targetBubble = targetBubble;
 		}
 
 		@Override
@@ -113,26 +113,26 @@ public class WatchController implements Animation {
 	}
 
 	/**
-	 * Contrains all the bubbles.
+	 * Contains all the bubbles.
 	 */
 	private final BubbleWidget[] bubbles;
 	private Bubble activeBubble = null;
-	private Bubble mainBubble = null;
+	private Bubble defaultBubble = null;
 
 	private boolean resetOnNext = false;
 	private boolean freezeInput = false;
-	private final Object mutex = new Object();
+	private final Object inputMutex = new Object();
 
 	private Action currentAction = Action.DoNothing;
 	private DatePosition currentDatePosition = DatePosition.OUTSIDE;
 	private DatePosition nextDatePosition = DatePosition.OUTSIDE;
 
-	// private SmartWatch watch = null;
+	private SmartWatch watch = null;
 
 	/**
-	 * Current transition stage, initialized at "finished".
+	 * Current transition completion, initialized as "finished".
 	 */
-	private int transistionStage = Constants.TRANSITION_HIGH;
+	private int transitionCompletion = Constants.COMPLETION_MAX;
 
 	private final BubbleMotion motion;
 
@@ -143,10 +143,9 @@ public class WatchController implements Animation {
 	 *            Watch canvas.
 	 */
 	public WatchController(SmartWatch watch) {
+		this.watch = watch;
 		this.bubbles = new BubbleWidget[ScreenArea.values().length];
-		// this.watch = watch;
-
-		this.motion = new BubbleMotion(Constants.TRANSITION_LOW, Constants.TRANSITION_HIGH, Constants.DURATION);
+		this.motion = new BubbleMotion(Constants.COMPLETION_MIN, Constants.COMPLETION_MAX, Constants.DURATION);
 	}
 
 	/**
@@ -156,14 +155,14 @@ public class WatchController implements Animation {
 	 *            The bubble to be added.
 	 */
 	public void add(BubbleWidget bubble) {
-		ScreenArea area = bubble.getOriginalPosition();
+		ScreenArea area = bubble.getWidgetOriginalPosition();
 
 		// Order the bubbles for the rendering order.
 		this.bubbles[area.get()] = bubble;
 
-		if (this.mainBubble == null) {
-			this.mainBubble = bubble;
-			this.currentDatePosition = this.mainBubble.getDatePosition();
+		if (this.defaultBubble == null) {
+			this.defaultBubble = bubble;
+			this.currentDatePosition = this.defaultBubble.getDatePosition();
 			this.nextDatePosition = this.currentDatePosition;
 		}
 
@@ -181,7 +180,7 @@ public class WatchController implements Animation {
 	 *            vertical coordinate
 	 */
 	public void input(int x, int y) {
-		synchronized (this.mutex) {
+		synchronized (this.inputMutex) {
 			// If a transition is ongoing.
 			if (this.freezeInput) {
 				return;
@@ -189,17 +188,10 @@ public class WatchController implements Animation {
 			this.freezeInput = true;
 		}
 
-		if (this.activeBubble.inRange(x, y)) {
-			synchronized (this.mutex) {
-				this.freezeInput = false;
-			}
-			return;
-		}
-
 		boolean found = false;
-		// Find if it is in range of a corner bubble.
+		// Find if it is "inside" a corner bubble.
 		for (final Bubble bubble : this.bubbles) {
-			if (bubble != null && bubble.inRange(x, y)) {
+			if (bubble != null && bubble.boundingBoxContains(x, y) && bubble != this.activeBubble ) {
 				transitionTo(bubble);
 				this.nextDatePosition = bubble.getDatePosition();
 				found = true;
@@ -207,7 +199,7 @@ public class WatchController implements Animation {
 			}
 		}
 		if (!found) {
-			synchronized (this.mutex) {
+			synchronized (this.inputMutex) {
 				this.freezeInput = false;
 			}
 		}
@@ -226,7 +218,7 @@ public class WatchController implements Animation {
 	 *            coordinate
 	 */
 	public void swipe(final int x1, final int y1, final int x2, final int y2) {
-		synchronized (this.mutex) {
+		synchronized (this.inputMutex) {
 			if (this.freezeInput) {
 				return;
 			}
@@ -248,7 +240,7 @@ public class WatchController implements Animation {
 				switchView((x2 - x1) > 0);
 			}
 		} else {
-			synchronized (this.mutex) {
+			synchronized (this.inputMutex) {
 				this.freezeInput = false;
 			}
 			input(x2, y2);
@@ -259,14 +251,14 @@ public class WatchController implements Animation {
 	 * Position and redraw the bubbles during a transition.
 	 *
 	 * @param g
-	 *            The graphic context to use. graphics context
+	 *            The graphics context to use
 	 */
 	public void realign(GraphicsContext g) {
 		// Draw the date.
 		if (this.motion.getCountDirection()) {
-			this.activeBubble.drawDate(g, this.currentDatePosition, this.nextDatePosition, this.transistionStage);
+			this.activeBubble.drawDate(g, this.currentDatePosition, this.nextDatePosition, this.transitionCompletion);
 		} else {
-			this.activeBubble.drawDate(g, this.nextDatePosition, this.currentDatePosition, this.transistionStage);
+			this.activeBubble.drawDate(g, this.nextDatePosition, this.currentDatePosition, this.transitionCompletion);
 		}
 
 		// Draw the bubbles.
@@ -281,13 +273,14 @@ public class WatchController implements Animation {
 			this.currentDatePosition = this.nextDatePosition;
 			this.currentAction = Action.DoNothing;
 			this.resetOnNext = false;
-			synchronized (this.mutex) {
+			synchronized (this.inputMutex) {
 				this.freezeInput = false;
 			}
-			if (this.motion.bubble != null) {
-				this.activeBubble = this.motion.bubble;
+			if (this.motion.targetBubble != null) {
+				this.activeBubble = this.motion.targetBubble;
 				this.activeBubble.startAnimation();
 			}
+			this.watch.startAnimation();
 		}
 	}
 
@@ -300,7 +293,7 @@ public class WatchController implements Animation {
 	private void redraw(GraphicsContext g) {
 		for (Bubble bubble : this.bubbles) {
 			if (bubble != null) {
-				bubble.redraw(g, this.transistionStage);
+				bubble.redraw(g, this.transitionCompletion);
 			}
 		}
 	}
@@ -329,8 +322,11 @@ public class WatchController implements Animation {
 	}
 
 	/**
-	 * Redraw the watches during a face switch. Retreat the corner bubbles and
-	 * swipe the switch the active.
+	 * Redraw the watch during a face switch.
+	 *
+	 * Move the corner bubbles out of display and back in
+	 * Move the previous center bubble face out following vertical swipe motion
+	 * Move the new center bubble face in following vertical swipe motion
 	 *
 	 * @param g
 	 *            The graphic context to use.
@@ -339,9 +335,9 @@ public class WatchController implements Animation {
 		for (Bubble bubble : this.bubbles) {
 			if (bubble != null) {
 				if (bubble == this.activeBubble) {
-					bubble.switchFace(g, this.transistionStage);
+					bubble.switchFace(g, this.transitionCompletion);
 				} else {
-					bubble.retreat(g, this.transistionStage);
+					bubble.moveOutThenIn(g, this.transitionCompletion);
 				}
 			}
 		}
@@ -354,7 +350,7 @@ public class WatchController implements Animation {
 	 */
 	private void switchView(boolean right) {
 		this.activeBubble.switchView(right);
-		synchronized (this.mutex) {
+		synchronized (this.inputMutex) {
 			this.freezeInput = false;
 		}
 	}
@@ -366,20 +362,20 @@ public class WatchController implements Animation {
 	 */
 	private void transitionTo(Bubble targetBubble) {
 		if (targetBubble == this.activeBubble) {
-			synchronized (this.mutex) {
+			synchronized (this.inputMutex) {
 				this.freezeInput = false;
 			}
 			return;
 		}
 
-		// the main bubble takes the place of the target one.
-		this.mainBubble.setTargetPosition(targetBubble.getOriginalPosition());
-		if (this.mainBubble != this.activeBubble) {
+		// the default bubble takes the place of the target one.
+		this.defaultBubble.setWidgetTargetPosition(targetBubble.getWidgetOriginalPosition());
+		if (this.defaultBubble != this.activeBubble) {
 			// Active bubble goes back to its original position.
-			this.activeBubble.setTargetPosition(this.activeBubble.getOriginalPosition());
+			this.activeBubble.setWidgetTargetPosition(this.activeBubble.getWidgetOriginalPosition());
 		}
 
-		targetBubble.setTargetPosition(ScreenArea.Center);
+		targetBubble.setWidgetTargetPosition(ScreenArea.Center);
 
 		this.currentAction = Action.Transition;
 
@@ -403,6 +399,7 @@ public class WatchController implements Animation {
 	public void setBounds(int x, int y, int width, int height) {
 		for (final BubbleWidget bubble : this.bubbles) {
 			if (bubble != null) {
+				//each bubble is likely to draw anywhere within its parent widget canvas
 				bubble.setBounds(x, y, width, height);
 			}
 		}
@@ -426,9 +423,9 @@ public class WatchController implements Animation {
 
 	@Override
 	public boolean tick(long currentTimeMillis) {
-		this.transistionStage = this.motion.getCurrentValue();
-		if (this.transistionStage == this.motion.getStopValue() || !this.isAnimated) {
-			stopAnimation(this.transistionStage);
+		this.transitionCompletion = this.motion.getCurrentValue();
+		if (this.transitionCompletion == this.motion.getStopValue() || !this.isAnimated) {
+			stopAnimation(this.transitionCompletion);
 			return false;
 		}
 		return true;
@@ -443,7 +440,7 @@ public class WatchController implements Animation {
 				this.activeBubble.stopAnimation();
 			}
 			this.isAnimated = true;
-			this.transistionStage = this.motion.getStartValue();
+			this.transitionCompletion = this.motion.getStartValue();
 			Animator animator = ServiceLoaderFactory.getServiceLoader().getService(Animator.class);
 			animator.startAnimation(this);
 			this.motion.start();
@@ -453,10 +450,10 @@ public class WatchController implements Animation {
 	/**
 	 * Stop the animation.
 	 *
-	 * @param stage
-	 *            transition stage.
+	 * @param completion
+	 *            transition completion.
 	 */
-	private void stopAnimation(int stage) {
+	private void stopAnimation(int completion) {
 		if (this.isAnimated) {
 			if (this.currentAction == Action.SwitchFace) {
 				this.activeBubble.stopSwitchFace();
@@ -464,13 +461,13 @@ public class WatchController implements Animation {
 			this.isAnimated = false;
 			this.resetOnNext = true;
 
-			this.transistionStage = stage;
+			this.transitionCompletion = completion;
 
 		}
 	}
 
 	/**
-	 * Get the active bubbles.
+	 * Get the active bubble.
 	 *
 	 * @return the active bubble.
 	 */

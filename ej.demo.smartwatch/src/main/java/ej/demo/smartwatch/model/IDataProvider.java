@@ -5,7 +5,7 @@
  * For demonstration purpose only.
  * IS2T PROPRIETARY. Use is subject to license terms.
  */
-package ej.demo.smartwatch.dal;
+package ej.demo.smartwatch.model;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -15,7 +15,7 @@ import ej.demo.smartwatch.utils.Constants;
 /**
  * The Interface ISmDataProvider.
  */
-public interface ISmDataProvider {
+public interface IDataProvider {
 
 	/* Date and time */
 	/**

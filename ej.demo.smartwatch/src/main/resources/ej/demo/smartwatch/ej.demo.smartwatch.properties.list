@@ -3,6 +3,4 @@ ej.components.registry.impl.FileRegistry.file=/properties/smartwatch.services.bu
 ej.rcommand.activators.RemoteRegistryActivator.connection=comm:com51;baudrate=115200;bitsperchar=8;stopbits=1;parity=none
 ej.bon.Timer=ej.bon.Timer
 ej.style.Stylesheet=ej.style.cascading.CascadingStylesheet
-ej.style.font.FontLoader=ej.demo.smartwatch.style.WidgetsFontLoader
-ej.widget.basic.image.ImageTheme=ej.demo.smartwatch.style.WidgetsImageTheme
 ej.animation.Animator.period=80

@@ -17,22 +17,13 @@ import ej.demo.smartwatch.component.widget.clock.Digital;
 import ej.demo.smartwatch.component.widget.clock.DisksClock;
 import ej.demo.smartwatch.component.widget.clock.IClock;
 import ej.demo.smartwatch.component.widget.clock.WhiteClock;
-import ej.demo.smartwatch.dal.ISmDataProvider;
-import ej.demo.smartwatch.dal.SmDataPrivider;
 import ej.demo.smartwatch.utils.Constants;
 import ej.microui.display.GraphicsContext;
 
 /**
- * Widget that display the clocks faces.
+ * Widget for date/time.
  */
 public class DateTimeWidget extends BubbleWidget {
-
-	private static final String TAG = "DateTimeWidget"; //$NON-NLS-1$
-
-	/**
-	 * Data provider.
-	 */
-	private static final ISmDataProvider PROVIDER = SmDataPrivider.get();
 
 	/**
 	 * All clock faces.
@@ -100,13 +91,9 @@ public class DateTimeWidget extends BubbleWidget {
 	 *            The center y.
 	 */
 	private void drawClock(GraphicsContext g, int x, int y) {
-		this.getCurrentClock().draw(g, this.direction, PROVIDER, x, y, this.transitionState);
+		this.getCurrentClock().draw(g, this.direction, PROVIDER, x, y, this.transitionCompletion);
 	}
 
-	@Override
-	public String getTag() {
-		return TAG;
-	}
 
 	@Override
 	public boolean isSwitchAnimated() {
@@ -114,12 +101,11 @@ public class DateTimeWidget extends BubbleWidget {
 	}
 
 	@Override
-	public void redraw(GraphicsContext g, Direction direction, int stage, int x, int y) {
-		if (!this.getCurrentClock().hasEdgeFace()
-				&& (direction == Direction.EdgeStill || direction == Direction.EdgeSwitch)) {
-			// IF we are at on edge, and the current face can't be display in
-			// edge.
-			this.defaultClock.draw(g, direction, PROVIDER, x, y, this.transitionState);
+	public void redraw(GraphicsContext g, Direction direction, int completion, int x, int y) {
+		if (!this.getCurrentClock().hasCornerFace()
+				&& (direction == Direction.CornerStill || direction == Direction.CornerSwitch)) {
+			// IF we are at corner, and the current face can't be displayed in corner.
+			this.defaultClock.draw(g, direction, PROVIDER, x, y, this.transitionCompletion);
 		} else {
 			drawClock(g, x, y);
 		}
@@ -139,18 +125,18 @@ public class DateTimeWidget extends BubbleWidget {
 				int left = -this.smallDiameter;
 				int right = getHeight() + this.smallDiameter;
 
-				int yOtherClock = this.transitionState * left / Constants.TRANSITION_HIGH
-						+ (Constants.TRANSITION_HIGH - this.transitionState) * centerY / Constants.TRANSITION_HIGH;
+				int yOtherClock = this.transitionCompletion * left / Constants.COMPLETION_MAX
+						+ (Constants.COMPLETION_MAX - this.transitionCompletion) * centerY / Constants.COMPLETION_MAX;
 
 				IClock topClock = (!this.switchUp) ? getPreviousClock() : getCurrentClock();
 				IClock bottomClock = (this.switchUp) ? getPreviousClock() : getCurrentClock();
 
-				y = this.transitionState * centerY / Constants.TRANSITION_HIGH
-						+ (Constants.TRANSITION_HIGH - this.transitionState) * right / Constants.TRANSITION_HIGH;
-				topClock.draw(g, this.direction, PROVIDER, x, yOtherClock, this.transitionState);
-				bottomClock.draw(g, this.direction, PROVIDER, x, y, this.transitionState);
+				y = this.transitionCompletion * centerY / Constants.COMPLETION_MAX
+						+ (Constants.COMPLETION_MAX - this.transitionCompletion) * right / Constants.COMPLETION_MAX;
+				topClock.draw(g, this.direction, PROVIDER, x, yOtherClock, this.transitionCompletion);
+				bottomClock.draw(g, this.direction, PROVIDER, x, y, this.transitionCompletion);
 			} else {
-				this.getCurrentClock().draw(g, this.direction, PROVIDER, x, y, this.transitionState);
+				this.getCurrentClock().draw(g, this.direction, PROVIDER, x, y, this.transitionCompletion);
 			}
 
 		}
@@ -183,8 +169,8 @@ public class DateTimeWidget extends BubbleWidget {
 	}
 
 	@Override
-	public void switchFace(GraphicsContext g, int stage) {
-		super.switchFace(g, stage);
+	public void switchFace(GraphicsContext g, int completion) {
+		super.switchFace(g, completion);
 		render(g);
 	}
 

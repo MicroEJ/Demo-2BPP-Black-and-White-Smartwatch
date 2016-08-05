@@ -13,8 +13,8 @@ import ej.components.dependencyinjection.ServiceLoaderFactory;
 import ej.demo.smartwatch.component.BubbleWidget;
 import ej.demo.smartwatch.component.Direction;
 import ej.demo.smartwatch.component.ScreenArea;
-import ej.demo.smartwatch.dal.ISmDataProvider;
-import ej.demo.smartwatch.dal.SmDataPrivider;
+import ej.demo.smartwatch.model.DataProvider;
+import ej.demo.smartwatch.model.IDataProvider;
 import ej.demo.smartwatch.style.Images;
 import ej.demo.smartwatch.utils.Constants;
 import ej.demo.smartwatch.utils.Utils;
@@ -22,11 +22,9 @@ import ej.microui.display.GraphicsContext;
 import ej.microui.display.Image;
 
 /**
- *
+ * Widget for running distance
  */
 public class DistanceWidget extends BubbleWidget implements Animation {
-
-	private static final String TAG = "DistanceWidget"; //$NON-NLS-1$
 
 	/**
 	 * Angle of a full circle.
@@ -34,7 +32,7 @@ public class DistanceWidget extends BubbleWidget implements Animation {
 	private static final int ANGLE_FULL_CIRCLE = 360;
 
 	/**
-	 * Angle of the full elipse.
+	 * Angle of the full ellipse.
 	 */
 	private static final int ELIPSE_ARCANGLE = 270;
 
@@ -46,7 +44,7 @@ public class DistanceWidget extends BubbleWidget implements Animation {
 	/**
 	 * Thickness for the small circle.
 	 */
-	private static final int ELIPSE_THICKNESS = Constants.DEFAULT_THICKNES;
+	private static final int ELIPSE_THICKNESS = Constants.DEFAULT_THICKNESS;
 
 	/**
 	 * Thickness for the completed progress.
@@ -74,18 +72,13 @@ public class DistanceWidget extends BubbleWidget implements Animation {
 	private static final int REFRESH_RATE = 50;
 
 	/**
-	 * Data provider, for the running distance.
-	 */
-	private static final ISmDataProvider PROVIDER = SmDataPrivider.get();
-
-	/**
-	 * Y ratio to palce the text.
+	 * Y ratio to place the text.
 	 */
 	private static final int TEXT_Y_RATIO = 4;
 
 	static {
-		TEXT_X_PADDING = (int) (-8 * Constants.WIDTH_RATIO);
-		TEXT_Y_PADDING = (int) (-8 * Constants.HEIGHT_RATIO);
+		TEXT_X_PADDING = (int) (-8 * Constants.DISPLAY_DEFAULT_WIDTH_RATIO);
+		TEXT_Y_PADDING = (int) (-8 * Constants.DISPLAY_DEFAULT_HEIGHT_RATIO);
 	}
 
 	/**
@@ -186,13 +179,8 @@ public class DistanceWidget extends BubbleWidget implements Animation {
 	}
 
 	@Override
-	public String getTag() {
-		return TAG;
-	}
-
-	@Override
-	public void redraw(GraphicsContext g, Direction direction, int stage, int x, int y) {
-		super.redraw(g, direction, stage, x, y);
+	public void redraw(GraphicsContext g, Direction direction, int completion, int x, int y) {
+		super.redraw(g, direction, completion, x, y);
 		g.setColor(Constants.COLOR_FOREGROUND);
 
 		int startAngle = ELIPSE_START_ANGLE;
@@ -209,27 +197,27 @@ public class DistanceWidget extends BubbleWidget implements Animation {
 		}
 		text.append(" "); //$NON-NLS-1$
 
-		float ratio = (float) stage / Constants.TRANSITION_HIGH;
+		float ratio = (float) completion / Constants.COMPLETION_MAX;
 
 		// Compute diameter.
 		int diameter = this.smallDiameter;
-		if (direction != Direction.EdgeStill && direction != Direction.EdgeSwitch) {
+		if (direction != Direction.CornerStill && direction != Direction.CornerSwitch) {
 			diameter = (int) ((this.largeDiameter - this.smallDiameter)
-					* ((direction == Direction.ToEdge) ? (1 - ratio) : ratio) + this.smallDiameter);
+					* ((direction == Direction.ToCorner) ? (1 - ratio) : ratio) + this.smallDiameter);
 		}
 
-		if (direction == Direction.ToEdge) {
+		if (direction == Direction.ToCorner) {
 			currentProgress *= (1.0f - ratio);
 			// Stop the running man.
 			stopAnimation();
 		} else if (direction == Direction.ToCenter) {
 			currentProgress *= ratio;
-		} else if (direction == Direction.EdgeStill) {
+		} else if (direction == Direction.CornerStill) {
 			updateCurrentVal();
 			// Draw full circle
 			startAngle = 0;
 			arcangle = ANGLE_FULL_CIRCLE;
-		} else if (direction == Direction.EdgeSwitch) {
+		} else if (direction == Direction.CornerSwitch) {
 			// Full circle
 			startAngle = 0;
 			arcangle = ANGLE_FULL_CIRCLE;
@@ -266,7 +254,7 @@ public class DistanceWidget extends BubbleWidget implements Animation {
 
 		// Draw the progress circle.
 		Utils.drawEllipseArc(g, x, y, diameter, startAngle, arcangle, ELIPSE_THICKNESS, Constants.DEFAULT_FADE);
-		if (direction != Direction.EdgeSwitch && direction != Direction.EdgeStill && currentProgress != 0) {
+		if (direction != Direction.CornerSwitch && direction != Direction.CornerStill && currentProgress != 0) {
 			Utils.drawEllipseArc(g, x, y, diameter + ELIPSE_PROGRESS_THICKNESS / 2, startAngle, currentProgress,
 					ELIPSE_PROGRESS_THICKNESS, Constants.DEFAULT_FADE);
 		}
@@ -275,7 +263,7 @@ public class DistanceWidget extends BubbleWidget implements Animation {
 	@Override
 	public void render(GraphicsContext g) {
 		super.render(g);
-		redraw(g, this.direction, this.transitionState, getX(), getY());
+		redraw(g, this.direction, this.transitionCompletion, getX(), getY());
 	}
 
 	/**

@@ -10,8 +10,8 @@ package ej.demo.smartwatch.component.widget;
 import ej.demo.smartwatch.component.BubbleWidget;
 import ej.demo.smartwatch.component.Direction;
 import ej.demo.smartwatch.component.ScreenArea;
-import ej.demo.smartwatch.dal.ISmDataProvider;
-import ej.demo.smartwatch.dal.SmDataPrivider;
+import ej.demo.smartwatch.model.DataProvider;
+import ej.demo.smartwatch.model.IDataProvider;
 import ej.demo.smartwatch.style.Images;
 import ej.demo.smartwatch.utils.Constants;
 import ej.demo.smartwatch.utils.Utils;
@@ -21,13 +21,12 @@ import ej.microui.display.Image;
 import ej.style.container.Rectangle;
 
 /**
- * Widget of a battery.
+ * Widget for battery life.
  */
 public class BatteryWidget extends BubbleWidget {
-	private static final String TAG = "BatteryWidget"; //$NON-NLS-1$
 
 	/**
-	 * Outline to draw the progress into the bigest battery.
+	 * Outline to draw the progress into the biggest battery.
 	 */
 	private static final Rectangle BIG_BATTERY_PROGRESS = new Rectangle(13, 7, 60, 34);
 
@@ -37,19 +36,14 @@ public class BatteryWidget extends BubbleWidget {
 	private static final Rectangle SMALL_BATTERY_PROGRESS = new Rectangle(6, 3, 29, 16);
 
 	/**
-	 * Data provider.
+	 * Y Offset for the battery when in the corner.
 	 */
-	private static final ISmDataProvider PROVIDER = SmDataPrivider.get();
+	private static final int CORNER_Y_OFFSET;
 
 	/**
-	 * Y Offset for the battery when in the edge.
+	 * Y Offset for the battery when in the corner.
 	 */
-	private static final int EDGE_Y_OFFSET;
-
-	/**
-	 * Y Offset for the battery when in the edge.
-	 */
-	private static final int EDGE_X_OFFSET;
+	private static final int CORNER_X_OFFSET;
 
 	/**
 	 * Offset between two lines.
@@ -58,9 +52,9 @@ public class BatteryWidget extends BubbleWidget {
 
 	// Initialized with the screen ratio.
 	static {
-		EDGE_Y_OFFSET = (int) (-22 * Constants.WIDTH_RATIO);
-		EDGE_X_OFFSET = (int) (-6 * Constants.HEIGHT_RATIO);
-		TEXT_OFFSET = (int) (5 * Constants.HEIGHT_RATIO);
+		CORNER_Y_OFFSET = (int) (-22 * Constants.DISPLAY_DEFAULT_WIDTH_RATIO);
+		CORNER_X_OFFSET = (int) (-6 * Constants.DISPLAY_DEFAULT_HEIGHT_RATIO);
+		TEXT_OFFSET = (int) (5 * Constants.DISPLAY_DEFAULT_HEIGHT_RATIO);
 	}
 
 	/**
@@ -69,7 +63,7 @@ public class BatteryWidget extends BubbleWidget {
 	private Font fontAvailableTime = null;
 
 	/**
-	 * Font to draw the battery percent.
+	 * Font to draw the battery percentage.
 	 */
 	private Font fontBatteryLevel = null;
 
@@ -105,8 +99,8 @@ public class BatteryWidget extends BubbleWidget {
 	 */
 	private int getImageXOffset(final Image image, final float ratio) {
 		int centerOffset = -image.getWidth() / 2;
-		int leftOffset = this.smallDiameter / 4 + EDGE_X_OFFSET;
-		int rightOffset = -this.smallDiameter / 4 + EDGE_X_OFFSET;
+		int leftOffset = this.smallDiameter / 4 + CORNER_X_OFFSET;
+		int rightOffset = -this.smallDiameter / 4 + CORNER_X_OFFSET;
 
 		return Utils.getXOffset(centerOffset, leftOffset, rightOffset, this.currentPosition, this.targetPosition,
 				ratio);
@@ -124,20 +118,16 @@ public class BatteryWidget extends BubbleWidget {
 	 */
 	private int getImageYOffset(final Image image, final float ratio) {
 		int centerOffset = -image.getHeight();
-		int topOffset = this.smallDiameter / 4 + EDGE_Y_OFFSET;
-		int bottomOffset = -this.smallDiameter / 4 + EDGE_Y_OFFSET;
+		int topOffset = this.smallDiameter / 4 + CORNER_Y_OFFSET;
+		int bottomOffset = -this.smallDiameter / 4 + CORNER_Y_OFFSET;
 
 		return Utils.getYOffset(centerOffset, topOffset, bottomOffset, this.currentPosition, this.targetPosition,
 				ratio);
 	}
 
-	@Override
-	public String getTag() {
-		return TAG;
-	}
 
 	/**
-	 * Draw the remaining percent and the remaining time.
+	 * Draw the remaining percentage and time.
 	 *
 	 * @param g
 	 *            The graphic context.
@@ -153,7 +143,7 @@ public class BatteryWidget extends BubbleWidget {
 	private void drawText(GraphicsContext g, Direction direction, int imageY, Image img, float ratio) {
 
 		// draw text when centered
-		if (direction == Direction.ToCenter || direction == Direction.CenterStill || direction == Direction.ToEdge) {
+		if (direction == Direction.ToCenter || direction == Direction.CenterStill || direction == Direction.ToCorner) {
 			float stepRatio = (Direction.ToCenter == direction || direction == Direction.CenterStill) ? ratio
 					: (1 - ratio);
 
@@ -167,7 +157,7 @@ public class BatteryWidget extends BubbleWidget {
 			g.setFont(this.fontBatteryLevel);
 			String text = Integer.toString(PROVIDER.getBatteryLevel()) + "%"; //$NON-NLS-1$
 			g.drawString(text, xCoordinate - this.fontBatteryLevel.stringWidth(text) / 2,
-					(direction == Direction.ToEdge) ? computeMean(y1, y2, stepRatio) : computeMean(y2, y1, stepRatio),
+					(direction == Direction.ToCorner) ? computeMean(y1, y2, stepRatio) : computeMean(y2, y1, stepRatio),
 					0);
 
 			// time left - start position is further so they(level/time left)
@@ -178,55 +168,55 @@ public class BatteryWidget extends BubbleWidget {
 			text = PROVIDER.getBatteryLevelStr();
 			g.setFont(this.fontAvailableTime);
 			g.drawString(text, xCoordinate - this.fontAvailableTime.stringWidth(text) / 2,
-					(direction == Direction.ToEdge) ? computeMean(y1, y2, stepRatio) : computeMean(y2, y1, stepRatio),
+					(direction == Direction.ToCorner) ? computeMean(y1, y2, stepRatio) : computeMean(y2, y1, stepRatio),
 					0);
 		}
 	}
 
 	@Override
-	public void redraw(GraphicsContext g, Direction direction, int stage, int x, int y) {
+	public void redraw(GraphicsContext g, Direction direction, int completion, int x, int y) {
 		g.setColor(Constants.COLOR_FOREGROUND);
 
 		// keep the same direction
 		if (direction == Direction.CenterStill) {
-			stage = Constants.TRANSITION_HIGH;
+			completion = Constants.COMPLETION_MAX;
 		}
 
-		// surrounding circle when placed on the edge
+		// surrounding circle when placed in the corner
 		if (this.originalPosition == ScreenArea.TopRight && direction != Direction.CenterStill) {
 			int xCircle = x, yCircle = y;
 
 			int offset = 0;
 			if (direction == Direction.ToCenter) {
-				offset = stage;
-			} else if (direction == Direction.ToEdge) {
-				offset = Constants.TRANSITION_HIGH - stage;
+				offset = completion;
+			} else if (direction == Direction.ToCorner) {
+				offset = Constants.COMPLETION_MAX - completion;
 			}
 
 			xCircle = xCircle - this.smallDiameter / 2
-					+ this.smallDiameter * offset * 2 / Constants.TRANSITION_HIGH;
+					+ this.smallDiameter * offset * 2 / Constants.COMPLETION_MAX;
 			yCircle = yCircle - this.smallDiameter / 2
-					- this.smallDiameter * offset * 2 / Constants.TRANSITION_HIGH;
+					- this.smallDiameter * offset * 2 / Constants.COMPLETION_MAX;
 
-			Utils.drawCircle(g, xCircle, yCircle, this.smallDiameter, Constants.DEFAULT_THICKNES,
+			Utils.drawCircle(g, xCircle, yCircle, this.smallDiameter, Constants.DEFAULT_THICKNESS,
 					Constants.DEFAULT_FADE);
 		}
 
 		// draw battery icon
 		int imageX, imageY, index;
-		if (direction == Direction.ToCenter || direction == Direction.ToEdge) {
-			if (direction == Direction.ToEdge) {
-				stage = Constants.TRANSITION_HIGH - stage;
+		if (direction == Direction.ToCenter || direction == Direction.ToCorner) {
+			if (direction == Direction.ToCorner) {
+				completion = Constants.COMPLETION_MAX - completion;
 			}
 			index = Images.BATTERY_SEQ.getImgCount() - 1
-					- stage * (Images.BATTERY_SEQ.getImgCount() - 1) / Constants.TRANSITION_HIGH;
+					- completion * (Images.BATTERY_SEQ.getImgCount() - 1) / Constants.COMPLETION_MAX;
 		} else if (direction == Direction.CenterStill) {
 			index = 0;
 		} else {
 			index = Images.BATTERY_SEQ.getImgCount() - 1;
 		}
 
-		float ratio = (float) stage / Constants.TRANSITION_HIGH;
+		float ratio = (float) completion / Constants.COMPLETION_MAX;
 		float stepRatio = (Direction.ToCenter != direction) ? ratio : (1 - ratio);
 		int level = PROVIDER.getBatteryLevel();
 		Image img = Images.BATTERY_SEQ.getImg(index);
@@ -235,7 +225,7 @@ public class BatteryWidget extends BubbleWidget {
 		imageY = y + imageYOffset;
 
 		stepRatio = ratio;
-		if (direction == Direction.EdgeStill || direction == Direction.EdgeSwitch) {
+		if (direction == Direction.CornerStill || direction == Direction.CornerSwitch) {
 			stepRatio = 0;
 		}
 
@@ -266,9 +256,9 @@ public class BatteryWidget extends BubbleWidget {
 	}
 
 	@Override
-	public void switchFace(GraphicsContext g, int stage) {
+	public void switchFace(GraphicsContext g, int completion) {
 		// no extra face, therefore it is redrawn
-		redraw(g, this.direction, Constants.TRANSITION_HIGH, getX(), getY());
+		redraw(g, this.direction, Constants.COMPLETION_MAX, getX(), getY());
 	}
 
 	@Override
