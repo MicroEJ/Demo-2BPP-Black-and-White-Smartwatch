@@ -14,7 +14,6 @@ import ej.demo.smartwatch.component.Direction;
 import ej.demo.smartwatch.component.ScreenArea;
 import ej.demo.smartwatch.component.widget.clock.BlackClock;
 import ej.demo.smartwatch.component.widget.clock.Digital;
-import ej.demo.smartwatch.component.widget.clock.DisksClock;
 import ej.demo.smartwatch.component.widget.clock.IClock;
 import ej.demo.smartwatch.component.widget.clock.WhiteClock;
 import ej.demo.smartwatch.utils.Constants;
@@ -74,7 +73,6 @@ public class DateTimeWidget extends BubbleWidget {
 		this.clocks.add(this.defaultClock);
 		this.clocks.add(new BlackClock(this.largeDiameter, this.smallDiameter));
 		this.clocks.add(new Digital(height, width));
-		this.clocks.add(new DisksClock(height, width));
 
 		// Set the first clock as the default one.
 		this.previousClock = 1;

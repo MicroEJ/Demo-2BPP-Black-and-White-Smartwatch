@@ -8,8 +8,8 @@
 package ej.demo.smartwatch.component.widget.clock;
 
 import ej.demo.smartwatch.component.Bubble.DatePosition;
-import ej.demo.smartwatch.model.IDataProvider;
 import ej.demo.smartwatch.component.Direction;
+import ej.demo.smartwatch.model.IDataProvider;
 import ej.demo.smartwatch.utils.Constants;
 import ej.microui.display.GraphicsContext;
 import ej.microui.display.shape.AntiAliasedShapes;
@@ -44,12 +44,12 @@ public class WhiteClock extends AbstractAnalogClock {
 		g.setBackgroundColor(Constants.COLOR_BACKGROUND);
 		g.setColor(Constants.COLOR_FOREGROUND);
 		// Draw white clock background
-		if (completion == Constants.COMPLETION_MAX) {
+		if (completion == Constants.COMPLETION_MAX || completion == Constants.COMPLETION_MIN) {
 			AntiAliasedShapes.Singleton.setFade(1);
 			AntiAliasedShapes.Singleton.setThickness(2);
 			AntiAliasedShapes.Singleton.drawCircle(g, centerX, centerY, width);
 		}
-		g.fillCircle(centerX, centerY, width + 1);
+		g.fillCircle(centerX, centerY, width);
 		g.setBackgroundColor(Constants.COLOR_FOREGROUND);
 		g.setColor(Constants.COLOR_BACKGROUND);
 		final int padding = 5;
@@ -63,8 +63,8 @@ public class WhiteClock extends AbstractAnalogClock {
 
 		// Draw hands.
 		drawClock(g, direction, provider, x, y, completion, diameter);
-		g.setBackgroundColor(Constants.COLOR_FOREGROUND);
-		g.setColor(Constants.COLOR_BACKGROUND);
+		g.setBackgroundColor(Constants.COLOR_BACKGROUND);
+		g.setColor(Constants.COLOR_FOREGROUND);
 
 	}
 
