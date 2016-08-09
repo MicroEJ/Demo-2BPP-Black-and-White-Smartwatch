@@ -8,8 +8,8 @@
 package ej.demo.smartwatch.component.widget.clock;
 
 import ej.demo.smartwatch.component.Bubble.DatePosition;
-import ej.demo.smartwatch.model.IDataProvider;
 import ej.demo.smartwatch.component.Direction;
+import ej.demo.smartwatch.model.IDataProvider;
 import ej.demo.smartwatch.utils.Constants;
 import ej.microui.display.Font;
 import ej.microui.display.GraphicsContext;
@@ -184,7 +184,7 @@ public class DisksClock implements IClock {
 	 */
 	private void drawAt(String text, int degrees, GraphicsContext g, Font font, int referenceAngle) {
 		int offsetX = this.width / 2;
-		int offsetY = this.width / 2;
+		int offsetY = this.height / 2;
 		offsetX *= Math.cos(Math.toRadians(degrees));
 		offsetY *= Math.sin(Math.toRadians(degrees));
 
