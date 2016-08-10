@@ -3,6 +3,7 @@
 */src/.generated~
 */src/*.ejf_raw
 */ej.demo.smartwatch.SmartWatchApp/
+*/__*/
 */filesystem/
 */target~/
 */.sonar/
