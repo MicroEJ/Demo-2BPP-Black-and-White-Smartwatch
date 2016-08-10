@@ -7,6 +7,8 @@
  */
 package ej.demo.smartwatch;
 
+import ej.animation.Animator;
+import ej.components.dependencyinjection.ServiceLoaderFactory;
 import ej.demo.smartwatch.component.SmartWatch;
 import ej.demo.smartwatch.utils.Constants;
 import ej.microui.MicroUI;
@@ -35,6 +37,7 @@ public class SmartWatchApp {
 		MicroUI.start();
 
 		// Initialize UI
+		ServiceLoaderFactory.getServiceLoader().getService(Animator.class).setPeriod(80);
 		Display display = Display.getDefaultDisplay();
 		Desktop desktop = new Desktop(display);
 		SmartWatch smartWatch = new SmartWatch(Constants.DISPLAY_WIDTH, Constants.DISPLAY_HEIGHT);
