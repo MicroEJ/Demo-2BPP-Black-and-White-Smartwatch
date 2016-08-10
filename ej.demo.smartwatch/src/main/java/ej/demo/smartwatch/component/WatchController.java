@@ -12,6 +12,7 @@ import ej.animation.Animator;
 import ej.components.dependencyinjection.ServiceLoaderFactory;
 import ej.demo.smartwatch.component.Bubble.DatePosition;
 import ej.demo.smartwatch.utils.Constants;
+import ej.exit.ExitHandler;
 import ej.microui.display.GraphicsContext;
 import ej.motion.linear.LinearMotion;
 import ej.mwt.Widget;
@@ -190,12 +191,19 @@ public class WatchController implements Animation {
 
 		boolean found = false;
 		// Find if it is "inside" a corner bubble.
-		for (final Bubble bubble : this.bubbles) {
-			if (bubble != null && bubble.boundingBoxContains(x, y) && bubble != this.activeBubble ) {
-				transitionTo(bubble);
-				this.nextDatePosition = bubble.getDatePosition();
-				found = true;
-				break;
+		if (watch.boundingBoxContains(x, y)) {
+			ExitHandler exitHandler = ServiceLoaderFactory.getServiceLoader().getService(ExitHandler.class);
+			if (exitHandler != null) {
+				exitHandler.exit();
+			}
+		} else {
+			for (final Bubble bubble : this.bubbles) {
+				if (bubble != null && bubble.boundingBoxContains(x, y) && bubble != this.activeBubble ) {
+					transitionTo(bubble);
+					this.nextDatePosition = bubble.getDatePosition();
+					found = true;
+					break;
+				}
 			}
 		}
 		if (!found) {

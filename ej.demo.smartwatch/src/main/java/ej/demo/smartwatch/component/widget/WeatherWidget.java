@@ -12,8 +12,6 @@ import ej.animation.Animator;
 import ej.components.dependencyinjection.ServiceLoaderFactory;
 import ej.demo.smartwatch.component.Direction;
 import ej.demo.smartwatch.component.ScreenArea;
-import ej.demo.smartwatch.model.DataProvider;
-import ej.demo.smartwatch.model.IDataProvider;
 import ej.demo.smartwatch.model.IDataProvider.WeatherCondition;
 import ej.demo.smartwatch.style.Images;
 import ej.demo.smartwatch.utils.Constants;

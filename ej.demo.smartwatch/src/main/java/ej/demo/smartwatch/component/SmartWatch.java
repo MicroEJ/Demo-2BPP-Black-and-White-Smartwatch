@@ -7,6 +7,8 @@
  */
 package ej.demo.smartwatch.component;
 
+import java.io.IOException;
+
 import ej.animation.Animation;
 import ej.animation.Animator;
 import ej.components.dependencyinjection.ServiceLoaderFactory;
@@ -15,9 +17,11 @@ import ej.demo.smartwatch.component.widget.DateTimeWidget;
 import ej.demo.smartwatch.component.widget.DistanceWidget;
 import ej.demo.smartwatch.component.widget.NotificationsWidget;
 import ej.demo.smartwatch.component.widget.WeatherWidget;
+import ej.demo.smartwatch.style.Images;
 import ej.demo.smartwatch.utils.Constants;
 import ej.demo.smartwatch.utils.Log;
 import ej.microui.display.GraphicsContext;
+import ej.microui.display.Image;
 import ej.microui.event.Event;
 import ej.microui.event.EventGenerator;
 import ej.microui.event.generator.Buttons;
@@ -43,6 +47,11 @@ public class SmartWatch extends Composite implements Animation {
 	private int oldX, oldY;
 	private boolean isAnimated = false;
 
+	private Image store;
+
+	private int storeLeft;
+	private int storeTop;
+
 	/**
 	 * @param width
 	 *            width
@@ -52,6 +61,13 @@ public class SmartWatch extends Composite implements Animation {
 	public SmartWatch(int width, int height) {
 		super();
 		Log.d(TAG, "New  widget: " + width + " " + height); //$NON-NLS-1$ //$NON-NLS-2$
+
+		try {
+			store = Image.createImage(Images.Strore);
+			storeLeft = width / 2 - store.getWidth() / 2;
+			storeTop = height - store.getHeight();
+		} catch (IOException e) {
+		}
 		// Add all the bubbles.
 		DateTimeWidget dateTimeWidget = new DateTimeWidget(width, height, ScreenArea.Center);
 		this.controler.add(dateTimeWidget);
@@ -117,9 +133,12 @@ public class SmartWatch extends Composite implements Animation {
 
 	@Override
 	public void render(GraphicsContext g) {
+		g.setBackgroundColor(Constants.COLOR_BACKGROUND);
 		g.setColor(Constants.COLOR_BACKGROUND);
 		g.fillRect(0, 0, getWidth(), getHeight());
 		g.setColor(Constants.COLOR_FOREGROUND);
+		g.drawImage(store, storeLeft, storeTop,
+				GraphicsContext.TOP | GraphicsContext.LEFT);
 		this.controler.realign(g);
 	}
 
@@ -151,5 +170,10 @@ public class SmartWatch extends Composite implements Animation {
 	 */
 	public WatchController getController() {
 		return this.controler;
+	}
+
+	public boolean boundingBoxContains(int x, int y) {
+		return (x >= storeLeft) && (x <= storeLeft + store.getWidth()) && (y >= storeTop)
+				&& (y <= storeTop + store.getHeight());
 	}
 }
