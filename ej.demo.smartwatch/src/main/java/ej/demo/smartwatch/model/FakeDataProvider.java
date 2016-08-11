@@ -18,7 +18,7 @@ import ej.demo.smartwatch.utils.Constants;
 /**
  * The Class SmFakeData.
  */
-public class FakeDataProvider implements IDataProvider {
+public class FakeDataProvider extends DataProvider implements IDataProvider {
 
 	private static final int BATTERY_DIVISION = 23;
 	private static final int NOTIFICATION_LIKELINESS = 1;
@@ -38,7 +38,7 @@ public class FakeDataProvider implements IDataProvider {
 	private final List<IDataProvider.Event> events;
 
 	/** The forecast. */
-	private final List<IDataProvider.WeatherCondition> forecast;
+	private final List<IWeatherCondition> forecast;
 
 	/**
 	 * Instantiates a new Smartwatch fake data provider.
@@ -52,15 +52,12 @@ public class FakeDataProvider implements IDataProvider {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date(Constants.START_TIME * MS_IN_SEC));
 		long sec = Constants.START_TIME;
-		this.forecast = new ArrayList<IDataProvider.WeatherCondition>();
-		this.forecast.add(new WeatherCondition(TEMPERATURE1, IDataProvider.WeatherCondition.COND_SUNNY,
-				new Date(sec * MS_IN_SEC)));
+		this.forecast = new ArrayList<IWeatherCondition>();
+		this.forecast.add(new WeatherCondition(TEMPERATURE1, IWeatherCondition.COND_SUNNY, new Date(sec * MS_IN_SEC)));
 		sec += SEC_IN_DAY;
-		this.forecast.add(new WeatherCondition(TEMPERATURE2, IDataProvider.WeatherCondition.COND_RAIN,
-				new Date(sec * MS_IN_SEC)));
+		this.forecast.add(new WeatherCondition(TEMPERATURE2, IWeatherCondition.COND_RAIN, new Date(sec * MS_IN_SEC)));
 		sec += SEC_IN_DAY;
-		this.forecast.add(new WeatherCondition(TEMPERATURE1, IDataProvider.WeatherCondition.COND_CLOUDY,
-				new Date(sec * MS_IN_SEC)));
+		this.forecast.add(new WeatherCondition(TEMPERATURE1, IWeatherCondition.COND_CLOUDY, new Date(sec * MS_IN_SEC)));
 	}
 
 	@Override
@@ -149,7 +146,7 @@ public class FakeDataProvider implements IDataProvider {
 	}
 
 	@Override
-	public WeatherCondition getForecast(int id) {
+	public IWeatherCondition getForecast(int id) {
 		return this.forecast.get(id);
 	}
 
@@ -223,6 +220,7 @@ public class FakeDataProvider implements IDataProvider {
 	 * @param time
 	 *            Event time.
 	 */
+	@Override
 	public void addEvent(String notificationString, Date time) {
 		int hour = getHour();
 		int min = getMinute();
@@ -245,4 +243,5 @@ public class FakeDataProvider implements IDataProvider {
 		this.events.remove(event);
 
 	}
+
 }

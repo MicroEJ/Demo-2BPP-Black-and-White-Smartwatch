@@ -14,7 +14,6 @@ import ej.demo.smartwatch.component.BubbleWidget;
 import ej.demo.smartwatch.component.Direction;
 import ej.demo.smartwatch.component.ScreenArea;
 import ej.demo.smartwatch.model.DataProvider;
-import ej.demo.smartwatch.model.IDataProvider;
 import ej.demo.smartwatch.style.Images;
 import ej.demo.smartwatch.utils.Constants;
 import ej.demo.smartwatch.utils.Utils;
@@ -297,8 +296,8 @@ public class DistanceWidget extends BubbleWidget implements Animation {
 	 * Update the progress value.
 	 */
 	private void updateCurrentVal() {
-		float currentDistance = PROVIDER.getDistance();
-		float totalDistance = PROVIDER.getTargetDistance();
+		float currentDistance = DataProvider.getInstance().getDistance();
+		float totalDistance = DataProvider.getInstance().getTargetDistance();
 		currentDistance = (currentDistance < 0) ? -currentDistance : currentDistance;
 
 		if (currentDistance >= totalDistance) {

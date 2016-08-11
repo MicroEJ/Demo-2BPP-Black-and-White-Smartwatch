@@ -11,7 +11,6 @@ import ej.demo.smartwatch.component.BubbleWidget;
 import ej.demo.smartwatch.component.Direction;
 import ej.demo.smartwatch.component.ScreenArea;
 import ej.demo.smartwatch.model.DataProvider;
-import ej.demo.smartwatch.model.IDataProvider;
 import ej.demo.smartwatch.style.Images;
 import ej.demo.smartwatch.utils.Constants;
 import ej.demo.smartwatch.utils.Utils;
@@ -155,7 +154,7 @@ public class BatteryWidget extends BubbleWidget {
 			int y2 = imageY + img.getHeight() + TEXT_OFFSET;
 			// battery level
 			g.setFont(this.fontBatteryLevel);
-			String text = Integer.toString(PROVIDER.getBatteryLevel()) + "%"; //$NON-NLS-1$
+			String text = Integer.toString(DataProvider.getInstance().getBatteryLevel()) + "%"; //$NON-NLS-1$
 			g.drawString(text, xCoordinate - this.fontBatteryLevel.stringWidth(text) / 2,
 					(direction == Direction.ToCorner) ? computeMean(y1, y2, stepRatio) : computeMean(y2, y1, stepRatio),
 					0);
@@ -165,7 +164,7 @@ public class BatteryWidget extends BubbleWidget {
 			y1 *= 2;
 			// placed below battery level
 			y2 += this.fontBatteryLevel.getHeight() + TEXT_OFFSET;
-			text = PROVIDER.getBatteryLevelStr();
+			text = DataProvider.getInstance().getBatteryLevelStr();
 			g.setFont(this.fontAvailableTime);
 			g.drawString(text, xCoordinate - this.fontAvailableTime.stringWidth(text) / 2,
 					(direction == Direction.ToCorner) ? computeMean(y1, y2, stepRatio) : computeMean(y2, y1, stepRatio),
@@ -218,7 +217,7 @@ public class BatteryWidget extends BubbleWidget {
 
 		float ratio = (float) completion / Constants.COMPLETION_MAX;
 		float stepRatio = (Direction.ToCenter != direction) ? ratio : (1 - ratio);
-		int level = PROVIDER.getBatteryLevel();
+		int level = DataProvider.getInstance().getBatteryLevel();
 		Image img = Images.BATTERY_SEQ.getImg(index);
 		imageX = x + getImageXOffset(img, stepRatio);
 		int imageYOffset = getImageYOffset(img, stepRatio);
@@ -243,7 +242,7 @@ public class BatteryWidget extends BubbleWidget {
 		g.fillRect(bprogressX, bprogressY, bprogressWidth, bprogressHeight);
 
 		// Draw the progress
-		int progressWidth = bprogressWidth * level / PROVIDER.getBatteryMax();
+		int progressWidth = bprogressWidth * level / DataProvider.getInstance().getBatteryMax();
 		int progressHeight = bprogressHeight;
 		int progressX = bprogressX + (bprogressWidth - progressWidth);
 		int progressY = bprogressY;

@@ -12,7 +12,6 @@ import java.io.IOException;
 import ej.demo.smartwatch.component.Direction;
 import ej.demo.smartwatch.component.ScreenArea;
 import ej.demo.smartwatch.model.DataProvider;
-import ej.demo.smartwatch.model.IDataProvider;
 import ej.demo.smartwatch.model.IDataProvider.Event;
 import ej.demo.smartwatch.style.Images;
 import ej.demo.smartwatch.utils.Constants;
@@ -194,7 +193,7 @@ public class NotificationsWidget extends MultipleViewWidget {
 	 * @return the notification count
 	 */
 	private String getNotificationCount() {
-		return Integer.toString(PROVIDER.getEventsCount());
+		return Integer.toString(DataProvider.getInstance().getEventsCount());
 	}
 
 	/**
@@ -282,7 +281,7 @@ public class NotificationsWidget extends MultipleViewWidget {
 	 * @return True if notifications available.
 	 */
 	private boolean setupMessage(boolean newer) {
-		if (PROVIDER.getEventsCount() == 0) {
+		if (DataProvider.getInstance().getEventsCount() == 0) {
 			this.messageLinesToDisplay = 0;
 			this.event = null;
 			this.date = EMPTY_STRING;
@@ -293,7 +292,7 @@ public class NotificationsWidget extends MultipleViewWidget {
 		// Find the message.
 
 		nextView(newer);
-		this.event = PROVIDER.getEvent(this.viewIndex);
+		this.event = DataProvider.getInstance().getEvent(this.viewIndex);
 
 		// Setup the variables.
 		this.date = this.event.getDateStr();
@@ -322,7 +321,7 @@ public class NotificationsWidget extends MultipleViewWidget {
 	@Override
 	public void startSwitchFace(boolean up) {
 		if (this.event != null) {
-			PROVIDER.removeEvent(this.event);
+			DataProvider.getInstance().removeEvent(this.event);
 			nextView(true);
 			setupMessage(false);
 		}
@@ -330,6 +329,6 @@ public class NotificationsWidget extends MultipleViewWidget {
 
 	@Override
 	protected int viewCount() {
-		return PROVIDER.getEventsCount();
+		return DataProvider.getInstance().getEventsCount();
 	}
 }

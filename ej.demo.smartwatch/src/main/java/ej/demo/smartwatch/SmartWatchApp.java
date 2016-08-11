@@ -12,6 +12,8 @@ import ej.components.dependencyinjection.ServiceLoaderFactory;
 import ej.components.registry.BundleRegistry;
 import ej.components.registry.util.BundleRegistryHelper;
 import ej.demo.smartwatch.component.SmartWatch;
+import ej.demo.smartwatch.model.DataProvider;
+import ej.demo.smartwatch.model.FakeDataProvider;
 import ej.demo.smartwatch.utils.Constants;
 import ej.microui.MicroUI;
 import ej.microui.display.Display;
@@ -23,6 +25,10 @@ import ej.mwt.Panel;
  *
  */
 public class SmartWatchApp {
+	// initialize data provider.
+	static {
+		DataProvider.setInstance(new FakeDataProvider());
+	}
 
 	// Prevents initialization.
 	private SmartWatchApp() {

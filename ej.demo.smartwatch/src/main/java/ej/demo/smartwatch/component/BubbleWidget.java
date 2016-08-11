@@ -8,7 +8,6 @@
 package ej.demo.smartwatch.component;
 
 import ej.demo.smartwatch.model.DataProvider;
-import ej.demo.smartwatch.model.IDataProvider;
 import ej.demo.smartwatch.utils.Constants;
 import ej.demo.smartwatch.utils.Utils;
 import ej.microui.display.Font;
@@ -19,11 +18,6 @@ import ej.mwt.Widget;
  * The base class for the bubble.
  */
 public class BubbleWidget extends Widget implements Bubble {
-
-	/**
-	 * Data provider.
-	 */
-	protected static final IDataProvider PROVIDER = DataProvider.getInstance();
 
 	/**
 	 * Ratio to compute large diameter.
@@ -366,7 +360,7 @@ public class BubbleWidget extends Widget implements Bubble {
 	 * @return the date in a string format
 	 */
 	protected String getDate() {
-		return PROVIDER.getDateStr();
+		return DataProvider.getInstance().getDateStr();
 	}
 
 	@Override
