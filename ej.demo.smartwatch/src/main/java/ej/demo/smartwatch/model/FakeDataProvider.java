@@ -124,23 +124,25 @@ public class FakeDataProvider extends DataProvider implements IDataProvider {
 
 	@Override
 	public int getEventsCount() {
-		String[] text = { "Wild", "Nice", "Happy", "Fierce", "Red", "Random" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$//$NON-NLS-6$
-		// $NON-NLS-5$ //$NON-NLS-6$
-		String[] text2 = { "vase", "duck", "frame", "birthday", "flour", "table", "screen", "colibri" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$//$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
-		// $NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
-		// $NON-NLS-8$
-		if (this.events.size() < MAX_NOTIF && Rand.nextInt(1000) <= NOTIFICATION_LIKELINESS) {
-			int offset = Rand.nextInt() % text.length;
-			offset = (offset < 0) ? -offset : offset;
-			StringBuffer temp = new StringBuffer(text[offset]);
-			temp.append(' ');
-			offset = Rand.nextInt() % text2.length;
-			offset = (offset < 0) ? -offset : offset;
-			temp.append(text2[offset]);
-
-			this.events.add(this.events.size(),
-					new Event(getDate(), temp.toString(), "Oct. 6", "08:0" + this.events.size())); //$NON-NLS-1$ //$NON-NLS-2$
-		}
+		/*
+		 * String[] text = { "Wild", "Nice", "Happy", "Fierce", "Red", "Random"
+		 * }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		 * //$NON-NLS-5$//$NON-NLS-6$ // $NON-NLS-5$ //$NON-NLS-6$ String[]
+		 * text2 = { "vase", "duck", "frame", "birthday", "flour", "table",
+		 * "screen", "colibri" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		 * //$NON-NLS-4$ //$NON-NLS-5$//$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
+		 * // $NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+		 * //$NON-NLS-7$ // $NON-NLS-8$ if (this.events.size() < MAX_NOTIF &&
+		 * Rand.nextInt(1000) <= NOTIFICATION_LIKELINESS) { int offset =
+		 * Rand.nextInt() % text.length; offset = (offset < 0) ? -offset :
+		 * offset; StringBuffer temp = new StringBuffer(text[offset]);
+		 * temp.append(' '); offset = Rand.nextInt() % text2.length; offset =
+		 * (offset < 0) ? -offset : offset; temp.append(text2[offset]);
+		 * 
+		 * this.events.add(this.events.size(), new Event(getDate(),
+		 * temp.toString(), "Oct. 6", "08:0" + this.events.size()));
+		 * //$NON-NLS-1$ //$NON-NLS-2$ }
+		 */
 
 		return this.events.size();
 	}
