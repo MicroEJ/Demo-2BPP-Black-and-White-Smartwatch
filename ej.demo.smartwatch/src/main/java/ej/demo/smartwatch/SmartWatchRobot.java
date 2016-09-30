@@ -149,7 +149,7 @@ public class SmartWatchRobot implements EventHandler {
 		/**
 		 * Y position of the BOTTOM.
 		 */
-		private static int BOTTOM = Constants.DISPLAY_HEIGHT - OFFSET;
+		private static int BOTTOM;
 
 		/**
 		 * X position of the left.
@@ -159,17 +159,24 @@ public class SmartWatchRobot implements EventHandler {
 		/**
 		 * X position of the right.
 		 */
-		private static int RIGHT = Constants.DISPLAY_WIDTH - OFFSET;
+		private static int RIGHT;
 
 		/**
 		 * X position of the center.
 		 */
-		private static int HCENTER = Constants.DISPLAY_WIDTH / 2;
+		private static int HCENTER;
 
 		/**
 		 * Y position of the center.
 		 */
-		private static int VCENTER = Constants.DISPLAY_HEIGHT / 2;
+		private static int VCENTER;
+
+		private static void initialize() {
+			BOTTOM = Constants.DISPLAY_HEIGHT - OFFSET;
+			RIGHT = Constants.DISPLAY_WIDTH - OFFSET;
+			HCENTER = Constants.DISPLAY_WIDTH / 2;
+			VCENTER = Constants.DISPLAY_HEIGHT / 2;
+		}
 
 		private long currentActionDelay = LONG_ACTION_DELAY;
 
@@ -199,6 +206,7 @@ public class SmartWatchRobot implements EventHandler {
 		 *            The watch's controller.
 		 */
 		public RobotTask(Timer timer, WatchController controller) {
+			initialize();
 			this.timer = timer;
 			this.controller = controller;
 		}

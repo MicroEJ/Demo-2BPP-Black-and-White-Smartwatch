@@ -39,6 +39,7 @@ public class SmartWatchApp {
 		// Initialize UI
 		ServiceLoaderFactory.getServiceLoader().getService(Animator.class).setPeriod(80);
 		Display display = Display.getDefaultDisplay();
+		Constants.initialize(display.getWidth() - Constants.STORE_WIDTH, display.getHeight());
 		Desktop desktop = new Desktop(display);
 		SmartWatch smartWatch = new SmartWatch(Constants.DISPLAY_WIDTH, Constants.DISPLAY_HEIGHT);
 		Panel mainPage = new Panel();
@@ -48,8 +49,14 @@ public class SmartWatchApp {
 		SmartWatchRobot robot = new SmartWatchRobot(smartWatch);
 		robot.start();
 
-		// Start ARGB4444.
-		mainPage.show(desktop, true);
+		// Start Display.
+		Panel backgroundPanel = new BackgroundPanel();
+		backgroundPanel.setBounds(0, 0, Constants.STORE_WIDTH, Constants.DISPLAY_HEIGHT);
+		backgroundPanel.setPacked(false);
+		backgroundPanel.show(desktop);
+		mainPage.setPacked(false);
+		mainPage.setBounds(Constants.STORE_WIDTH, 0, Constants.DISPLAY_WIDTH, Constants.DISPLAY_HEIGHT);
+		mainPage.show(desktop);
 		desktop.show();
 	}
 }

@@ -33,14 +33,14 @@ public class BubbleWidget extends Widget implements Bubble {
 	/**
 	 * Default horizontal padding.
 	 */
-	private static final int X_PADDING;
+	private static int X_PADDING;
 
 	/**
 	 * Default vertical padding.
 	 */
-	private static final int Y_PADDING;
+	private static int Y_PADDING;
 
-	static {
+	private static void inizialize() {
 		X_PADDING = (int) (10 * Constants.DISPLAY_DEFAULT_WIDTH_RATIO);
 		Y_PADDING = (int) (10 * Constants.DISPLAY_DEFAULT_HEIGHT_RATIO);
 	}
@@ -213,7 +213,7 @@ public class BubbleWidget extends Widget implements Bubble {
 		}
 
 		return false;
-	}	
+	}
 
 	@Override
 	public boolean isSwitchAnimated() {

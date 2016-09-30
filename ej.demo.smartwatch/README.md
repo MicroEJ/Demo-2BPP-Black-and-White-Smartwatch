@@ -16,7 +16,7 @@ A black and white smartwatch. This application has been designed for a 2BPP 240x
 
 ## Run on device
 ### Build
-1. Right Click on [SmartWatchApp.java](com.ausy.microej.smartwatch/src/main/java/ej/demo/smartwatch/SmartWatchApp.java)
+1. Right Click on [SmartWatchApp.java](ej.demo.microej.smartwatch/src/main/java/ej/demo/smartwatch/SmartWatchApp.java)
 1. Select **Run as -> Run Configuration**
 1. Select **MicroEJ Application** configuration kind
 1. Click on **New launch configuration** icon
