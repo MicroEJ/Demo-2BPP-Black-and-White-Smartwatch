@@ -1,7 +1,0 @@
-Manifest-Version: 1.0
-Application-Id: BWWatch
-Application-Version: 1.0.0
-Application-PrintableName: B&W Watch
-Application-Description: Black and white watch.
-Application-Activities: ej.demo.smartwatch.SmartWatchActivity
-Application-IconsDirectory: icons/
