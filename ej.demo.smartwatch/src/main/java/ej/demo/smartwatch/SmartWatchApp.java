@@ -7,10 +7,8 @@
  */
 package ej.demo.smartwatch;
 
-import ej.bon.Util;
+import ej.animation.Animator;
 import ej.components.dependencyinjection.ServiceLoaderFactory;
-import ej.components.registry.BundleRegistry;
-import ej.components.registry.util.BundleRegistryHelper;
 import ej.demo.smartwatch.component.SmartWatch;
 import ej.demo.smartwatch.utils.Constants;
 import ej.microui.MicroUI;
@@ -38,12 +36,8 @@ public class SmartWatchApp {
 		// Start MicroUI.
 		MicroUI.start();
 
-		// Initialize system.
-		Util.setCurrentTimeMillis(Constants.START_TIME * Constants.MS_IN_SEC);
-		BundleRegistry registry = ServiceLoaderFactory.getServiceLoader().getService(BundleRegistry.class);
-		BundleRegistryHelper.startup(registry);
-
 		// Initialize UI
+		ServiceLoaderFactory.getServiceLoader().getService(Animator.class).setPeriod(80);
 		Display display = Display.getDefaultDisplay();
 		Desktop desktop = new Desktop(display);
 		SmartWatch smartWatch = new SmartWatch(Constants.DISPLAY_WIDTH, Constants.DISPLAY_HEIGHT);
