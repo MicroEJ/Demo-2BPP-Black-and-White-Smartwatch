@@ -21,12 +21,12 @@ public abstract class MultipleViewWidget extends BubbleWidget {
 	/**
 	 * Padding.
 	 */
-	protected static final int X_PADDING;
+	protected static int X_PADDING;
 
 	/**
 	 * Padding.
 	 */
-	protected static final int Y_PADDING;
+	protected static int Y_PADDING;
 
 	private static final String TAG = "MultipleViewWidget"; //$NON-NLS-1$
 
@@ -41,8 +41,6 @@ public abstract class MultipleViewWidget extends BubbleWidget {
 	private static final Image PREVIOUS;
 
 	static {
-		X_PADDING = (int) (5 * Constants.DISPLAY_DEFAULT_WIDTH_RATIO);
-		Y_PADDING = (int) (5 * Constants.DISPLAY_DEFAULT_HEIGHT_RATIO);
 		Image nextImage = null;
 		Image previousImage = null;
 		try {
@@ -53,6 +51,11 @@ public abstract class MultipleViewWidget extends BubbleWidget {
 		}
 		NEXT = nextImage;
 		PREVIOUS = previousImage;
+	}
+
+	private static void inizialize() {
+		X_PADDING = (int) (5 * Constants.DISPLAY_DEFAULT_WIDTH_RATIO);
+		Y_PADDING = (int) (5 * Constants.DISPLAY_DEFAULT_HEIGHT_RATIO);
 	}
 
 	/**
@@ -72,6 +75,7 @@ public abstract class MultipleViewWidget extends BubbleWidget {
 	 */
 	public MultipleViewWidget(int width, int height, ScreenArea position) {
 		super(width, height, position);
+		inizialize();
 	}
 
 	/**

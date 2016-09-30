@@ -33,19 +33,21 @@ public class WeatherWidget extends MultipleViewWidget implements Animation {
 	/**
 	 * Font used for the temperature.
 	 */
-	private static final Font FONT_36 = Constants.FONT_36;
+	private static Font FONT_36;
 
 	/**
 	 * Font used for the text.
 	 */
-	private static final Font FONT_24 = Constants.FONT_24;
+	private static Font FONT_24;
 
 	/**
 	 * Line spacing.
 	 */
-	private static final int LINE_HEIGHT;
+	private static int LINE_HEIGHT;
 
-	static {
+	private static void initialize() {
+		FONT_36 = Constants.FONT_36;
+		FONT_24 = Constants.FONT_24;
 		LINE_HEIGHT = FONT_24.getHeight();
 	}
 
@@ -91,11 +93,12 @@ public class WeatherWidget extends MultipleViewWidget implements Animation {
 	 */
 	public WeatherWidget(int width, int height, ScreenArea position) {
 		super(width, height, position);
+		initialize();
 		// get the max animation area
 		this.maxImageHeight = this.maxImageWidth = 0;
 		for (
 
-		int i = 0; i < Images.WEATHER_COND_SEQ.length; i++) {
+				int i = 0; i < Images.WEATHER_COND_SEQ.length; i++) {
 			// all images within an sequence should have the same size
 			Image cImg = Images.WEATHER_COND_SEQ[i].getImg(0);
 			if (this.maxImageHeight < cImg.getHeight()) {

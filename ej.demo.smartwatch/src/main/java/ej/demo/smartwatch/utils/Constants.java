@@ -9,7 +9,6 @@ package ej.demo.smartwatch.utils;
 
 import ej.microui.MicroUI;
 import ej.microui.display.Colors;
-import ej.microui.display.Display;
 import ej.microui.display.Font;
 
 /**
@@ -75,7 +74,7 @@ public class Constants {
 	/**********************************************************/
 	/**                   UX CONSTANTS                      ***/
 	/**********************************************************/
-	
+
 	/**
 	 * Angle (in degrees) for a full circle.
 	 */
@@ -114,6 +113,12 @@ public class Constants {
 	public static final boolean LOGGING_ENABLED = true;
 
 	/**
+	 * Store width.
+	 */
+	public static final int STORE_WIDTH = 50;
+	// public static final int STORE_WIDTH = 0;
+
+	/**
 	 * MIN_SWIPE.
 	 */
 	public static final int MINIMUM_SWIPE = 10;
@@ -136,22 +141,22 @@ public class Constants {
 	/**
 	 * Display Width.
 	 */
-	public static final int DISPLAY_WIDTH;
+	public static int DISPLAY_WIDTH;
 
 	/**
 	 * Default display width ratio (based on a 240px width).
 	 */
-	public static final float DISPLAY_DEFAULT_WIDTH_RATIO;
+	public static float DISPLAY_DEFAULT_WIDTH_RATIO;
 
 	/**
 	 * Display Height.
 	 */
-	public static final int DISPLAY_HEIGHT;
+	public static int DISPLAY_HEIGHT;
 
 	/**
 	 * Default display height ration (based on a 240px height).
 	 */
-	public static final float DISPLAY_DEFAULT_HEIGHT_RATIO;
+	public static float DISPLAY_DEFAULT_HEIGHT_RATIO;
 
 	/**
 	 * Default fade value.
@@ -164,19 +169,21 @@ public class Constants {
 	public static final int DEFAULT_THICKNESS = 1;
 
 	static {
-
 		MicroUI.start();
 
 		FONT_24 = Font.getFont(Font.LATIN, 30, Font.STYLE_PLAIN);
 		FONT_36 = Font.getFont(Font.LATIN, 44, Font.STYLE_PLAIN);
+	}
+
+	public static void initialize(int newWidth, int newHeight) {
 
 		float oldWidth = 240;
-		DISPLAY_WIDTH = Display.getDefaultDisplay().getWidth();
-		DISPLAY_DEFAULT_WIDTH_RATIO = DISPLAY_WIDTH / oldWidth;
+		DISPLAY_WIDTH = newWidth;
+		DISPLAY_DEFAULT_WIDTH_RATIO = oldWidth / DISPLAY_WIDTH;
 
 		float oldHeight = 240;
-		DISPLAY_HEIGHT = Display.getDefaultDisplay().getHeight();
-		DISPLAY_DEFAULT_HEIGHT_RATIO = DISPLAY_HEIGHT / oldHeight;
+		DISPLAY_HEIGHT = newHeight;
+		DISPLAY_DEFAULT_HEIGHT_RATIO = oldHeight / DISPLAY_HEIGHT;
 	}
 
 	/**
