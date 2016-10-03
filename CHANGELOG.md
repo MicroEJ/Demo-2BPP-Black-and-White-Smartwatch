@@ -14,14 +14,6 @@ Bugfixes:
   - List here the bug fixes.
 -->
 
-## 1.1.1 (2016-09-30)
-Bugfixes:
-  - MISC.
-
-## 1.0.1 (2016-09-07)
-Bugfixes:
-  - Rewording.
-
 ## 1.0.0 (2016-08-04)
 Features:
   - Initial revision.

@@ -157,7 +157,7 @@ public class BatteryWidget extends BubbleWidget {
 			String text = Integer.toString(DataProvider.getInstance().getBatteryLevel()) + "%"; //$NON-NLS-1$
 			g.drawString(text, xCoordinate - this.fontBatteryLevel.stringWidth(text) / 2,
 					(direction == Direction.ToCorner) ? computeMean(y1, y2, stepRatio) : computeMean(y2, y1, stepRatio),
-					0);
+							0);
 
 			// time left - start position is further so they(level/time left)
 			// don't appear with the same speed.
@@ -168,7 +168,7 @@ public class BatteryWidget extends BubbleWidget {
 			g.setFont(this.fontAvailableTime);
 			g.drawString(text, xCoordinate - this.fontAvailableTime.stringWidth(text) / 2,
 					(direction == Direction.ToCorner) ? computeMean(y1, y2, stepRatio) : computeMean(y2, y1, stepRatio),
-					0);
+							0);
 		}
 	}
 

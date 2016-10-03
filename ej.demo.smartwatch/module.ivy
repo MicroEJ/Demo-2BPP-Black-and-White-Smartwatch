@@ -6,9 +6,9 @@
 	IS2T PROPRIETARY. Use is subject to license terms
 -->
 <ivy-module version="2.0" xmlns:ea="http://www.easyant.org" xmlns:m="http://ant.apache.org/ivy/extra"> 
-	<info organisation="ej.demo.ui.smartwatch" module="blackandwhite" status="integration" revision="1.0.0">
-		<ea:build organisation="com.is2t.easyant.buildtypes" module="build-microej-javalib" revision="+">
-		</ea:build>
+	<info organisation="ej.demo.ui.smartwatch" module="blackandwhite" status="integration" revision="1.1.1">
+	    <ea:build organisation="com.is2t.easyant.buildtypes" module="build-microej-javalib" revision="3.+">
+			</ea:build>
 	</info>
 
     <configurations defaultconfmapping="default->default;provided->provided">
@@ -37,6 +37,5 @@
  		<dependency org="ej.demo.ui.smartwatch.blackandwhite" name="interface" rev="[1.0.0-RC,2.0.0-RC["/>
  		<dependency org="ej.demo.ui.smartwatch.blackandwhite" name="remote.date" rev="[1.0.0-RC,2.0.0-RC["/>
  		<dependency org="ej.demo.ui.smartwatch.blackandwhite" name="remote.washing-machine" rev="[1.0.0-RC,2.0.0-RC["/>
-
 	</dependencies>
 </ivy-module>

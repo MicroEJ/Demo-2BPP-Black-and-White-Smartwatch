@@ -106,11 +106,6 @@ public class Constants {
 	public static final Font FONT_36;
 
 	/**
-	 * Big font.
-	 */
-	public static final Font FONT_60;
-
-	/**
 	 * ENABLE_ANTIALIASED.
 	 */
 	public static final boolean ENABLE_ANTIALIASED = true;
@@ -174,7 +169,6 @@ public class Constants {
 
 		FONT_24 = Font.getFont(Font.LATIN, 30, Font.STYLE_PLAIN);
 		FONT_36 = Font.getFont(Font.LATIN, 44, Font.STYLE_PLAIN);
-		FONT_60 = Font.getFont(Font.LATIN, 81, Font.STYLE_PLAIN);
 
 		float oldWidth = 240;
 		DISPLAY_WIDTH = Display.getDefaultDisplay().getWidth();
