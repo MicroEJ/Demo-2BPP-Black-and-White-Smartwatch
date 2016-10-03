@@ -123,7 +123,7 @@ public interface Images {
 	/** The runner paths. */
 	String[] RUNNER_PATHS = new String[] { "/images/runner_1.png", "/images/runner_2.png", "/images/runner_3.png", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			"/images/runner_4.png", "/images/runner_5.png", "/images/runner_6.png", "/images/runner_7.png", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-	"/images/runner_8.png" }; //$NON-NLS-1$
+			"/images/runner_8.png" }; //$NON-NLS-1$
 	/** The runner seq. */
 	ImageSequence RUNNER_SEQ = new ImageSequence(RUNNER_PATHS);
 
