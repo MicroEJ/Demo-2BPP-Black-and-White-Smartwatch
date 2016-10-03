@@ -190,14 +190,14 @@ public class WatchController implements Animation {
 
 		boolean found = false;
 		// Find if it is "inside" a corner bubble.
-			for (final Bubble bubble : this.bubbles) {
-				if (bubble != null && bubble.boundingBoxContains(x, y) && bubble != this.activeBubble ) {
-					transitionTo(bubble);
-					this.nextDatePosition = bubble.getDatePosition();
-					found = true;
-					break;
-				}
+		for (final Bubble bubble : this.bubbles) {
+			if (bubble != null && bubble.boundingBoxContains(x, y) && bubble != this.activeBubble ) {
+				transitionTo(bubble);
+				this.nextDatePosition = bubble.getDatePosition();
+				found = true;
+				break;
 			}
+		}
 		if (!found) {
 			synchronized (this.inputMutex) {
 				this.freezeInput = false;

@@ -167,7 +167,7 @@ public class BatteryWidget extends BubbleWidget {
 			g.setFont(this.fontAvailableTime);
 			g.drawString(text, xCoordinate - this.fontAvailableTime.stringWidth(text) / 2,
 					(direction == Direction.ToCorner) ? computeMean(y1, y2, stepRatio) : computeMean(y2, y1, stepRatio),
-							0);
+					0);
 		}
 	}
 
