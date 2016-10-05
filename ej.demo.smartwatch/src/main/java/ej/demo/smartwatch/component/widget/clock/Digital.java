@@ -8,8 +8,8 @@
 package ej.demo.smartwatch.component.widget.clock;
 
 import ej.demo.smartwatch.component.Bubble.DatePosition;
-import ej.demo.smartwatch.model.IDataProvider;
 import ej.demo.smartwatch.component.Direction;
+import ej.demo.smartwatch.model.IDataProvider;
 import ej.demo.smartwatch.utils.Constants;
 import ej.demo.smartwatch.utils.Utils;
 import ej.microui.display.Font;

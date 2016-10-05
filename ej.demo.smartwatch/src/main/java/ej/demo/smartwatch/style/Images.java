@@ -136,6 +136,9 @@ public interface Images {
 	String[] RAIN_PATHS = new String[] { "/images/rain_1.png", "/images/rain_2.png", "/images/rain_3.png", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			"/images/rain_4.png", "/images/rain_5.png", "/images/rain_6.png", "/images/rain_7.png" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 
+	/** The store. */
+	String Strore = "/images/store.png"; //$NON-NLS-1$
+
 	/** The cloudy. */
 	String[] CLOUD_PATHS = new String[] { "/images/cloud_1.png", "/images/cloud_2.png", "/images/cloud_3.png", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			"/images/cloud_4.png", "/images/cloud_5.png", "/images/cloud_6.png", "/images/cloud_7.png", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
