@@ -40,7 +40,7 @@ public class BubbleWidget extends Widget implements Bubble {
 	 */
 	private static int Y_PADDING;
 
-	private static void inizialize() {
+	public static void initialize() {
 		X_PADDING = (int) (10 * Constants.DISPLAY_DEFAULT_WIDTH_RATIO);
 		Y_PADDING = (int) (10 * Constants.DISPLAY_DEFAULT_HEIGHT_RATIO);
 	}

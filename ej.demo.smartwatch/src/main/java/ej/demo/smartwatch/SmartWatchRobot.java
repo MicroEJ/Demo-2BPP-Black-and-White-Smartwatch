@@ -46,6 +46,10 @@ public class SmartWatchRobot implements EventHandler {
 	 */
 	private static final long BUBBLE_DELAY = LONG_ACTION_DELAY;
 
+	public static void initialize() {
+		RobotTask.initialize();
+	}
+
 	/**
 	 * Base pointer event handler.
 	 */
@@ -171,7 +175,7 @@ public class SmartWatchRobot implements EventHandler {
 		 */
 		private static int VCENTER;
 
-		private static void initialize() {
+		public static void initialize() {
 			BOTTOM = Constants.DISPLAY_HEIGHT - OFFSET;
 			RIGHT = Constants.DISPLAY_WIDTH - OFFSET;
 			HCENTER = Constants.DISPLAY_WIDTH / 2;
@@ -206,7 +210,6 @@ public class SmartWatchRobot implements EventHandler {
 		 *            The watch's controller.
 		 */
 		public RobotTask(Timer timer, WatchController controller) {
-			initialize();
 			this.timer = timer;
 			this.controller = controller;
 		}

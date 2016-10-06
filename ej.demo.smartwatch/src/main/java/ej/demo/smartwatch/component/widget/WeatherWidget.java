@@ -45,7 +45,7 @@ public class WeatherWidget extends MultipleViewWidget implements Animation {
 	 */
 	private static int LINE_HEIGHT;
 
-	private static void initialize() {
+	public static void initialize() {
 		FONT_36 = Constants.FONT_36;
 		FONT_24 = Constants.FONT_24;
 		LINE_HEIGHT = FONT_24.getHeight();
@@ -93,7 +93,6 @@ public class WeatherWidget extends MultipleViewWidget implements Animation {
 	 */
 	public WeatherWidget(int width, int height, ScreenArea position) {
 		super(width, height, position);
-		initialize();
 		// get the max animation area
 		this.maxImageHeight = this.maxImageWidth = 0;
 		for (

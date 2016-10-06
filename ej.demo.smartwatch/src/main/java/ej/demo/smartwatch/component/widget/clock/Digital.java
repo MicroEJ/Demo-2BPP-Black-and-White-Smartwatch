@@ -45,7 +45,7 @@ public class Digital implements IClock {
 	 */
 	private final int yCenter;
 
-	private static void inizialize() {
+	public static void initialize() {
 		FONT_HOUR = Constants.FONT_36;
 		FONT_TIME = Constants.FONT_24;
 		PADDING = FONT_TIME.getHeight();
@@ -61,7 +61,6 @@ public class Digital implements IClock {
 	 *
 	 */
 	public Digital(int height, int width) {
-		inizialize();
 		this.xCenter = width / 2;
 		this.yCenter = height / 2;
 	}
