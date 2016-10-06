@@ -112,10 +112,9 @@ public class Constants {
 	public static final boolean LOGGING_ENABLED = true;
 
 	/**
-	 * Store width.
+	 * Browser space width.
 	 */
-	public static final int STORE_WIDTH = 50;
-	// public static final int STORE_WIDTH = 0;
+	public static final int BROWSER_WIDTH = 50;
 
 	/**
 	 * MIN_SWIPE.
