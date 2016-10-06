@@ -49,7 +49,7 @@ public class BatteryWidget extends BubbleWidget {
 	private static int TEXT_OFFSET;
 
 	// Initialized with the screen ratio.
-	private static void inizialize() {
+	public static void initialize() {
 		CORNER_Y_OFFSET = (int) (-18 * Constants.DISPLAY_DEFAULT_WIDTH_RATIO);
 		CORNER_X_OFFSET = (int) (-10 * Constants.DISPLAY_DEFAULT_HEIGHT_RATIO);
 		TEXT_OFFSET = (int) (5 * Constants.DISPLAY_DEFAULT_HEIGHT_RATIO);
@@ -76,7 +76,7 @@ public class BatteryWidget extends BubbleWidget {
 	 */
 	public BatteryWidget(int width, int height, ScreenArea position) {
 		super(width, height, position);
-		inizialize();
+
 		this.fontBatteryLevel = Constants.FONT_36;
 		this.fontAvailableTime = Constants.FONT_24;
 	}
@@ -167,7 +167,7 @@ public class BatteryWidget extends BubbleWidget {
 			g.setFont(this.fontAvailableTime);
 			g.drawString(text, xCoordinate - this.fontAvailableTime.stringWidth(text) / 2,
 					(direction == Direction.ToCorner) ? computeMean(y1, y2, stepRatio) : computeMean(y2, y1, stepRatio),
-					0);
+							0);
 		}
 	}
 

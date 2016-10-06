@@ -53,7 +53,7 @@ public abstract class MultipleViewWidget extends BubbleWidget {
 		PREVIOUS = previousImage;
 	}
 
-	private static void inizialize() {
+	public static void initialize() {
 		X_PADDING = (int) (5 * Constants.DISPLAY_DEFAULT_WIDTH_RATIO);
 		Y_PADDING = (int) (5 * Constants.DISPLAY_DEFAULT_HEIGHT_RATIO);
 	}
@@ -75,7 +75,6 @@ public abstract class MultipleViewWidget extends BubbleWidget {
 	 */
 	public MultipleViewWidget(int width, int height, ScreenArea position) {
 		super(width, height, position);
-		inizialize();
 	}
 
 	/**

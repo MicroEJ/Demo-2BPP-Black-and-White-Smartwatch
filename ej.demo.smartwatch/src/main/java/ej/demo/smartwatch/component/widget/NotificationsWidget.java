@@ -58,7 +58,7 @@ public class NotificationsWidget extends MultipleViewWidget {
 	 */
 	private static int MESSAGE_SCREEN_Y_LINES;
 
-	private static void initialize() {
+	public static void initialize() {
 		FONT_MESSAGE = Constants.FONT_36;
 		FONT_NOTIFICATION_COUNT = Constants.FONT_24;
 		MESSAGE_SCREEN_Y_LINES = (int) ((Constants.DISPLAY_WIDTH * MESSAGE_SCREEN_Y_PORTION) / FONT_MESSAGE.getHeight());
@@ -105,7 +105,6 @@ public class NotificationsWidget extends MultipleViewWidget {
 	 */
 	public NotificationsWidget(int width, int height, ScreenArea position) {
 		super(width, height, position);
-		initialize();
 		try {
 			this.imgIcon = Image.createImage(Images.BELL);
 		} catch (IOException e) {

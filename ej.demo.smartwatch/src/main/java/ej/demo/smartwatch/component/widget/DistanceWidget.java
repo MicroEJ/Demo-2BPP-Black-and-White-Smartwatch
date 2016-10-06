@@ -74,7 +74,7 @@ public class DistanceWidget extends BubbleWidget implements Animation {
 	 */
 	private static final int TEXT_Y_RATIO = 4;
 
-	private static void inizialize() {
+	public static void initialize() {
 		TEXT_X_PADDING = (int) (-7 * Constants.DISPLAY_DEFAULT_WIDTH_RATIO);
 		TEXT_Y_PADDING = (int) (1 * Constants.DISPLAY_DEFAULT_HEIGHT_RATIO);
 	}
@@ -136,7 +136,6 @@ public class DistanceWidget extends BubbleWidget implements Animation {
 	 */
 	public DistanceWidget(int width, int height, ScreenArea position) {
 		super(width, height, position);
-		inizialize();
 		updateCurrentVal();
 	}
 

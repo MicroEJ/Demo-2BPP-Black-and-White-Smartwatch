@@ -7,7 +7,6 @@
  */
 package ej.demo.smartwatch.utils;
 
-import ej.microui.MicroUI;
 import ej.microui.display.Colors;
 import ej.microui.display.Font;
 
@@ -97,12 +96,12 @@ public class Constants {
 	/**
 	 * Small Font.
 	 */
-	public static final Font FONT_24;
+	public static Font FONT_24;
 
 	/**
 	 * Medium font.
 	 */
-	public static final Font FONT_36;
+	public static Font FONT_36;
 
 	/**
 	 * ENABLE_ANTIALIASED.
@@ -168,14 +167,9 @@ public class Constants {
 	 */
 	public static final int DEFAULT_THICKNESS = 1;
 
-	static {
-		MicroUI.start();
-
+	public static void initialize(int newWidth, int newHeight) {
 		FONT_24 = Font.getFont(Font.LATIN, 30, Font.STYLE_PLAIN);
 		FONT_36 = Font.getFont(Font.LATIN, 44, Font.STYLE_PLAIN);
-	}
-
-	public static void initialize(int newWidth, int newHeight) {
 
 		float oldWidth = 240;
 		DISPLAY_WIDTH = newWidth;
