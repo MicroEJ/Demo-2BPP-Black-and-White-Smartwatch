@@ -48,7 +48,7 @@ public class SmartWatchApp {
 		SmartWatchRobot robot = new SmartWatchRobot(smartWatch);
 		robot.start();
 
-		// Start ARGB4444.
+		// Start Display.
 		mainPage.show(desktop, true);
 		desktop.show();
 	}
