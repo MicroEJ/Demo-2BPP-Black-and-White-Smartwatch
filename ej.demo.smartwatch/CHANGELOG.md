@@ -14,6 +14,10 @@ Bugfixes:
   - List here the bug fixes.
 -->
 
+## 1.1.2 (2016-10-07)
+Bugfixes:
+  - Rename screenshot.
+  
 ## 1.1.1 (2016-09-30)
 Bugfixes:
   - Move store location.

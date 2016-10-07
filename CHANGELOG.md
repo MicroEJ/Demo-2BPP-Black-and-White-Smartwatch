@@ -14,6 +14,4 @@ Bugfixes:
   - List here the bug fixes.
 -->
 
-## 1.0.0 (2016-08-04)
-Features:
-  - Initial revision.
+See [CHANGELOG.md](ej.demo.smartwatch/CHANGELOG.md)
