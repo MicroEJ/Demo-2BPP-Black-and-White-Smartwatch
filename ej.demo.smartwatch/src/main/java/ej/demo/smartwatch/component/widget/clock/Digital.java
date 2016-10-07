@@ -23,17 +23,17 @@ public class Digital implements IClock {
 	/**
 	 * Font for the hours.
 	 */
-	private static final Font FONT_HOUR;
+	private static Font FONT_HOUR;
 
 	/**
 	 * Font for the time.
 	 */
-	private static final Font FONT_TIME;
+	private static Font FONT_TIME;
 
 	/**
 	 * Padding.
 	 */
-	private static final int PADDING;
+	private static int PADDING;
 
 	/**
 	 * x coordinate of center.
@@ -45,7 +45,7 @@ public class Digital implements IClock {
 	 */
 	private final int yCenter;
 
-	static {
+	public static void initialize() {
 		FONT_HOUR = Constants.FONT_36;
 		FONT_TIME = Constants.FONT_24;
 		PADDING = FONT_TIME.getHeight();

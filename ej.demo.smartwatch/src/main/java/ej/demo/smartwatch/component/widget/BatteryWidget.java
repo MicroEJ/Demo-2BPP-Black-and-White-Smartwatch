@@ -36,22 +36,22 @@ public class BatteryWidget extends BubbleWidget {
 	/**
 	 * Y Offset for the battery when in the corner.
 	 */
-	private static final int CORNER_Y_OFFSET;
+	private static int CORNER_Y_OFFSET;
 
 	/**
 	 * Y Offset for the battery when in the corner.
 	 */
-	private static final int CORNER_X_OFFSET;
+	private static int CORNER_X_OFFSET;
 
 	/**
 	 * Offset between two lines.
 	 */
-	private static final int TEXT_OFFSET;
+	private static int TEXT_OFFSET;
 
 	// Initialized with the screen ratio.
-	static {
-		CORNER_Y_OFFSET = (int) (-22 * Constants.DISPLAY_DEFAULT_WIDTH_RATIO);
-		CORNER_X_OFFSET = (int) (-6 * Constants.DISPLAY_DEFAULT_HEIGHT_RATIO);
+	public static void initialize() {
+		CORNER_Y_OFFSET = (int) (-18 * Constants.DISPLAY_DEFAULT_WIDTH_RATIO);
+		CORNER_X_OFFSET = (int) (-10 * Constants.DISPLAY_DEFAULT_HEIGHT_RATIO);
 		TEXT_OFFSET = (int) (5 * Constants.DISPLAY_DEFAULT_HEIGHT_RATIO);
 	}
 
@@ -156,7 +156,7 @@ public class BatteryWidget extends BubbleWidget {
 			String text = Integer.toString(PROVIDER.getBatteryLevel()) + "%"; //$NON-NLS-1$
 			g.drawString(text, xCoordinate - this.fontBatteryLevel.stringWidth(text) / 2,
 					(direction == Direction.ToCorner) ? computeMean(y1, y2, stepRatio) : computeMean(y2, y1, stepRatio),
-					0);
+							0);
 
 			// time left - start position is further so they(level/time left)
 			// don't appear with the same speed.
@@ -167,7 +167,7 @@ public class BatteryWidget extends BubbleWidget {
 			g.setFont(this.fontAvailableTime);
 			g.drawString(text, xCoordinate - this.fontAvailableTime.stringWidth(text) / 2,
 					(direction == Direction.ToCorner) ? computeMean(y1, y2, stepRatio) : computeMean(y2, y1, stepRatio),
-					0);
+							0);
 		}
 	}
 

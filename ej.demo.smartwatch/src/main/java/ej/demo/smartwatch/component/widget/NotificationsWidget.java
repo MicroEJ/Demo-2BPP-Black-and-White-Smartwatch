@@ -46,24 +46,23 @@ public class NotificationsWidget extends MultipleViewWidget {
 	/**
 	 * Font for the message.
 	 */
-	private static final Font FONT_MESSAGE;
+	private static Font FONT_MESSAGE;
 
 	/**
 	 * Font for the notification count.
 	 */
-	private static final Font FONT_NOTIFICATION_COUNT;
+	private static Font FONT_NOTIFICATION_COUNT;
 
 	/**
 	 * Number of lines to display.
 	 */
-	private static final int MESSAGE_SCREEN_Y_LINES;
+	private static int MESSAGE_SCREEN_Y_LINES;
 
-	static {
+	public static void initialize() {
 		FONT_MESSAGE = Constants.FONT_36;
 		FONT_NOTIFICATION_COUNT = Constants.FONT_24;
 		MESSAGE_SCREEN_Y_LINES = (int) ((Constants.DISPLAY_WIDTH * MESSAGE_SCREEN_Y_PORTION) / FONT_MESSAGE.getHeight());
 	}
-
 	/**
 	 * Bell image.
 	 */
@@ -106,7 +105,6 @@ public class NotificationsWidget extends MultipleViewWidget {
 	 */
 	public NotificationsWidget(int width, int height, ScreenArea position) {
 		super(width, height, position);
-
 		try {
 			this.imgIcon = Image.createImage(Images.BELL);
 		} catch (IOException e) {
