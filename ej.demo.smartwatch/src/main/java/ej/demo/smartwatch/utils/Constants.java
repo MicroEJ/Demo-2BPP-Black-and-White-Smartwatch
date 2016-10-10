@@ -87,7 +87,7 @@ public class Constants {
 	/**
 	 * COLOR_BACKGROUND.
 	 */
-	public static final int COLOR_BACKGROUND = 2501164;
+	public static final int COLOR_BACKGROUND = 0x262A2C;
 	/**
 	 * COLOR_FOREGROUND.
 	 */
@@ -114,7 +114,7 @@ public class Constants {
 	/**
 	 * Browser space width.
 	 */
-	public static final int BROWSER_WIDTH = 50;
+	public static final int MIN_BROWSER_WIDTH = 50;
 
 	/**
 	 * MIN_SWIPE.
