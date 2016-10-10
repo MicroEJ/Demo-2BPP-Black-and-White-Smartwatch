@@ -29,13 +29,33 @@ import ej.mwt.Panel;
  */
 public class SmartWatchApp {
 
+	private static int xOffset;
+	private static int yOffset;
+
 	// initialize
 	static {
 		MicroUI.start();
 
 		Display display = Display.getDefaultDisplay();
+
 		// Provides the full screen apart from the browser button width.
-		Constants.initialize(display.getWidth() - Constants.BROWSER_WIDTH, display.getHeight());
+		int width = display.getWidth();
+		int height = display.getHeight();
+		xOffset = 0;
+		int WATCH_SIZE = 240;
+		if (width > WATCH_SIZE) {
+			xOffset = (width - WATCH_SIZE) / 2;
+			width = WATCH_SIZE;
+		}
+		if (xOffset < Constants.MIN_BROWSER_WIDTH) {
+			xOffset = Constants.MIN_BROWSER_WIDTH;
+		}
+		yOffset = 0;
+		if (height > WATCH_SIZE) {
+			yOffset = (height - WATCH_SIZE) / 2;
+			height = WATCH_SIZE;
+		}
+		Constants.initialize(WATCH_SIZE, WATCH_SIZE);
 		Digital.initialize();
 		BatteryWidget.initialize();
 		DistanceWidget.initialize();
@@ -62,12 +82,7 @@ public class SmartWatchApp {
 
 		// Initialize UI
 		Display display = Display.getDefaultDisplay();
-		Desktop desktop = new Desktop(display);
-		Panel backgroundPanel = new BackgroundPanel();
-		// Left menu.
-		backgroundPanel.setBounds(0, 0, Constants.BROWSER_WIDTH, Constants.DISPLAY_HEIGHT);
-		backgroundPanel.setPacked(false);
-		backgroundPanel.show(desktop);
+		Desktop desktop = new BackgroundDesktop(display, xOffset, yOffset);
 
 
 		SmartWatch smartWatch = new SmartWatch(Constants.DISPLAY_WIDTH, Constants.DISPLAY_HEIGHT);
@@ -75,7 +90,7 @@ public class SmartWatchApp {
 		mainPage.setWidget(smartWatch);
 		mainPage.setPacked(false);
 		// Right part
-		mainPage.setBounds(Constants.BROWSER_WIDTH, 0, Constants.DISPLAY_WIDTH, Constants.DISPLAY_HEIGHT);
+		mainPage.setBounds(xOffset, yOffset, Constants.DISPLAY_WIDTH, Constants.DISPLAY_HEIGHT);
 		mainPage.show(desktop);
 
 		ServiceLoaderFactory.getServiceLoader().getService(Animator.class).setPeriod(80);

@@ -14,6 +14,10 @@ Bugfixes:
   - List here the bug fixes.
 -->
 
+## 1.2.2 (2016-10-10)
+Features:
+  - Keep watch's original size (240*240) instead of stretching it.
+  
 ## 1.1.2 (2016-10-07)
 Bugfixes:
   - Rename screenshot.
