@@ -18,7 +18,7 @@ import ej.demo.smartwatch.utils.Constants;
 /**
  * The Class SmFakeData.
  */
-public class FakeDataProvider implements IDataProvider {
+public class FakeDataProvider extends DataProvider implements IDataProvider {
 
 	private static final int BATTERY_DIVISION = 23;
 	private static final int NOTIFICATION_LIKELINESS = 1;
@@ -38,7 +38,7 @@ public class FakeDataProvider implements IDataProvider {
 	private final List<IDataProvider.Event> events;
 
 	/** The forecast. */
-	private final List<IDataProvider.WeatherCondition> forecast;
+	private final List<IWeatherCondition> forecast;
 
 	/**
 	 * Instantiates a new Smartwatch fake data provider.
@@ -52,15 +52,12 @@ public class FakeDataProvider implements IDataProvider {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date(Constants.START_TIME * MS_IN_SEC));
 		long sec = Constants.START_TIME;
-		this.forecast = new ArrayList<IDataProvider.WeatherCondition>();
-		this.forecast.add(new WeatherCondition(TEMPERATURE1, IDataProvider.WeatherCondition.COND_SUNNY,
-				new Date(sec * MS_IN_SEC)));
+		this.forecast = new ArrayList<IWeatherCondition>();
+		this.forecast.add(new WeatherCondition(TEMPERATURE1, IWeatherCondition.COND_SUNNY, new Date(sec * MS_IN_SEC)));
 		sec += SEC_IN_DAY;
-		this.forecast.add(new WeatherCondition(TEMPERATURE2, IDataProvider.WeatherCondition.COND_RAIN,
-				new Date(sec * MS_IN_SEC)));
+		this.forecast.add(new WeatherCondition(TEMPERATURE2, IWeatherCondition.COND_RAIN, new Date(sec * MS_IN_SEC)));
 		sec += SEC_IN_DAY;
-		this.forecast.add(new WeatherCondition(TEMPERATURE1, IDataProvider.WeatherCondition.COND_CLOUDY,
-				new Date(sec * MS_IN_SEC)));
+		this.forecast.add(new WeatherCondition(TEMPERATURE1, IWeatherCondition.COND_CLOUDY, new Date(sec * MS_IN_SEC)));
 	}
 
 	@Override
@@ -127,29 +124,31 @@ public class FakeDataProvider implements IDataProvider {
 
 	@Override
 	public int getEventsCount() {
-		String[] text = { "Wild", "Nice", "Happy", "Fierce", "Red", "Random" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$//$NON-NLS-6$
-		// $NON-NLS-5$ //$NON-NLS-6$
-		String[] text2 = { "vase", "duck", "frame", "birthday", "flour", "table", "screen", "colibri" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$//$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
-		// $NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
-		// $NON-NLS-8$
-		if (this.events.size() < MAX_NOTIF && Rand.nextInt(1000) <= NOTIFICATION_LIKELINESS) {
-			int offset = Rand.nextInt() % text.length;
-			offset = (offset < 0) ? -offset : offset;
-			StringBuffer temp = new StringBuffer(text[offset]);
-			temp.append(' ');
-			offset = Rand.nextInt() % text2.length;
-			offset = (offset < 0) ? -offset : offset;
-			temp.append(text2[offset]);
-
-			this.events.add(this.events.size(),
-					new Event(getDate(), temp.toString(), "Oct. 6", "08:0" + this.events.size())); //$NON-NLS-1$ //$NON-NLS-2$
-		}
+		/*
+		 * String[] text = { "Wild", "Nice", "Happy", "Fierce", "Red", "Random"
+		 * }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		 * //$NON-NLS-5$//$NON-NLS-6$ // $NON-NLS-5$ //$NON-NLS-6$ String[]
+		 * text2 = { "vase", "duck", "frame", "birthday", "flour", "table",
+		 * "screen", "colibri" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		 * //$NON-NLS-4$ //$NON-NLS-5$//$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
+		 * // $NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+		 * //$NON-NLS-7$ // $NON-NLS-8$ if (this.events.size() < MAX_NOTIF &&
+		 * Rand.nextInt(1000) <= NOTIFICATION_LIKELINESS) { int offset =
+		 * Rand.nextInt() % text.length; offset = (offset < 0) ? -offset :
+		 * offset; StringBuffer temp = new StringBuffer(text[offset]);
+		 * temp.append(' '); offset = Rand.nextInt() % text2.length; offset =
+		 * (offset < 0) ? -offset : offset; temp.append(text2[offset]);
+		 * 
+		 * this.events.add(this.events.size(), new Event(getDate(),
+		 * temp.toString(), "Oct. 6", "08:0" + this.events.size()));
+		 * //$NON-NLS-1$ //$NON-NLS-2$ }
+		 */
 
 		return this.events.size();
 	}
 
 	@Override
-	public WeatherCondition getForecast(int id) {
+	public IWeatherCondition getForecast(int id) {
 		return this.forecast.get(id);
 	}
 
@@ -223,6 +222,7 @@ public class FakeDataProvider implements IDataProvider {
 	 * @param time
 	 *            Event time.
 	 */
+	@Override
 	public void addEvent(String notificationString, Date time) {
 		int hour = getHour();
 		int min = getMinute();
@@ -245,4 +245,5 @@ public class FakeDataProvider implements IDataProvider {
 		this.events.remove(event);
 
 	}
+
 }

@@ -7,10 +7,7 @@
  */
 package ej.demo.smartwatch.model;
 
-import java.util.Calendar;
 import java.util.Date;
-
-import ej.demo.smartwatch.utils.Constants;
 
 /**
  * The Interface ISmDataProvider.
@@ -233,125 +230,6 @@ public interface IDataProvider {
 	 */
 	Event getEvent(int id);
 
-	/* Weather */
-	/**
-	 * The Class WeatherCondition.
-	 */
-	class WeatherCondition {
-
-		/** The Constant COND_SUNNY. */
-		public static final int COND_SUNNY = 0;
-
-		/** The Constant COND_RAIN. */
-		public static final int COND_RAIN = 1;
-
-		/** The Constant COND_CLOUDY. */
-		public static final int COND_CLOUDY = 2;
-
-		/** The temp. */
-		private int temp;
-
-		/** The condition. */
-		private int condition;
-
-		/** The date. */
-		private Date date;
-
-		/**
-		 * Instantiates a new weather condition.
-		 *
-		 * @param temp
-		 *            the temp
-		 * @param condition
-		 *            the condition
-		 * @param date
-		 *            the date
-		 */
-		public WeatherCondition(int temp, int condition, Date date) {
-			super();
-			this.temp = temp;
-			this.condition = condition;
-			this.date = date;
-		}
-
-		/**
-		 * Gets the date.
-		 *
-		 * @return the date
-		 */
-		public Date getDate() {
-			return date;
-		}
-
-		/**
-		 * Sets the date.
-		 *
-		 * @param date
-		 *            the new date
-		 */
-		public void setDate(Date date) {
-			this.date = date;
-		}
-
-		/**
-		 * Gets the temp.
-		 *
-		 * @return the temp
-		 */
-		public int getTemp() {
-			return temp;
-		}
-
-		/**
-		 * Sets the temp.
-		 *
-		 * @param temp
-		 *            the new temp
-		 */
-		public void setTemp(int temp) {
-			this.temp = temp;
-		}
-
-		/**
-		 * Gets the condition.
-		 *
-		 * @return the condition
-		 */
-		public int getCondition() {
-			return condition;
-		}
-
-		/**
-		 * Sets the condition.
-		 *
-		 * @param condition
-		 *            the new condition
-		 */
-		public void setCondition(int condition) {
-			this.condition = condition;
-		}
-
-		public String getRelDateStr() {
-			/* NOTE: maybe some relative time display could help */
-			Calendar calendar = Calendar.getInstance();
-			calendar.setTime(this.date);
-
-			return Constants.DAY_SHORT[calendar.get(Calendar.DAY_OF_WEEK) - Calendar.SUNDAY];
-
-		}
-
-		public String getDateStr() {
-			StringBuilder sb = new StringBuilder();
-			Calendar calendar = Calendar.getInstance();
-			calendar.setTime(this.date);
-			sb.append(calendar.get(Calendar.DAY_OF_MONTH));
-			sb.append(" "); //$NON-NLS-1$
-			sb.append(Constants.MONTH_SHORT[calendar.get(Calendar.MONTH)]);
-			return sb.toString();
-
-		}
-	}
-
 	/**
 	 * Gets the forecast count.
 	 *
@@ -366,7 +244,7 @@ public interface IDataProvider {
 	 *            the id
 	 * @return the forecast
 	 */
-	WeatherCondition getForecast(int id);
+	IWeatherCondition getForecast(int id);
 
 	/**
 	 * @return true if the current time is AM.
@@ -378,4 +256,13 @@ public interface IDataProvider {
 	 *            the event to remove.
 	 */
 	void removeEvent(Event event);
+
+	/**
+	 * @param notificationString
+	 *            Event string.
+	 * @param time
+	 *            Event time.
+	 */
+	void addEvent(String notificationString, Date time);
+
 }

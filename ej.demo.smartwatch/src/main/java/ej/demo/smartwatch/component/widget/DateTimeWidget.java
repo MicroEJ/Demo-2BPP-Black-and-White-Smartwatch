@@ -16,6 +16,7 @@ import ej.demo.smartwatch.component.widget.clock.BlackClock;
 import ej.demo.smartwatch.component.widget.clock.Digital;
 import ej.demo.smartwatch.component.widget.clock.IClock;
 import ej.demo.smartwatch.component.widget.clock.WhiteClock;
+import ej.demo.smartwatch.model.DataProvider;
 import ej.demo.smartwatch.utils.Constants;
 import ej.microui.display.GraphicsContext;
 
@@ -89,7 +90,7 @@ public class DateTimeWidget extends BubbleWidget {
 	 *            The center y.
 	 */
 	private void drawClock(GraphicsContext g, int x, int y) {
-		this.getCurrentClock().draw(g, this.direction, PROVIDER, x, y, this.transitionCompletion);
+		this.getCurrentClock().draw(g, this.direction, DataProvider.getInstance(), x, y, this.transitionCompletion);
 	}
 
 
@@ -103,7 +104,7 @@ public class DateTimeWidget extends BubbleWidget {
 		if (!this.getCurrentClock().hasCornerFace()
 				&& (direction == Direction.CornerStill || direction == Direction.CornerSwitch)) {
 			// IF we are at corner, and the current face can't be displayed in corner.
-			this.defaultClock.draw(g, direction, PROVIDER, x, y, this.transitionCompletion);
+			this.defaultClock.draw(g, direction, DataProvider.getInstance(), x, y, this.transitionCompletion);
 		} else {
 			drawClock(g, x, y);
 		}
@@ -131,10 +132,10 @@ public class DateTimeWidget extends BubbleWidget {
 
 				y = this.transitionCompletion * centerY / Constants.COMPLETION_MAX
 						+ (Constants.COMPLETION_MAX - this.transitionCompletion) * right / Constants.COMPLETION_MAX;
-				topClock.draw(g, this.direction, PROVIDER, x, yOtherClock, this.transitionCompletion);
-				bottomClock.draw(g, this.direction, PROVIDER, x, y, this.transitionCompletion);
+				topClock.draw(g, this.direction, DataProvider.getInstance(), x, yOtherClock, this.transitionCompletion);
+				bottomClock.draw(g, this.direction, DataProvider.getInstance(), x, y, this.transitionCompletion);
 			} else {
-				this.getCurrentClock().draw(g, this.direction, PROVIDER, x, y, this.transitionCompletion);
+				this.getCurrentClock().draw(g, this.direction, DataProvider.getInstance(), x, y, this.transitionCompletion);
 			}
 
 		}

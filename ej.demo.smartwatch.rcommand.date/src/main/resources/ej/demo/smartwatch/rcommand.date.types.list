@@ -1,4 +1,2 @@
-# Implementations to use
 ej.rcommand.activators.RemoteRegistryActivator
 ej.demo.smartwatch.rcommand.DateServiceActivator
-ej.demo.smartwatch.rcommand.WashingMachineRemoteServiceActivator

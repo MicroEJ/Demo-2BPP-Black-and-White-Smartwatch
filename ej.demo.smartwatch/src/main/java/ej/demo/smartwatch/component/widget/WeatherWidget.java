@@ -12,7 +12,8 @@ import ej.animation.Animator;
 import ej.components.dependencyinjection.ServiceLoaderFactory;
 import ej.demo.smartwatch.component.Direction;
 import ej.demo.smartwatch.component.ScreenArea;
-import ej.demo.smartwatch.model.IDataProvider.WeatherCondition;
+import ej.demo.smartwatch.model.DataProvider;
+import ej.demo.smartwatch.model.IWeatherCondition;
 import ej.demo.smartwatch.style.Images;
 import ej.demo.smartwatch.utils.Constants;
 import ej.demo.smartwatch.utils.Utils;
@@ -52,7 +53,7 @@ public class WeatherWidget extends MultipleViewWidget implements Animation {
 	/**
 	 * Current displayed forecast.
 	 */
-	private WeatherCondition currentForecast;
+	private IWeatherCondition currentForecast;
 
 	/**
 	 * Current weather image displayed.
@@ -95,7 +96,7 @@ public class WeatherWidget extends MultipleViewWidget implements Animation {
 		this.maxImageHeight = this.maxImageWidth = 0;
 		for (
 
-		int i = 0; i < Images.WEATHER_COND_SEQ.length; i++) {
+				int i = 0; i < Images.WEATHER_COND_SEQ.length; i++) {
 			// all images within an sequence should have the same size
 			Image cImg = Images.WEATHER_COND_SEQ[i].getImg(0);
 			if (this.maxImageHeight < cImg.getHeight()) {
@@ -208,7 +209,7 @@ public class WeatherWidget extends MultipleViewWidget implements Animation {
 	private void switchForecast(boolean next) {
 		nextView(next);
 
-		this.currentForecast = PROVIDER.getForecast(this.viewIndex);
+		this.currentForecast = DataProvider.getInstance().getForecast(this.viewIndex);
 		this.currentImage = Images.WEATHER_COND_SEQ[this.currentForecast.getCondition()].getImg(0);
 	}
 
@@ -256,6 +257,6 @@ public class WeatherWidget extends MultipleViewWidget implements Animation {
 
 	@Override
 	protected int viewCount() {
-		return PROVIDER.getForecastCount();
+		return DataProvider.getInstance().getForecastCount();
 	}
 }
