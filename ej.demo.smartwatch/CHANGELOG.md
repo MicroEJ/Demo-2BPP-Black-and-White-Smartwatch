@@ -16,7 +16,7 @@ Bugfixes:
 
 ## 1.1.3 (2016-10-19)
 Bugfixes:
-  - Use A8 format to work around the image generator issues.
+  - Use 8-bit alpha (A8) image format as a workaround for the image generator issues with A2 format in MicroEJ 4.0.
   
 ## 1.1.2 (2016-10-07)
 Bugfixes:
