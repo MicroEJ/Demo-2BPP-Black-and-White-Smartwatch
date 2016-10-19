@@ -14,6 +14,11 @@ Bugfixes:
   - List here the bug fixes.
 -->
 
+## 1.2.3 (2016-10-19)
+Bugfixes:
+	- Use A8 format to work around the image generator issues.
+
+  
 ## 1.2.2 (2016-10-10)
 Features:
   - Keep watch's original size (240*240) instead of stretching it.
