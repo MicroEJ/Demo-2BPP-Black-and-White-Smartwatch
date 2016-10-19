@@ -31,9 +31,6 @@ public class BackgroundDesktop extends Desktop {
 	private static final int browserLeft = 6;
 	private final int xOffset;
 	private final int yOffset;
-	private static final int BACKGROUND_COLOR = 0x4B5357;
-	private static final int BORDER_COLOR = 0x717D83;
-
 	/**
 	 * Instantiate the background panel.
 	 *
@@ -53,11 +50,11 @@ public class BackgroundDesktop extends Desktop {
 	@Override
 	public void render(GraphicsContext g) {
 		// Draw background.
-		g.setColor(BACKGROUND_COLOR);
+		g.setColor(Constants.BACKGROUND_COLOR);
 		g.fillRect(0, 0, getDisplay().getWidth(), getDisplay().getHeight());
 
 		// Draw separation lines.
-		g.setColor(BORDER_COLOR);
+		g.setColor(Constants.BACKGROUND_BORDER_COLOR);
 		AntiAliasedShapes aliasedShapes = AntiAliasedShapes.Singleton;
 		aliasedShapes.setFade(2);
 		aliasedShapes.setThickness(1);

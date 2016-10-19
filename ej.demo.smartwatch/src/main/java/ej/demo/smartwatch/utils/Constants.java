@@ -180,6 +180,16 @@ public class Constants {
 	}
 
 	/**
+	 * Color used for the background borders.
+	 */
+	public static final int BACKGROUND_BORDER_COLOR = 0x717D83;
+
+	/**
+	 * Color used for the border.
+	 */
+	public static final int BACKGROUND_COLOR = 0x4B5357;
+
+	/**
 	 * Instantiates the Constants.
 	 */
 	private Constants() {
