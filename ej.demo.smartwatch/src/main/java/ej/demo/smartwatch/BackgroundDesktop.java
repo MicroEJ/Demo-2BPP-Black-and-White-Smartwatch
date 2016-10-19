@@ -12,53 +12,63 @@ import ej.components.dependencyinjection.ServiceLoaderFactory;
 import ej.demo.smartwatch.style.Images;
 import ej.demo.smartwatch.utils.Constants;
 import ej.exit.ExitHandler;
+import ej.microui.display.Colors;
+import ej.microui.display.Display;
 import ej.microui.display.GraphicsContext;
 import ej.microui.display.Image;
 import ej.microui.display.shape.AntiAliasedShapes;
 import ej.microui.event.Event;
 import ej.microui.event.EventGenerator;
 import ej.microui.event.generator.Pointer;
-import ej.mwt.Panel;
+import ej.mwt.Desktop;
 
 /**
  * A panel drawing the background and a browser button.
  */
-public class BackgroundPanel extends Panel {
+public class BackgroundDesktop extends Desktop {
 	private Image browser;
-	private int browserTop;
-	private int browserLeft;
-
+	private static final int browserTop = 6;
+	private static final int browserLeft = 6;
+	private final int xOffset;
+	private final int yOffset;
 	/**
 	 * Instantiate the background panel.
+	 *
+	 * @param yOffset
+	 * @param xOffset
 	 */
-	public BackgroundPanel() {
+	public BackgroundDesktop(Display display, int xOffset, int yOffset) {
+		super(display);
+		this.xOffset = xOffset;
+		this.yOffset = yOffset;
 		try {
 			browser = Image.createImage(Images.Strore);
-
 		} catch (IOException e) {
 		}
 	}
 
 	@Override
-	public void validate(int widthHint, int heightHint) {
-		browserLeft = (Constants.BROWSER_WIDTH - browser.getWidth()) / 2;
-		browserTop = (getHeight() - browser.getHeight()) / 2;
-		super.validate(widthHint, heightHint);
-	}
-
-	@Override
 	public void render(GraphicsContext g) {
-		// Paint background
-		g.setColor(Constants.COLOR_BACKGROUND);
-		g.fillRect(0, 0, g.getClipWidth(), g.getClipHeight());
+		// Draw background.
+		g.setColor(Constants.BACKGROUND_COLOR);
+		g.fillRect(0, 0, getDisplay().getWidth(), getDisplay().getHeight());
 
-		// Draw separation line.
-		g.setColor(Constants.COLOR_FOREGROUND);
+		// Draw separation lines.
+		g.setColor(Constants.BACKGROUND_BORDER_COLOR);
 		AntiAliasedShapes aliasedShapes = AntiAliasedShapes.Singleton;
 		aliasedShapes.setFade(2);
 		aliasedShapes.setThickness(1);
-		aliasedShapes.drawLine(g, Constants.BROWSER_WIDTH - 1, 0, Constants.BROWSER_WIDTH - 1, g.getClipHeight());
 
+		int top = yOffset - 1;
+		int left = xOffset - 1;
+		int right = xOffset + Constants.DISPLAY_WIDTH;
+		int bottom = yOffset + Constants.DISPLAY_HEIGHT;
+		aliasedShapes.drawLine(g, left, top, right, top);
+		aliasedShapes.drawLine(g, left, top, left, bottom);
+		aliasedShapes.drawLine(g, right, top, right, bottom);
+		aliasedShapes.drawLine(g, left, bottom, right, bottom);
+
+		g.setColor(Colors.WHITE);
 		// Draw browser icon.
 		g.drawImage(browser, browserLeft, browserTop, GraphicsContext.TOP | GraphicsContext.LEFT);
 		super.render(g);
@@ -69,12 +79,12 @@ public class BackgroundPanel extends Panel {
 		// Handles only pointer release event on browser button.
 		if (Event.getType(event) == Event.POINTER) {
 			Pointer p = (Pointer) EventGenerator.get(Event.getGeneratorID(event));
-			if (Pointer.isReleased(event) && browserPressed(p.getX(), p.getY())) {
+			if (Pointer.isPressed(event) && browserPressed(p.getX(), p.getY())) {
 				ExitHandler exitHandler = ServiceLoaderFactory.getServiceLoader().getService(ExitHandler.class);
 				if (exitHandler != null) {
 					exitHandler.exit();
 				}
-				return false;
+				return true;
 			}
 		}
 		return false;
@@ -83,7 +93,7 @@ public class BackgroundPanel extends Panel {
 
 	/**
 	 * Check if a position is within the browser button.
-	 * 
+	 *
 	 * @param x
 	 *            X coordinate
 	 * @param y

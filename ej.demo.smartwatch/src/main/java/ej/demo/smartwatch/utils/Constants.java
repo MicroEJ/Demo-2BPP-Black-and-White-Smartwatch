@@ -87,7 +87,7 @@ public class Constants {
 	/**
 	 * COLOR_BACKGROUND.
 	 */
-	public static final int COLOR_BACKGROUND = 2501164;
+	public static final int COLOR_BACKGROUND = 0x262A2C;
 	/**
 	 * COLOR_FOREGROUND.
 	 */
@@ -114,7 +114,7 @@ public class Constants {
 	/**
 	 * Browser space width.
 	 */
-	public static final int BROWSER_WIDTH = 50;
+	public static final int MIN_BROWSER_WIDTH = 50;
 
 	/**
 	 * MIN_SWIPE.
@@ -178,6 +178,16 @@ public class Constants {
 		DISPLAY_HEIGHT = newHeight;
 		DISPLAY_DEFAULT_HEIGHT_RATIO = oldHeight / DISPLAY_HEIGHT;
 	}
+
+	/**
+	 * Color used for the background borders.
+	 */
+	public static final int BACKGROUND_BORDER_COLOR = 0x717D83;
+
+	/**
+	 * Color used for the border.
+	 */
+	public static final int BACKGROUND_COLOR = 0x4B5357;
 
 	/**
 	 * Instantiates the Constants.

@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Application-Id: BWWatch
-Application-Version: 1.0.0
+Application-Version: 1.2.1
 Application-PrintableName: B&W Watch
 Application-Description: A black and white smartwatch. This application has been designed for a 2BPP 240x240 screen.
 Application-Activities: ej.demo.smartwatch.SmartWatchActivity
