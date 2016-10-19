@@ -14,6 +14,10 @@ Bugfixes:
   - List here the bug fixes.
 -->
 
+## 1.1.3 (2016-10-19)
+Bugfixes:
+  - Use A8 format to work around the image generator issues.
+  
 ## 1.1.2 (2016-10-07)
 Bugfixes:
   - Rename screenshots.
