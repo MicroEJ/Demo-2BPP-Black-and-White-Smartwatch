@@ -72,7 +72,7 @@ public class SmartWatchApp {
 	}
 
 	/**
-	 * Application entry point..
+	 * Application entry point.
 	 *
 	 * @param args
 	 *            not used.
@@ -103,7 +103,7 @@ public class SmartWatchApp {
 	}
 
 	/**
-	 *
+	 * Stops the smartwatch.
 	 */
 	public static void stop() {
 		robot.stop();
