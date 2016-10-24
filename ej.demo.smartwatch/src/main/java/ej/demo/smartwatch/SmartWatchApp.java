@@ -31,6 +31,7 @@ public class SmartWatchApp {
 
 	private static int xOffset;
 	private static int yOffset;
+	private static SmartWatchRobot robot;
 
 	// initialize
 	static {
@@ -94,11 +95,18 @@ public class SmartWatchApp {
 		mainPage.show(desktop);
 
 		ServiceLoaderFactory.getServiceLoader().getService(Animator.class).setPeriod(80);
-		// Start robot.
-		SmartWatchRobot robot = new SmartWatchRobot(smartWatch);
+		robot = new SmartWatchRobot(smartWatch);
 		robot.start();
 
 		// Start Display.
 		desktop.show();
+	}
+
+	/**
+	 *
+	 */
+	public static void stop() {
+		robot.stop();
+
 	}
 }

@@ -14,6 +14,11 @@ Bugfixes:
   - List here the bug fixes.
 -->
 
+## 1.2.2 (2016-10-24)
+Bugfixes:
+  - Stop robot when activity is stopped.
+  - Limit widget version to alpha 10 at most for compatibility issues.
+  
 ## 1.2.1 (2016-10-19)
 Bugfixes:
   - Move background colors to Constants.
