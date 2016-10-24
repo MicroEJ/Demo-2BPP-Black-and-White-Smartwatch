@@ -14,6 +14,10 @@ Bugfixes:
   - List here the bug fixes.
 -->
 
+## 1.1.4 (2016-10-24)
+Bugfixes:
+  - Fix broken Link
+  
 ## 1.1.3 (2016-10-19)
 Bugfixes:
   - Use 8-bit alpha (A8) image format as a workaround for the image generator issues with A2 format in MicroEJ 4.0.
