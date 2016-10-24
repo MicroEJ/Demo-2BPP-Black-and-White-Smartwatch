@@ -51,7 +51,7 @@ public class SmartWatchActivity implements Activity {
 
 	@Override
 	public void onStop() {
-		// TODO Auto-generated method stub
+		SmartWatchApp.stop();
 
 	}
 
