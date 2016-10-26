@@ -22,6 +22,8 @@ import ej.mwt.Panel;
  */
 public class SmartWatchApp {
 
+	private static SmartWatchRobot robot;
+
 	// Prevents initialization.
 	private SmartWatchApp() {
 	}
@@ -44,12 +46,22 @@ public class SmartWatchApp {
 		Panel mainPage = new Panel();
 		mainPage.setWidget(smartWatch);
 
-		// Start robot.
-		SmartWatchRobot robot = new SmartWatchRobot(smartWatch);
+		robot = new SmartWatchRobot(smartWatch);
 		robot.start();
 
 		// Start Display.
 		mainPage.show(desktop, true);
+		ServiceLoaderFactory.getServiceLoader().getService(Animator.class).setPeriod(80);
+
+		// Start Display.
 		desktop.show();
+	}
+
+	/**
+	 * Stops the smartwatch.
+	 */
+	public static void stop() {
+		robot.stop();
+
 	}
 }
