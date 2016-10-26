@@ -14,6 +14,10 @@ Bugfixes:
   - List here the bug fixes.
 -->
 
+## 1.2.3 (2016-10-24)
+Bugfixes:
+  - Fix broken Link
+  
 ## 1.2.2 (2016-10-24)
 Bugfixes:
   - Stop robot when activity is stopped.
