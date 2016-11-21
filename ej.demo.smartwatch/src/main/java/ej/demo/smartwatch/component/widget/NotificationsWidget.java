@@ -2,8 +2,7 @@
  * Java
  *
  * Copyright 2016 IS2T. All rights reserved.
- * For demonstration purpose only.
- * IS2T PROPRIETARY. Use is subject to license terms.
+ * Use of this source code is subject to license terms.
  */
 package ej.demo.smartwatch.component.widget;
 
@@ -42,6 +41,11 @@ public class NotificationsWidget extends MultipleViewWidget {
 	 * Vertical proportion available to display the message.
 	 */
 	private static final float MESSAGE_SCREEN_Y_PORTION = 0.4f;
+
+	/**
+	 * Y offset to start to draw the message.
+	 */
+	private static final int MESSAGE_SCREEN_Y_OFFSET = -20;
 
 	/**
 	 * Font for the message.
@@ -125,7 +129,7 @@ public class NotificationsWidget extends MultipleViewWidget {
 	 *            Transition ratio.
 	 */
 	private void drawText(GraphicsContext g, float ratio) {
-		int y = (getHeight() - FONT_MESSAGE.getHeight()) / 2;
+		int y = (getHeight() - FONT_MESSAGE.getHeight()) / 2 + MESSAGE_SCREEN_Y_OFFSET;
 		// No message available.
 		if (this.messageLinesToDisplay == 0) {
 			// Load the message. Return true if a new message available.

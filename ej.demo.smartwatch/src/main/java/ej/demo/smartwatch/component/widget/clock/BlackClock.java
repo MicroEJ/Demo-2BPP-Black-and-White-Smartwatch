@@ -1,3 +1,9 @@
+/*
+ * Java
+ *
+ * Copyright 2016 IS2T. All rights reserved.
+ * Use of this source code is subject to license terms.
+ */
 package ej.demo.smartwatch.component.widget.clock;
 
 import ej.demo.smartwatch.component.Direction;

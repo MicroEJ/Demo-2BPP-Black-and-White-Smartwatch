@@ -2,8 +2,7 @@
  * Java
  *
  * Copyright 2016 IS2T. All rights reserved.
- * For demonstration purpose only.
- * IS2T PROPRIETARY. Use is subject to license terms.
+ * Use of this source code is subject to license terms.
  */
 package ej.demo.smartwatch.model;
 
@@ -46,11 +45,12 @@ public class FakeDataProvider implements IDataProvider {
 	public FakeDataProvider() {
 		this.events = new ArrayList<IDataProvider.Event>();
 		this.events.add(new Event(getDate(), "It's John's birthday!", "22 May", "08:00")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		this.events.add(new Event(getDate(), "Some other longer message, check multiline", "24 June", "08:01")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		this.events.add(new Event(getDate(), "Checkout MicroEJ", "24 June", "10:31")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		// $NON-NLS-3$
 
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date(Constants.START_TIME * MS_IN_SEC));
+		ej.bon.Util.setCurrentTimeMillis(cal.getTime());
 		long sec = Constants.START_TIME;
 		this.forecast = new ArrayList<IDataProvider.WeatherCondition>();
 		this.forecast.add(new WeatherCondition(TEMPERATURE1, IDataProvider.WeatherCondition.COND_SUNNY,

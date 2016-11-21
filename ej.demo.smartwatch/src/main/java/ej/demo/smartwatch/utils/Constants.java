@@ -2,8 +2,7 @@
  * Java
  *
  * Copyright 2016 IS2T. All rights reserved.
- * For demonstration purpose only.
- * IS2T PROPRIETARY. Use is subject to license terms.
+ * Use of this source code is subject to license terms.
  */
 package ej.demo.smartwatch.utils;
 
@@ -60,12 +59,12 @@ public class Constants {
 	/**
 	 * P.M. String.
 	 */
-	public static final String PM = "pm"; //$NON-NLS-1$
+	public static final String PM = "PM"; //$NON-NLS-1$
 
 	/**
 	 * P.M. String.
 	 */
-	public static final String AM = "am"; //$NON-NLS-1$
+	public static final String AM = "AM"; //$NON-NLS-1$
 
 	/**
 	 * Double digit threshold.
@@ -75,7 +74,7 @@ public class Constants {
 	/**********************************************************/
 	/**                   UX CONSTANTS                      ***/
 	/**********************************************************/
-	
+
 	/**
 	 * Angle (in degrees) for a full circle.
 	 */
@@ -104,6 +103,11 @@ public class Constants {
 	 * Medium font.
 	 */
 	public static final Font FONT_36;
+
+	/**
+	 * Large font.
+	 */
+	public static final Font FONT_60;
 
 	/**
 	 * ENABLE_ANTIALIASED.
@@ -169,6 +173,7 @@ public class Constants {
 
 		FONT_24 = Font.getFont(Font.LATIN, 30, Font.STYLE_PLAIN);
 		FONT_36 = Font.getFont(Font.LATIN, 44, Font.STYLE_PLAIN);
+		FONT_60 = Font.getFont(Font.LATIN, 81, Font.STYLE_PLAIN);
 
 		float oldWidth = 240;
 		DISPLAY_WIDTH = Display.getDefaultDisplay().getWidth();

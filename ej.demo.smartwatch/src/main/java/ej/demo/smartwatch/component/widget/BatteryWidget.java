@@ -2,8 +2,7 @@
  * Java
  *
  * Copyright 2016 IS2T. All rights reserved.
- * For demonstration purpose only.
- * IS2T PROPRIETARY. Use is subject to license terms.
+ * Use of this source code is subject to license terms.
  */
 package ej.demo.smartwatch.component.widget;
 
@@ -22,6 +21,7 @@ import ej.style.container.Rectangle;
  * Widget for battery life.
  */
 public class BatteryWidget extends BubbleWidget {
+
 
 	/**
 	 * Outline to draw the progress into the biggest battery.
@@ -44,6 +44,11 @@ public class BatteryWidget extends BubbleWidget {
 	private static final int CORNER_X_OFFSET;
 
 	/**
+	 * Offset of the battery Image when at the center.
+	 */
+	private static final int IMAGE_CENTER_Y_OFFSET;
+
+	/**
 	 * Offset between two lines.
 	 */
 	private static final int TEXT_OFFSET;
@@ -52,7 +57,8 @@ public class BatteryWidget extends BubbleWidget {
 	static {
 		CORNER_Y_OFFSET = (int) (-22 * Constants.DISPLAY_DEFAULT_WIDTH_RATIO);
 		CORNER_X_OFFSET = (int) (-6 * Constants.DISPLAY_DEFAULT_HEIGHT_RATIO);
-		TEXT_OFFSET = (int) (5 * Constants.DISPLAY_DEFAULT_HEIGHT_RATIO);
+		TEXT_OFFSET = (int) (2 * Constants.DISPLAY_DEFAULT_HEIGHT_RATIO);
+		IMAGE_CENTER_Y_OFFSET = (int) (15 * Constants.DISPLAY_DEFAULT_HEIGHT_RATIO);
 	}
 
 	/**
@@ -115,7 +121,7 @@ public class BatteryWidget extends BubbleWidget {
 	 * @return The Y offset.
 	 */
 	private int getImageYOffset(final Image image, final float ratio) {
-		int centerOffset = -image.getHeight();
+		int centerOffset = -image.getHeight() - IMAGE_CENTER_Y_OFFSET;
 		int topOffset = this.smallDiameter / 4 + CORNER_Y_OFFSET;
 		int bottomOffset = -this.smallDiameter / 4 + CORNER_Y_OFFSET;
 

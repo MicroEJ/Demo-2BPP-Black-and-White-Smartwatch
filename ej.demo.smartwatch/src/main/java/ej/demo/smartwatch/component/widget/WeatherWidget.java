@@ -2,8 +2,7 @@
  * Java
  *
  * Copyright 2016 IS2T. All rights reserved.
- * For demonstration purpose only.
- * IS2T PROPRIETARY. Use is subject to license terms.
+ * Use of this source code is subject to license terms.
  */
 package ej.demo.smartwatch.component.widget;
 
@@ -46,7 +45,7 @@ public class WeatherWidget extends MultipleViewWidget implements Animation {
 	private static final int LINE_HEIGHT;
 
 	static {
-		LINE_HEIGHT = FONT_24.getHeight();
+		LINE_HEIGHT = DatePosition.POSITION2.getOffset();
 	}
 
 	/**
@@ -163,7 +162,7 @@ public class WeatherWidget extends MultipleViewWidget implements Animation {
 			g.drawString(temperature, xString, yText, 0);
 
 			// Draw the date.
-			String text = this.currentForecast.getRelDateStr();
+			String text = this.currentForecast.getDateStr();
 			g.setFont(FONT_24);
 			if (direction == Direction.ToCorner) {
 				ratio = (float) (Constants.COMPLETION_MAX - completion) / Constants.COMPLETION_MAX;
@@ -214,7 +213,7 @@ public class WeatherWidget extends MultipleViewWidget implements Animation {
 
 	@Override
 	public DatePosition getDatePosition() {
-		return DatePosition.POSITION2;
+		return DatePosition.POSITION1;
 	}
 
 	@Override
@@ -224,7 +223,7 @@ public class WeatherWidget extends MultipleViewWidget implements Animation {
 
 	@Override
 	protected String getDate() {
-		return this.currentForecast.getDateStr();
+		return this.currentForecast.getRelDateStr();
 	}
 
 	@Override
