@@ -2,8 +2,7 @@
  * Java
  *
  * Copyright 2016 IS2T. All rights reserved.
- * For demonstration purpose only.
- * IS2T PROPRIETARY. Use is subject to license terms.
+ * Use of this source code is subject to license terms.
  */
 package ej.demo.smartwatch.component;
 
@@ -43,7 +42,6 @@ public class SmartWatch extends Composite implements Animation {
 	private int oldX, oldY;
 	private boolean isAnimated = false;
 
-
 	/**
 	 * @param width
 	 *            width
@@ -53,7 +51,6 @@ public class SmartWatch extends Composite implements Animation {
 	public SmartWatch(int width, int height) {
 		super();
 		Log.d(TAG, "New  widget: " + width + " " + height); //$NON-NLS-1$ //$NON-NLS-2$
-
 
 		// Add all the bubbles.
 		DateTimeWidget dateTimeWidget = new DateTimeWidget(width, height, ScreenArea.Center);
@@ -124,7 +121,6 @@ public class SmartWatch extends Composite implements Animation {
 		g.setColor(Constants.COLOR_BACKGROUND);
 		g.fillRect(0, 0, getWidth(), getHeight());
 		g.setColor(Constants.COLOR_FOREGROUND);
-
 		this.controler.realign(g);
 	}
 

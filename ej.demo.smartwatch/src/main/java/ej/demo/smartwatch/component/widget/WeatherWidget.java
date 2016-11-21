@@ -2,8 +2,7 @@
  * Java
  *
  * Copyright 2016 IS2T. All rights reserved.
- * For demonstration purpose only.
- * IS2T PROPRIETARY. Use is subject to license terms.
+ * Use of this source code is subject to license terms.
  */
 package ej.demo.smartwatch.component.widget;
 
@@ -48,7 +47,7 @@ public class WeatherWidget extends MultipleViewWidget implements Animation {
 	public static void initialize() {
 		FONT_36 = Constants.FONT_36;
 		FONT_24 = Constants.FONT_24;
-		LINE_HEIGHT = FONT_24.getHeight();
+		LINE_HEIGHT = DatePosition.POSITION2.getOffset();
 	}
 
 	/**
@@ -97,7 +96,7 @@ public class WeatherWidget extends MultipleViewWidget implements Animation {
 		this.maxImageHeight = this.maxImageWidth = 0;
 		for (
 
-				int i = 0; i < Images.WEATHER_COND_SEQ.length; i++) {
+		int i = 0; i < Images.WEATHER_COND_SEQ.length; i++) {
 			// all images within an sequence should have the same size
 			Image cImg = Images.WEATHER_COND_SEQ[i].getImg(0);
 			if (this.maxImageHeight < cImg.getHeight()) {
@@ -165,7 +164,7 @@ public class WeatherWidget extends MultipleViewWidget implements Animation {
 			g.drawString(temperature, xString, yText, 0);
 
 			// Draw the date.
-			String text = this.currentForecast.getRelDateStr();
+			String text = this.currentForecast.getDateStr();
 			g.setFont(FONT_24);
 			if (direction == Direction.ToCorner) {
 				ratio = (float) (Constants.COMPLETION_MAX - completion) / Constants.COMPLETION_MAX;
@@ -216,7 +215,7 @@ public class WeatherWidget extends MultipleViewWidget implements Animation {
 
 	@Override
 	public DatePosition getDatePosition() {
-		return DatePosition.POSITION2;
+		return DatePosition.POSITION1;
 	}
 
 	@Override
@@ -226,7 +225,7 @@ public class WeatherWidget extends MultipleViewWidget implements Animation {
 
 	@Override
 	protected String getDate() {
-		return this.currentForecast.getDateStr();
+		return this.currentForecast.getRelDateStr();
 	}
 
 	@Override

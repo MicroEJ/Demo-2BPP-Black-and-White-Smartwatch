@@ -2,8 +2,7 @@
  * Java
  *
  * Copyright 2016 IS2T. All rights reserved.
- * For demonstration purpose only.
- * IS2T PROPRIETARY. Use is subject to license terms.
+ * Use of this source code is subject to license terms.
  */
 package ej.demo.smartwatch.component.widget;
 
@@ -22,6 +21,7 @@ import ej.style.container.Rectangle;
  * Widget for battery life.
  */
 public class BatteryWidget extends BubbleWidget {
+
 
 	/**
 	 * Outline to draw the progress into the biggest battery.
@@ -47,12 +47,18 @@ public class BatteryWidget extends BubbleWidget {
 	 * Offset between two lines.
 	 */
 	private static int TEXT_OFFSET;
+	
+	/**
+	 * Offset of the image when at the center.
+	 */
+	private static int IMAGE_CENTER_Y_OFFSET;
 
 	// Initialized with the screen ratio.
 	public static void initialize() {
-		CORNER_Y_OFFSET = (int) (-18 * Constants.DISPLAY_DEFAULT_WIDTH_RATIO);
-		CORNER_X_OFFSET = (int) (-10 * Constants.DISPLAY_DEFAULT_HEIGHT_RATIO);
-		TEXT_OFFSET = (int) (5 * Constants.DISPLAY_DEFAULT_HEIGHT_RATIO);
+		CORNER_Y_OFFSET = (int) (-22 * Constants.DISPLAY_DEFAULT_WIDTH_RATIO);
+		CORNER_X_OFFSET = (int) (-6 * Constants.DISPLAY_DEFAULT_HEIGHT_RATIO);
+		TEXT_OFFSET = (int) (2 * Constants.DISPLAY_DEFAULT_HEIGHT_RATIO);
+		IMAGE_CENTER_Y_OFFSET = (int) (15 * Constants.DISPLAY_DEFAULT_HEIGHT_RATIO);
 	}
 
 	/**
@@ -115,7 +121,7 @@ public class BatteryWidget extends BubbleWidget {
 	 * @return The Y offset.
 	 */
 	private int getImageYOffset(final Image image, final float ratio) {
-		int centerOffset = -image.getHeight();
+		int centerOffset = -image.getHeight() - IMAGE_CENTER_Y_OFFSET;
 		int topOffset = this.smallDiameter / 4 + CORNER_Y_OFFSET;
 		int bottomOffset = -this.smallDiameter / 4 + CORNER_Y_OFFSET;
 
@@ -156,7 +162,7 @@ public class BatteryWidget extends BubbleWidget {
 			String text = Integer.toString(PROVIDER.getBatteryLevel()) + "%"; //$NON-NLS-1$
 			g.drawString(text, xCoordinate - this.fontBatteryLevel.stringWidth(text) / 2,
 					(direction == Direction.ToCorner) ? computeMean(y1, y2, stepRatio) : computeMean(y2, y1, stepRatio),
-							0);
+					0);
 
 			// time left - start position is further so they(level/time left)
 			// don't appear with the same speed.
@@ -167,7 +173,7 @@ public class BatteryWidget extends BubbleWidget {
 			g.setFont(this.fontAvailableTime);
 			g.drawString(text, xCoordinate - this.fontAvailableTime.stringWidth(text) / 2,
 					(direction == Direction.ToCorner) ? computeMean(y1, y2, stepRatio) : computeMean(y2, y1, stepRatio),
-							0);
+					0);
 		}
 	}
 

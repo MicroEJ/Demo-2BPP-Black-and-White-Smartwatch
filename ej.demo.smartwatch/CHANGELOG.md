@@ -1,18 +1,6 @@
-<!--
-	Markdown
-	Copyright 2014-2016 IS2T. All rights reserved.
-	IS2T PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
--->
-<!--
-Changelog template:
-
-## Revision (YYYY-mm-dd)
+## 1.2.4 (2016-11-21)
 Features:
-  - List here the new features.
-  
-Bugfixes:
-  - List here the bug fixes.
--->
+  - Integrate designer review.
 
 ## 1.2.3 (2016-10-24)
 Bugfixes:

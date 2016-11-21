@@ -2,8 +2,7 @@
  * Java
  *
  * Copyright 2016 IS2T. All rights reserved.
- * For demonstration purpose only.
- * IS2T PROPRIETARY. Use is subject to license terms.
+ * Use of this source code is subject to license terms.
  */
 package ej.demo.smartwatch.model;
 
@@ -334,8 +333,6 @@ public interface IDataProvider {
 		public String getRelDateStr() {
 			/* NOTE: maybe some relative time display could help */
 			Calendar calendar = Calendar.getInstance();
-			calendar.setTime(this.date);
-
 			return Constants.DAY_SHORT[calendar.get(Calendar.DAY_OF_WEEK) - Calendar.SUNDAY];
 
 		}
@@ -343,7 +340,6 @@ public interface IDataProvider {
 		public String getDateStr() {
 			StringBuilder sb = new StringBuilder();
 			Calendar calendar = Calendar.getInstance();
-			calendar.setTime(this.date);
 			sb.append(calendar.get(Calendar.DAY_OF_MONTH));
 			sb.append(" "); //$NON-NLS-1$
 			sb.append(Constants.MONTH_SHORT[calendar.get(Calendar.MONTH)]);

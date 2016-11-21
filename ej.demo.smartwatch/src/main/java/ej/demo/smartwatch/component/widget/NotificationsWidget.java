@@ -2,8 +2,7 @@
  * Java
  *
  * Copyright 2016 IS2T. All rights reserved.
- * For demonstration purpose only.
- * IS2T PROPRIETARY. Use is subject to license terms.
+ * Use of this source code is subject to license terms.
  */
 package ej.demo.smartwatch.component.widget;
 
@@ -44,6 +43,11 @@ public class NotificationsWidget extends MultipleViewWidget {
 	private static final float MESSAGE_SCREEN_Y_PORTION = 0.4f;
 
 	/**
+	 * Y offset to start to draw the message.
+	 */
+	private static final int MESSAGE_SCREEN_Y_OFFSET = -20;
+
+	/**
 	 * Font for the message.
 	 */
 	private static Font FONT_MESSAGE;
@@ -63,6 +67,7 @@ public class NotificationsWidget extends MultipleViewWidget {
 		FONT_NOTIFICATION_COUNT = Constants.FONT_24;
 		MESSAGE_SCREEN_Y_LINES = (int) ((Constants.DISPLAY_WIDTH * MESSAGE_SCREEN_Y_PORTION) / FONT_MESSAGE.getHeight());
 	}
+
 	/**
 	 * Bell image.
 	 */
@@ -105,6 +110,7 @@ public class NotificationsWidget extends MultipleViewWidget {
 	 */
 	public NotificationsWidget(int width, int height, ScreenArea position) {
 		super(width, height, position);
+
 		try {
 			this.imgIcon = Image.createImage(Images.BELL);
 		} catch (IOException e) {
@@ -123,7 +129,7 @@ public class NotificationsWidget extends MultipleViewWidget {
 	 *            Transition ratio.
 	 */
 	private void drawText(GraphicsContext g, float ratio) {
-		int y = (getHeight() - FONT_MESSAGE.getHeight()) / 2;
+		int y = (getHeight() - FONT_MESSAGE.getHeight()) / 2 + MESSAGE_SCREEN_Y_OFFSET;
 		// No message available.
 		if (this.messageLinesToDisplay == 0) {
 			// Load the message. Return true if a new message available.

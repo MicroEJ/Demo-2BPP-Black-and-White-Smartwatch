@@ -2,8 +2,7 @@
  * Java
  *
  * Copyright 2016 IS2T. All rights reserved.
- * For demonstration purpose only.
- * IS2T PROPRIETARY. Use is subject to license terms.
+ * Use of this source code is subject to license terms.
  */
 package ej.demo.smartwatch.component.widget;
 
@@ -75,8 +74,8 @@ public class DistanceWidget extends BubbleWidget implements Animation {
 	private static final int TEXT_Y_RATIO = 4;
 
 	public static void initialize() {
-		TEXT_X_PADDING = (int) (-7 * Constants.DISPLAY_DEFAULT_WIDTH_RATIO);
-		TEXT_Y_PADDING = (int) (1 * Constants.DISPLAY_DEFAULT_HEIGHT_RATIO);
+		TEXT_X_PADDING = (int) (-8 * Constants.DISPLAY_DEFAULT_WIDTH_RATIO);
+		TEXT_Y_PADDING = (int) (-8 * Constants.DISPLAY_DEFAULT_HEIGHT_RATIO);
 	}
 
 	/**

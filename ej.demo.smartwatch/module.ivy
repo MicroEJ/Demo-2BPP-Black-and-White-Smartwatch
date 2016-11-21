@@ -2,11 +2,10 @@
 	IVY
 
 	Copyright 2016 IS2T. All rights reserved.
-	For demonstration purpose only.
-	IS2T PROPRIETARY. Use is subject to license terms
+	Use of this source code is subject to license terms.
 -->
 <ivy-module version="2.0" xmlns:ea="http://www.easyant.org" xmlns:m="http://ant.apache.org/ivy/extra"> 
-	<info organisation="ej.demo.ui.smartwatch" module="blackandwhite.app" status="integration" revision="1.2.3">
+	<info organisation="ej.demo.ui.smartwatch" module="blackandwhite.app" status="integration" revision="1.2.4">
     <ea:build organisation="com.is2t.easyant.buildtypes" module="build-application" revision="5.+">
 		</ea:build>
 	</info>
