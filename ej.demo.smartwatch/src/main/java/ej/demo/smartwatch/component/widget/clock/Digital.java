@@ -46,7 +46,7 @@ public class Digital implements IClock {
 	private final int yCenter;
 
 	static {
-		FONT_HOUR = Constants.FONT_36;
+		FONT_HOUR = Constants.FONT_60;
 		FONT_TIME = Constants.FONT_24;
 		PADDING = FONT_TIME.getHeight();
 	}
@@ -70,6 +70,8 @@ public class Digital implements IClock {
 		int foregroundColor = Constants.COLOR_FOREGROUND;
 		int backgroundColor = Constants.COLOR_BACKGROUND;
 		int originalY = y;
+		y -= (FONT_HOUR.getHeight() - PADDING) / 2;
+
 		int hour = provider.getHour();
 		boolean am = provider.getAm();
 		int minute = provider.getMinute();
@@ -85,8 +87,12 @@ public class Digital implements IClock {
 		}
 
 		int hourWidth = FONT_HOUR.stringWidth("88:88"); //$NON-NLS-1$
+		int spaceWidth = -FONT_HOUR.charWidth(' ');
+		String period = (am) ? Constants.AM : Constants.PM;
+		int periodWidth = Constants.FONT_36.stringWidth(period);
+		int fullWidth = hourWidth + spaceWidth + periodWidth;
 		g.setColor(backgroundColor);
-		x -= (hourWidth >> 1);
+		x -= (fullWidth >> 1);
 
 		// Draw the hour.
 		g.setColor(foregroundColor);
@@ -95,14 +101,14 @@ public class Digital implements IClock {
 		g.drawString(formattedHour, x, y, GraphicsContext.LEFT | GraphicsContext.TOP);
 
 		// Draw AM or PM
-		int spaceWidth = FONT_TIME.charWidth(' ');
-		String period = (am) ? Constants.AM : Constants.PM;
 		x += hourWidth + spaceWidth;
-		int timeOfDayFontHeight = FONT_TIME.getHeight();
-		g.setFont(FONT_TIME);
-		g.drawString(period, x, y, GraphicsContext.TOP | GraphicsContext.LEFT);
+		int timeOfDayFontHeight = Constants.FONT_36.getHeight();
+		g.setFont(Constants.FONT_36);
+		g.drawString(period, x, y + FONT_HOUR.getBaselinePosition(),
+				GraphicsContext.BASELINE | GraphicsContext.LEFT);
 
 		// Draw the date.
+		g.setFont(FONT_TIME);
 		int offset = originalY - this.yCenter;
 		offset = (offset < 0) ? -offset : offset;
 		String text = provider.getDayStr();

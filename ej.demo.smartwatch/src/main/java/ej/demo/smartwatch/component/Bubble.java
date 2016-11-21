@@ -27,12 +27,12 @@ public interface Bubble {
 		/**
 		 * First line.
 		 */
-		POSITION1(10),
+		POSITION1(4),
 
 		/**
 		 * Second line.
 		 */
-		POSITION2(50);
+		POSITION2(45);
 
 		private int offset;
 
@@ -67,7 +67,7 @@ public interface Bubble {
 	 * @return the targeted position of the date.
 	 */
 	DatePosition getDatePosition();
-	
+
 	/**
 	 * Draw the date.
 	 *

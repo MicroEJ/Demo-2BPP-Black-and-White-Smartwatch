@@ -40,6 +40,11 @@ public abstract class MultipleViewWidget extends BubbleWidget {
 	 */
 	private static final Image PREVIOUS;
 
+	/**
+	 * Offset for the next previous arrows.
+	 */
+	private static final int NEXT_PREVIOUS_OFFSET = 4;
+
 	static {
 		X_PADDING = (int) (5 * Constants.DISPLAY_DEFAULT_WIDTH_RATIO);
 		Y_PADDING = (int) (5 * Constants.DISPLAY_DEFAULT_HEIGHT_RATIO);
@@ -95,11 +100,12 @@ public abstract class MultipleViewWidget extends BubbleWidget {
 		// Center
 		int y = getHeight() / 2;
 		if (this.viewIndex > 0) {
-			g.drawImage(PREVIOUS, X_PADDING, y - PREVIOUS.getHeight() / 2, 0);
+			g.drawImage(PREVIOUS, X_PADDING + NEXT_PREVIOUS_OFFSET, y - PREVIOUS.getHeight() / 2, 0);
 		}
 
 		if (this.viewIndex != (viewCount() - 1)) {
-			g.drawImage(NEXT, getWidth() - NEXT.getWidth() - X_PADDING, y - NEXT.getHeight() / 2, 0);
+			g.drawImage(NEXT, getWidth() - NEXT.getWidth() - X_PADDING - NEXT_PREVIOUS_OFFSET, y - NEXT.getHeight() / 2,
+					0);
 		}
 	}
 

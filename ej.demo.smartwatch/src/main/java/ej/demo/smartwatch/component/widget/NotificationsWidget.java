@@ -44,6 +44,11 @@ public class NotificationsWidget extends MultipleViewWidget {
 	private static final float MESSAGE_SCREEN_Y_PORTION = 0.4f;
 
 	/**
+	 * Y offset to start to draw the message.
+	 */
+	private static final int MESSAGE_SCREEN_Y_OFFSET = -20;
+
+	/**
 	 * Font for the message.
 	 */
 	private static final Font FONT_MESSAGE;
@@ -125,7 +130,7 @@ public class NotificationsWidget extends MultipleViewWidget {
 	 *            Transition ratio.
 	 */
 	private void drawText(GraphicsContext g, float ratio) {
-		int y = (getHeight() - FONT_MESSAGE.getHeight()) / 2;
+		int y = (getHeight() - FONT_MESSAGE.getHeight()) / 2 + MESSAGE_SCREEN_Y_OFFSET;
 		// No message available.
 		if (this.messageLinesToDisplay == 0) {
 			// Load the message. Return true if a new message available.

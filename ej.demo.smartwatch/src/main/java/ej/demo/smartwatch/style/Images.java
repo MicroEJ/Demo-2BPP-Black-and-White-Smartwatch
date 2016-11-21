@@ -122,15 +122,16 @@ public interface Images {
 
 	/** The runner paths. */
 	String[] RUNNER_PATHS = new String[] { "/images/runner_1.png", "/images/runner_2.png", "/images/runner_3.png", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			"/images/runner_4.png", "/images/runner_5.png", "/images/runner_6.png", "/images/runner_7.png", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-	"/images/runner_8.png" }; //$NON-NLS-1$
+			"/images/runner_4.png", "/images/runner_5.png", "/images/runner_6.png" //$NON-NLS-1$ //$NON-NLS-2$
+	};
 	/** The runner seq. */
 	ImageSequence RUNNER_SEQ = new ImageSequence(RUNNER_PATHS);
 
 	/** The sun. */
 	String[] SUN_PATHS = new String[] { "/images/sun_1.png", "/images/sun_2.png", "/images/sun_3.png", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			"/images/sun_4.png", //$NON-NLS-1$
-			"/images/sun_5.png", "/images/sun_6.png", "/images/sun_7.png", "/images/sun_8.png" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			"/images/sun_5.png", "/images/sun_6.png", "/images/sun_7.png", "/images/sun_8.png", "/images/sun_9.png", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			"/images/sun_10.png" };
 
 	/** The rain. */
 	String[] RAIN_PATHS = new String[] { "/images/rain_1.png", "/images/rain_2.png", "/images/rain_3.png", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
