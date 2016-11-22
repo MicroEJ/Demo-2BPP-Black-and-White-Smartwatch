@@ -1,3 +1,7 @@
+## 2.0.0 (2016-11-22)
+Features:
+  - Change org to com.microej.demo.smartwatch.
+
 ## 1.2.4 (2016-11-21)
 Features:
   - Integrate designer review.
