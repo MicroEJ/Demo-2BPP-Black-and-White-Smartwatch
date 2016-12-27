@@ -6,8 +6,8 @@
  */
 package com.microej.demo.smartwatch.component.widget.clock;
 
-import com.microej.demo.smartwatch.component.Direction;
 import com.microej.demo.smartwatch.component.Bubble.DatePosition;
+import com.microej.demo.smartwatch.component.Direction;
 import com.microej.demo.smartwatch.model.IDataProvider;
 import com.microej.demo.smartwatch.utils.Constants;
 import com.microej.demo.smartwatch.utils.Utils;
@@ -79,7 +79,7 @@ public class Digital implements IClock {
 		StringBuilder sb = new StringBuilder();
 		sb.append(hour);
 		int second = provider.getSecond();
-		sb.append((second & 1) != 1 ? ":" : " "); //$NON-NLS-1$//$NON-NLS-2$
+		sb.append((second & 1) != 1 ? ":" : Constants.SPACE); //$NON-NLS-1$
 		if (minute < Constants.DOUBLE_DIGIT_THRESHOLD) {
 			sb.append("0" + minute); //$NON-NLS-1$
 		} else {
