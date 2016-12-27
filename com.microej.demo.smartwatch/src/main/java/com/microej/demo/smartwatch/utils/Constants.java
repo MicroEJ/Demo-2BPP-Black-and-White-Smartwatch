@@ -67,6 +67,11 @@ public class Constants {
 	public static final String AM = "AM"; //$NON-NLS-1$
 
 	/**
+	 * Space constant.
+	 */
+	public static final String SPACE = " ";
+
+	/**
 	 * Double digit threshold.
 	 */
 	public static final int DOUBLE_DIGIT_THRESHOLD = 10;
@@ -166,6 +171,7 @@ public class Constants {
 	 * Default Thickness value.
 	 */
 	public static final int DEFAULT_THICKNESS = 1;
+
 
 	static {
 

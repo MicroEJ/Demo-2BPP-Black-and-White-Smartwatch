@@ -203,7 +203,7 @@ public class FakeDataProvider implements IDataProvider {
 
 	@Override
 	public String getDateStr() {
-		return Integer.toString(getDay()) + Constants.MONTH_SHORT[getMonth()];
+		return Integer.toString(getDay()) + Constants.SPACE + Constants.MONTH_SHORT[getMonth()];
 	}
 
 	@Override
