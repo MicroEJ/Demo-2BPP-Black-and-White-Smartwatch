@@ -1,3 +1,7 @@
+## 2.0.1 (2016-12-27)
+Bugfixes:
+  - Fix alignements and spacing.
+
 ## 2.0.0 (2016-11-22)
 Features:
   - Change org to com.microej.demo.smartwatch.

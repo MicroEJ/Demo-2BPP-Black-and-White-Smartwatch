@@ -72,11 +72,11 @@ public class DistanceWidget extends BubbleWidget implements Animation {
 	/**
 	 * Y ratio to place the text.
 	 */
-	private static final int TEXT_Y_RATIO = 4;
+	private static final float TEXT_Y_RATIO = 2.5f;
 
 	public static void initialize() {
 		TEXT_X_PADDING = (int) (-8 * Constants.DISPLAY_DEFAULT_WIDTH_RATIO);
-		TEXT_Y_PADDING = (int) (-8 * Constants.DISPLAY_DEFAULT_HEIGHT_RATIO);
+		TEXT_Y_PADDING = (int) (-25 * Constants.DISPLAY_DEFAULT_HEIGHT_RATIO);
 	}
 
 	/**
@@ -167,7 +167,7 @@ public class DistanceWidget extends BubbleWidget implements Animation {
 	 * @return The Y offset.
 	 */
 	private int getStringYOffset(float ratio, int diameter) {
-		int centerOffset = diameter / TEXT_Y_RATIO;
+		int centerOffset = (int) (diameter / TEXT_Y_RATIO);
 		int topOffset = TEXT_Y_PADDING;
 		int bottomOffset = -(TEXT_Y_PADDING + this.font.getHeight());
 
@@ -224,26 +224,27 @@ public class DistanceWidget extends BubbleWidget implements Animation {
 			redawRunner(g);
 		}
 
+		int stringYOffset = getStringYOffset(ratio, diameter);
 		if (direction == Direction.CenterStill) {
 			text.append(LONG_UNIT);
 			g.setFont(this.font);
 			String string = text.toString();
 			// Draw the full distance.
 			g.drawString(string, x + getStringXOffset(this.font.stringWidth(string), ratio),
-					y + getStringYOffset(ratio, diameter), 0);
+					y + stringYOffset, GraphicsContext.LEFT | GraphicsContext.BASELINE);
 		} else {
 			String unit = text.toString();
 			int valueWidth = Constants.FONT_36.stringWidth(unit);
 			int stringWidth = valueWidth + this.font.stringWidth(SHORT_UNIT);
-			int getHeightDiff = this.font.getHeight() - Constants.FONT_36.getHeight();
 			g.setFont(Constants.FONT_36);
 			// Draw the distance value.
 			g.drawString(unit, x + getStringXOffset(stringWidth, ratio),
-					y + getStringYOffset(ratio, diameter) + getHeightDiff, 0);
+					y + stringYOffset,
+					GraphicsContext.LEFT | GraphicsContext.BASELINE);
 			g.setFont(this.font);
-			// Drax the unit.
+			// Draw the unit.
 			g.drawString(SHORT_UNIT, valueWidth + x + getStringXOffset(stringWidth, ratio),
-					y + getStringYOffset(ratio, diameter), 0);
+					y + stringYOffset, GraphicsContext.LEFT | GraphicsContext.BASELINE);
 		}
 
 		// Center x and y.
