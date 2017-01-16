@@ -6,8 +6,8 @@
  */
 package com.microej.demo.smartwatch.component.widget.clock;
 
-import com.microej.demo.smartwatch.component.Direction;
 import com.microej.demo.smartwatch.component.Bubble.DatePosition;
+import com.microej.demo.smartwatch.component.Direction;
 import com.microej.demo.smartwatch.model.IDataProvider;
 import com.microej.demo.smartwatch.utils.Constants;
 import com.microej.demo.smartwatch.utils.Utils;
@@ -79,7 +79,7 @@ public class Digital implements IClock {
 		StringBuilder sb = new StringBuilder();
 		sb.append(hour);
 		int second = provider.getSecond();
-		sb.append((second & 1) != 1 ? ":" : " "); //$NON-NLS-1$//$NON-NLS-2$
+		sb.append((second & 1) != 1 ? ":" : Constants.SPACE); //$NON-NLS-1$
 		if (minute < Constants.DOUBLE_DIGIT_THRESHOLD) {
 			sb.append("0" + minute); //$NON-NLS-1$
 		} else {
@@ -87,7 +87,7 @@ public class Digital implements IClock {
 		}
 
 		int hourWidth = FONT_HOUR.stringWidth("88:88"); //$NON-NLS-1$
-		int spaceWidth = -FONT_HOUR.charWidth(' ');
+		int spaceWidth = FONT_HOUR.charWidth(Constants.SPACE.charAt(0));
 		String period = (am) ? Constants.AM : Constants.PM;
 		int periodWidth = Constants.FONT_36.stringWidth(period);
 		int fullWidth = hourWidth + spaceWidth + periodWidth;
